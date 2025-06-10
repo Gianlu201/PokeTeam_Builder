@@ -4,10 +4,13 @@ import PokemonBox from '../components/PokemonBox';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setReduxPokemonList } from '../features/pokemon/pokemonSlice';
 import { Search } from 'lucide-react';
+import PokeLoader from '../components/PokeLoader';
+import MyModal from '../components/MyModal';
 
 const ExplorePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const reduxPokemonList = useAppSelector((state) => state.pokemon.list);
 
@@ -15,6 +18,8 @@ const ExplorePage = () => {
 
   const getAllPokemons = async () => {
     try {
+      setIsLoading(true);
+
       const query = `
       query {
       pokemon_v2_pokemon(where: {is_default: {_eq: true}}) {
@@ -75,11 +80,13 @@ const ExplorePage = () => {
         console.info(data);
         dispatch(setReduxPokemonList(data.data.pokemon_v2_pokemon));
         setPokemonList(data.data.pokemon_v2_pokemon);
+        setIsLoading(false);
       } else {
         throw new Error('Error in fetching datas');
       }
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -120,7 +127,12 @@ const ExplorePage = () => {
         <div></div>
       </div>
 
-      {pokemonList.length > 0 && <PokemonBox pokemonList={pokemonList} />}
+      {isLoading ? (
+        <PokeLoader />
+      ) : (
+        pokemonList.length > 0 && <PokemonBox pokemonList={pokemonList} />
+      )}
+      <MyModal />
     </div>
   );
 };

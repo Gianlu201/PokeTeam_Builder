@@ -4,12 +4,14 @@ import type { Pokemon } from '../../types/pokemon';
 
 interface PokemonState {
   list: Pokemon[];
+  selectedPokemonInfos: Pokemon | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: PokemonState = {
   list: [],
+  selectedPokemonInfos: null,
   loading: false,
   error: null,
 };
