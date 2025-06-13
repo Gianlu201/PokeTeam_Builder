@@ -287,7 +287,7 @@ export interface Icons2 {
 export interface PokemonAbility {
   ability_id: number;
   id: number;
-  pokemonAbility: PokemonV2Ability;
+  pokemon_v2_ability: PokemonV2Ability;
 }
 
 export interface PokemonV2Ability {

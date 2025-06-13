@@ -1,38 +1,23 @@
 import type { Pokemon } from '../types/pokemon';
-import { StartCapitalLetter } from '../utils/mainUtils';
+import { showPokedexNumber, StartCapitalLetter } from '../utils/mainUtils';
 import { getTypeGradient } from '../utils/typeColors';
 import { Button } from './ui/button';
 
 interface Props {
   pokemon: Pokemon;
+  setSelectedPokemon: (pokemon: Pokemon) => void;
 }
 
-const PokemonCard = ({ pokemon }: Props) => {
+const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
   const types = pokemon.pokemon_v2_pokemontypes.map(
     (type) => type.pokemon_v2_type.name
   );
-
-  const showPokedexNumber = (pokedexNumb: number) => {
-    let pokedexNumber = '#';
-    switch (`${pokedexNumb}`.length) {
-      case 1:
-        pokedexNumber += `00${pokedexNumb}`;
-        break;
-      case 2:
-        pokedexNumber += `0${pokedexNumb}`;
-        break;
-      default:
-        pokedexNumber += `${pokedexNumb}`;
-        break;
-    }
-
-    return pokedexNumber;
-  };
 
   return (
     <div
       className='text-white rounded-xl p-4 cursor-pointer hover:scale-110 duration-500 ease-in-out'
       style={{ background: getTypeGradient(types) }}
+      onClick={() => setSelectedPokemon(pokemon)}
     >
       <h3 className='text-lg font-bold'>{StartCapitalLetter(pokemon.name)}</h3>
       <p className='mb-2'>{showPokedexNumber(pokemon.id)}</p>
@@ -52,7 +37,7 @@ const PokemonCard = ({ pokemon }: Props) => {
         <img
           src={pokemon.pokemon_v2_pokemonsprites[0].sprites.front_default ?? ''}
           alt={pokemon.name}
-          className='bg-white/30 rounded-full'
+          className='max-w-1/3 bg-white/30 rounded-full p-2'
         />
 
         <Button variant={'outline'}>Add</Button>
