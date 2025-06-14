@@ -58,6 +58,7 @@ export const getAllEvolutionChainsQuery = `
         pokemon_v2_evolutionchain {
           pokemon_v2_pokemonspecies(order_by: {order: asc}) {
             name
+            id
             pokemon_v2_pokemons {
               pokemon_v2_pokemonsprites {
                 sprites(path: "front_default")

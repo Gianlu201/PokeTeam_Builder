@@ -103,7 +103,7 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
                 (evolution) => (
                   <div
                     key={evolution.name}
-                    className='border border-gray-400/20 rounded-md bg-gray-300/30 px-2 py-3'
+                    className='flex flex-col justify-between items-center border border-gray-400/20 rounded-lg shadow bg-gray-300/30 px-2 py-3 cursor-pointer hover:scale-105'
                   >
                     <img
                       src={
@@ -113,9 +113,12 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
                       alt={evolution.name}
                       className='bg-white rounded-full'
                     />
-                    <h4 className='capitalize text-center font-medium'>
+                    <h4 className='capitalize text-center font-medium my-2'>
                       {evolution.name}
                     </h4>
+                    <h5 className='text-sm border border-gray-500/50 rounded-full shadow-md text-center inline-block px-3 py-0.5'>
+                      {showPokedexNumber(evolution.id)}
+                    </h5>
                   </div>
                 )
               )}

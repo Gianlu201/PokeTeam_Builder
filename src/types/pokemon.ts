@@ -81,6 +81,7 @@ export interface PokemonV2Evolutionchain {
 
 export interface PokemonV2Pokemonspecy2 {
   name: string;
+  id: number;
   pokemon_v2_pokemons: PokemonV2Pokemon[];
 }
 
