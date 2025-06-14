@@ -5,6 +5,7 @@ import { showPokedexNumber } from '../utils/mainUtils';
 import { typeColors } from '../utils/typeColors';
 import { Ruler, Star, Weight, Zap } from 'lucide-react';
 import { stats } from '../utils/stats';
+import { useAppSelector } from '../app/hooks';
 
 interface Props {
   selectedPokemon: Pokemon;
@@ -14,6 +15,13 @@ interface Props {
 }
 
 const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
+  const evolutionChain = useAppSelector((state) =>
+    state.pokemon.evolutionChains.find(
+      (chain) =>
+        chain.id === selectedPokemon.pokemon_v2_pokemonspecy.evolution_chain_id
+    )
+  );
+
   const infos = [
     {
       icon: <Ruler className='text-gray-600' />,
@@ -53,8 +61,7 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
           <div className='mt-4 text-center text-xl flex justify-center'>
             <img
               src={
-                selectedPokemon.pokemon_v2_pokemonsprites?.[0]?.sprites
-                  ?.front_default ?? ''
+                selectedPokemon.pokemon_v2_pokemonsprites?.[0]?.sprites ?? ''
               }
               alt={selectedPokemon.name}
               className='w-1/3 bg-gray-400/20 rounded-full p-1'
@@ -90,6 +97,29 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
 
           <div className='bg-gray-300/20 rounded-xl p-4'>
             <h2>Evolution chain</h2>
+
+            <div className='flex justify-center items-center gap-4'>
+              {evolutionChain?.pokemon_v2_pokemonspecies[0].pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies.map(
+                (evolution) => (
+                  <div
+                    key={evolution.name}
+                    className='border border-gray-400/20 rounded-md bg-gray-300/30 px-2 py-3'
+                  >
+                    <img
+                      src={
+                        evolution.pokemon_v2_pokemons[0]
+                          .pokemon_v2_pokemonsprites[0].sprites
+                      }
+                      alt={evolution.name}
+                      className='bg-white rounded-full'
+                    />
+                    <h4 className='capitalize text-center font-medium'>
+                      {evolution.name}
+                    </h4>
+                  </div>
+                )
+              )}
+            </div>
           </div>
 
           <div className='bg-gray-300/20 rounded-xl p-4'>

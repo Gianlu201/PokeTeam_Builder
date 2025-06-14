@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { Pokemon } from '../../types/pokemon';
+import type { EvolutionChain, Pokemon } from '../../types/pokemon';
 
 interface PokemonState {
   list: Pokemon[];
-  selectedPokemonInfos: Pokemon | null;
+  evolutionChains: EvolutionChain[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: PokemonState = {
   list: [],
-  selectedPokemonInfos: null,
+  evolutionChains: [],
   loading: false,
   error: null,
 };
@@ -31,9 +31,19 @@ const pokemonSlice = createSlice({
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
+    setReduxPokemonEvolutionChains(
+      state,
+      action: PayloadAction<EvolutionChain[]>
+    ) {
+      state.evolutionChains = action.payload;
+    },
   },
 });
 
-export const { setReduxPokemonList, setLoading, setError } =
-  pokemonSlice.actions;
+export const {
+  setReduxPokemonList,
+  setReduxPokemonEvolutionChains,
+  setLoading,
+  setError,
+} = pokemonSlice.actions;
 export default pokemonSlice.reducer;

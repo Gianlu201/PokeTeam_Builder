@@ -1,75 +1,34 @@
 import { useEffect, useState } from 'react';
-import type { EvolutionChain, Pokemon } from '../types/pokemon';
+import type { Pokemon } from '../types/pokemon';
 import PokemonBox from '../components/PokemonBox';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setReduxPokemonList } from '../features/pokemon/pokemonSlice';
+import {
+  setReduxPokemonList,
+  setReduxPokemonEvolutionChains,
+} from '../features/pokemon/pokemonSlice';
 import { Search } from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
+import { getAllPokemonsQuery } from '../utils/query';
+import { getAllEvolutionChainsQuery } from '../utils/query';
 
 const ExplorePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-  const [pokemonEvolutionChains, setPokemonEvolutionChains] = useState<
-    EvolutionChain[]
-  >([]);
-
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const reduxPokemonList = useAppSelector((state) => state.pokemon.list);
+  const reduxEvolutionChains = useAppSelector(
+    (state) => state.pokemon.evolutionChains
+  );
 
   const dispatch = useAppDispatch();
 
   const getAllPokemons = async () => {
     try {
+      const query = getAllPokemonsQuery;
+
       setIsLoading(true);
 
-      const query = `
-        query {
-          pokemon_v2_pokemon(where: {is_default: {_eq: true}}) {
-            height
-            weight
-            name
-            id
-            pokemon_species_id
-            pokemon_v2_pokemontypes {
-              pokemon_v2_type {
-                name
-                id
-              }
-            }
-            pokemon_v2_pokemonstats {
-              pokemon_v2_stat {
-                id
-                name
-              }
-              base_stat
-            }
-            pokemon_v2_pokemonsprites {
-              sprites
-            }
-            pokemon_v2_pokemonabilities {
-              ability_id
-              id
-              pokemon_v2_ability {
-                name
-              }
-            }
-            pokemon_v2_pokemoncries {
-              cries
-              pokemon_id
-            }
-            pokemon_v2_pokemonspecy {
-              is_baby
-              is_legendary
-              is_mythical
-              pokemon_color_id
-              pokemon_v2_pokemoncolor {
-                name
-              }
-            }
-          }
-        }
-      `;
       const response = await fetch('https://beta.pokeapi.co/graphql/v1beta', {
         method: 'POST',
         headers: {
@@ -95,29 +54,8 @@ const ExplorePage = () => {
 
   const getAllEvolutionChains = async () => {
     try {
-      const query = `
-        query {
-          pokemon_v2_evolutionchain {
-            id
-            pokemon_v2_pokemonspecies {
-              id
-              evolution_chain_id
-              is_legendary
-              is_mythical
-              pokemon_v2_evolutionchain {
-                pokemon_v2_pokemonspecies {
-                  name
-                  pokemon_v2_pokemons {
-                    pokemon_v2_pokemonsprites {
-                      sprites(path: "front_default")
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      `;
+      const query = getAllEvolutionChainsQuery;
+
       const response = await fetch('https://beta.pokeapi.co/graphql/v1beta', {
         method: 'POST',
         headers: {
@@ -129,8 +67,9 @@ const ExplorePage = () => {
       if (response.ok) {
         const data = await response.json();
         console.info(data);
-        // dispatch(setReduxPokemonEvolutionChains(data.data.pokemon_v2_evolutionchain));
-        setPokemonEvolutionChains(data.data.pokemon_v2_evolutionchain);
+        dispatch(
+          setReduxPokemonEvolutionChains(data.data.pokemon_v2_evolutionchain)
+        );
       } else {
         throw new Error('Error in fetching datas');
       }
@@ -154,7 +93,9 @@ const ExplorePage = () => {
       setPokemonList(reduxPokemonList);
     }
 
-    getAllEvolutionChains();
+    if (reduxEvolutionChains.length === 0) {
+      getAllEvolutionChains();
+    }
   }, []);
 
   useEffect(() => {

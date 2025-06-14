@@ -35,9 +35,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
 
       <div className='flex justify-between items-end'>
         <img
-          src={
-            pokemon.pokemon_v2_pokemonsprites?.[0]?.sprites?.front_default ?? ''
-          }
+          src={pokemon.pokemon_v2_pokemonsprites[0].sprites ?? ''}
           alt={pokemon.name}
           className='max-w-1/3 bg-white/30 rounded-full p-2'
         />
