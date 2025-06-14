@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Pokemon } from '../types/pokemon';
-import { Button } from './ui/button';
 import PokemonCard from './PokemonCard';
 import MyModal from './MyModal';
 
@@ -12,6 +11,37 @@ const PokemonBox = ({ pokemonList }: Params) => {
   const [pokemonShowedNum, setPokemonShowedNum] = useState<number>(24);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setPokemonShowedNum((prev) => {
+            const next = prev + 24;
+            return next <= pokemonList.length ? next : prev;
+          });
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.6,
+      }
+    );
+
+    observer.observe(sentinel);
+
+    return () => {
+      if (sentinel) observer.unobserve(sentinel);
+    };
+  }, [pokemonList.length]);
 
   return (
     <>
@@ -27,27 +57,23 @@ const PokemonBox = ({ pokemonList }: Params) => {
           />
         ))}
 
-        {selectedPokemon !== null && (
-          <MyModal
-            selectedPokemon={selectedPokemon}
-            onClose={() => {
-              setIsModalOpen(false);
-              setSelectedPokemon(null);
-            }}
-            open={isModalOpen}
-            setOpen={setIsModalOpen}
-          />
-        )}
+        {selectedPokemon !== null &&
+          selectedPokemon.pokemon_v2_pokemonsprites[0] &&
+          selectedPokemon.pokemon_v2_pokemonsprites[0].sprites
+            .front_default && (
+            <MyModal
+              selectedPokemon={selectedPokemon}
+              onClose={() => {
+                setIsModalOpen(false);
+                setSelectedPokemon(null);
+              }}
+              open={isModalOpen}
+              setOpen={setIsModalOpen}
+            />
+          )}
       </div>
-      <div>
-        <Button
-          variant={'outline'}
-          className='mx-auto'
-          onClick={() => setPokemonShowedNum((prev) => (prev += 24))}
-        >
-          Show more
-        </Button>
-      </div>
+
+      <div ref={sentinelRef} className='h-10 mt-10' />
     </>
   );
 };

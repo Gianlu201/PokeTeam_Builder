@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 
 import type { Pokemon } from '../types/pokemon';
-import { showPokedexNumber, StartCapitalLetter } from '../utils/mainUtils';
+import { showPokedexNumber } from '../utils/mainUtils';
 import { typeColors } from '../utils/typeColors';
 import { Ruler, Star, Weight, Zap } from 'lucide-react';
 import { stats } from '../utils/stats';
@@ -43,7 +43,7 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
         <DialogContent className='max-h-[80vh] sm:max-w-md xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'>
           <DialogHeader>
             <DialogTitle className='text-2xl font-bold'>
-              {StartCapitalLetter(selectedPokemon?.name)}{' '}
+              <span className='capitalize'>{selectedPokemon?.name}</span>{' '}
               <span className='inline-block text-xs ms-1 py-0.5 px-2 border border-gray-600/30 rounded-full'>
                 {showPokedexNumber(selectedPokemon.id)}
               </span>
@@ -53,8 +53,8 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
           <div className='mt-4 text-center text-xl flex justify-center'>
             <img
               src={
-                selectedPokemon.pokemon_v2_pokemonsprites[0].sprites
-                  .front_default ?? ''
+                selectedPokemon.pokemon_v2_pokemonsprites?.[0]?.sprites
+                  ?.front_default ?? ''
               }
               alt={selectedPokemon.name}
               className='w-1/3 bg-gray-400/20 rounded-full p-1'

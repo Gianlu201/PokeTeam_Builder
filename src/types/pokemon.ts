@@ -315,3 +315,35 @@ export interface PokemonSpecy {
 export interface PokemonColor {
   name: string;
 }
+
+// Evolution chain
+
+export interface EvolutionChain {
+  id: number;
+  pokemon_v2_pokemonspecies: PokemonV2Pokemonspecy[];
+}
+
+export interface PokemonV2Pokemonspecy {
+  id: number;
+  evolution_chain_id: number;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  pokemon_v2_evolutionchain: PokemonV2Evolutionchain;
+}
+
+export interface PokemonV2Evolutionchain {
+  pokemon_v2_pokemonspecies: PokemonV2Pokemonspecy2[];
+}
+
+export interface PokemonV2Pokemonspecy2 {
+  name: string;
+  pokemon_v2_pokemons: PokemonV2Pokemon[];
+}
+
+export interface PokemonV2Pokemon {
+  pokemon_v2_pokemonsprites: PokemonV2Pokemonsprite[];
+}
+
+export interface PokemonV2Pokemonsprite {
+  sprites: string;
+}

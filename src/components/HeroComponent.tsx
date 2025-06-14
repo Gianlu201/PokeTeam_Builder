@@ -15,8 +15,8 @@ const HeroComponent = () => {
         <div className='w-full h-full flex flex-col items-center justify-center bg-black/50'>
           <h1 className='text-7xl font-black text-red-600'>PokeTeam Builder</h1>
           <p className='text-white text-xl font-medium max-w-[500px]'>
-            Esplora il mondo Pokémon, scopri nuove creature e costruisci la
-            squadra perfetta per la tua avventura!
+            Explore the Pokémon world, discover new creatures and build the
+            perfect team for your adventure!
           </p>
           <div className='bg-white/20 text-white rounded-lg p-0.5'>
             <Button
@@ -24,7 +24,7 @@ const HeroComponent = () => {
               className='my-0.5 ms-0.5'
               onClick={() => navigate('/')}
             >
-              Esplora
+              Explore
             </Button>
             <Button
               variant={location.pathname === '/team' ? 'default' : 'ghost'}
@@ -40,7 +40,7 @@ const HeroComponent = () => {
               className='my-0.5 me-0.5'
               onClick={() => navigate('/saved-teams')}
             >
-              Salvati
+              Saved
             </Button>
           </div>
         </div>
