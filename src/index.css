@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@theme {
+  --color-primary: #19aeff;
+  --color-background: #f8fafc;
+}
+
 @layer utilities {
   @keyframes spin-3x {
     0% {

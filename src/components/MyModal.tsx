@@ -3,9 +3,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import type { Pokemon } from '../types/pokemon';
 import { showPokedexNumber } from '../utils/mainUtils';
 import { typeColors } from '../utils/typeColors';
-import { Ruler, Star, Weight, Zap } from 'lucide-react';
+import { AudioLines, PlayCircle, Ruler, Star, Weight, Zap } from 'lucide-react';
 import { stats } from '../utils/stats';
 import { useAppSelector } from '../app/hooks';
+import { Button } from './ui/button';
 
 interface Props {
   selectedPokemon: Pokemon;
@@ -34,16 +35,25 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
       value: `${selectedPokemon?.weight} kg`,
     },
     {
-      icon: <Star className='text-gray-600' />,
-      title: 'Experience',
-      value: `${selectedPokemon?.id}`,
-    },
-    {
       icon: <Zap className='text-gray-600' />,
       title: 'Abilities',
       value: `${selectedPokemon?.pokemon_v2_pokemonabilities.length}`,
     },
+    {
+      icon: <AudioLines className='text-gray-600' />,
+      title: 'Voice',
+      value: selectedPokemon.pokemon_v2_pokemoncries[0].cries,
+    },
   ];
+
+  const playAudio = () => {
+    const audio = new Audio(
+      selectedPokemon.pokemon_v2_pokemoncries[0].cries ?? ''
+    );
+    audio.play().catch((err) => {
+      console.error('Errore nella riproduzione audio:', err);
+    });
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -90,20 +100,31 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
               >
                 <span>{info.icon}</span>
                 <span className='text-sm'>{info.title}</span>
-                <span className='font-bold'>{info.value}</span>
+                {info.title.toLowerCase() === 'voice' ? (
+                  <PlayCircle
+                    onClick={playAudio}
+                    className='cursor-pointer my-1.5'
+                  />
+                ) : (
+                  <span className='font-bold'>{info.value}</span>
+                )}
               </div>
             ))}
           </div>
 
           <div className='bg-gray-300/20 rounded-xl p-4'>
-            <h2>Evolution chain</h2>
+            <h2 className='font-bold text-2xl'>Evolution chain</h2>
 
             <div className='flex justify-center items-center gap-4'>
               {evolutionChain?.pokemon_v2_pokemonspecies[0].pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies.map(
                 (evolution) => (
                   <div
                     key={evolution.name}
-                    className='flex flex-col justify-between items-center border border-gray-400/20 rounded-lg shadow bg-gray-300/30 px-2 py-3 cursor-pointer hover:scale-105'
+                    className={`flex flex-col justify-between items-center border  rounded-lg shadow px-2 py-3 cursor-pointer ${
+                      evolution.id === selectedPokemon.id
+                        ? 'bg-primary/30 border-primary/60 scale-105'
+                        : 'bg-gray-300/30 border-gray-400/20 hover:scale-105'
+                    }`}
                   >
                     <img
                       src={
@@ -116,9 +137,15 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
                     <h4 className='capitalize text-center font-medium my-2'>
                       {evolution.name}
                     </h4>
-                    <h5 className='text-sm border border-gray-500/50 rounded-full shadow-md text-center inline-block px-3 py-0.5'>
-                      {showPokedexNumber(evolution.id)}
-                    </h5>
+                    {evolution.id === selectedPokemon.id ? (
+                      <h5 className='text-sm bg-white border border-primary/60 rounded-full shadow-md text-center font-medium inline-block px-3 py-0.5 pb-1'>
+                        Current
+                      </h5>
+                    ) : (
+                      <h5 className='text-sm border border-gray-500/50 rounded-full shadow-md text-center inline-block px-3 py-0.5'>
+                        {showPokedexNumber(evolution.id)}
+                      </h5>
+                    )}
                   </div>
                 )
               )}
@@ -126,7 +153,8 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
           </div>
 
           <div className='bg-gray-300/20 rounded-xl p-4'>
-            <h2>Basic stats</h2>
+            <h2 className='font-bold text-2xl'>Basic stats</h2>
+
             <div className='flex justify-center items-center gap-4'>
               {selectedPokemon?.pokemon_v2_pokemonstats.map((stat) => (
                 <div
@@ -166,7 +194,7 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
           </div>
 
           <div className='bg-gray-300/20 rounded-xl p-4'>
-            <h2>
+            <h2 className='font-bold text-2xl mb-2'>
               {selectedPokemon?.pokemon_v2_pokemonabilities.length === 1
                 ? 'Ability'
                 : 'Abilities'}
@@ -176,7 +204,7 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
               {selectedPokemon?.pokemon_v2_pokemonabilities.map((ability) => (
                 <span
                   key={ability.id}
-                  className='inline-block text-sm py-0.5 px-3 border border-gray-600/30 rounded-full shadow-md bg-white capitalize'
+                  className='inline-block text-sm font-medium py-0.5 px-3 border border-gray-600/30 rounded-full shadow-md bg-white capitalize'
                 >
                   {ability.pokemon_v2_ability.name}
                 </span>
