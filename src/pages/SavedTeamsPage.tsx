@@ -1,5 +1,5 @@
 const SavedTeamsPage = () => {
-  return <div>SavedTeamsPage</div>;
+  return <div className='max-w-7xl mx-auto'>SavedTeamsPage</div>;
 };
 
 export default SavedTeamsPage;
