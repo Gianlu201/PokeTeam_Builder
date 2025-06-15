@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react';
 import type { Pokemon } from '../types/pokemon';
 import { showPokedexNumber } from '../utils/mainUtils';
 import { getTypeGradient } from '../utils/typeColors';
@@ -40,7 +41,10 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
           className='max-w-1/3 bg-white/30 rounded-full p-2'
         />
 
-        <Button variant={'outline'}>Add</Button>
+        <Button variant={'outline'}>
+          <Plus />
+          Add
+        </Button>
       </div>
     </div>
   );

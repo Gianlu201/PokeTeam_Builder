@@ -1,27 +1,40 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 
-import type { Pokemon } from '../types/pokemon';
+import type { Pokemon, PokemonV2Pokemonspecy2 } from '../types/pokemon';
 import { showPokedexNumber } from '../utils/mainUtils';
 import { typeColors } from '../utils/typeColors';
-import { AudioLines, PlayCircle, Ruler, Star, Weight, Zap } from 'lucide-react';
+import {
+  ArrowRight,
+  AudioLines,
+  PlayCircle,
+  Ruler,
+  Weight,
+  Zap,
+} from 'lucide-react';
 import { stats } from '../utils/stats';
 import { useAppSelector } from '../app/hooks';
-import { Button } from './ui/button';
 
 interface Props {
   selectedPokemon: Pokemon;
+  setSelectedPokemon: (pokemon: Pokemon) => void;
   onClose: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
+const MyModal = ({
+  selectedPokemon,
+  setSelectedPokemon,
+  open,
+  setOpen,
+}: Props) => {
   const evolutionChain = useAppSelector((state) =>
     state.pokemon.evolutionChains.find(
       (chain) =>
         chain.id === selectedPokemon.pokemon_v2_pokemonspecy.evolution_chain_id
     )
   );
+  const pokemonsList = useAppSelector((state) => state.pokemon.list);
 
   const infos = [
     {
@@ -53,6 +66,17 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
     audio.play().catch((err) => {
       console.error('Errore nella riproduzione audio:', err);
     });
+  };
+
+  const changeSelectedPokemon = (evolution: PokemonV2Pokemonspecy2) => {
+    if (selectedPokemon.id !== evolution.id) {
+      const newSelection = pokemonsList.find(
+        (pokemon) => pokemon.id === evolution.id
+      );
+      if (newSelection) {
+        setSelectedPokemon(newSelection);
+      }
+    }
   };
 
   return (
@@ -118,35 +142,39 @@ const MyModal = ({ selectedPokemon, open, setOpen }: Props) => {
             <div className='flex justify-center items-center gap-4'>
               {evolutionChain?.pokemon_v2_pokemonspecies[0].pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies.map(
                 (evolution) => (
-                  <div
-                    key={evolution.name}
-                    className={`flex flex-col justify-between items-center border  rounded-lg shadow px-2 py-3 cursor-pointer ${
-                      evolution.id === selectedPokemon.id
-                        ? 'bg-primary/30 border-primary/60 scale-105'
-                        : 'bg-gray-300/30 border-gray-400/20 hover:scale-105'
-                    }`}
-                  >
-                    <img
-                      src={
-                        evolution.pokemon_v2_pokemons[0]
-                          .pokemon_v2_pokemonsprites[0].sprites
-                      }
-                      alt={evolution.name}
-                      className='bg-white rounded-full'
-                    />
-                    <h4 className='capitalize text-center font-medium my-2'>
-                      {evolution.name}
-                    </h4>
-                    {evolution.id === selectedPokemon.id ? (
-                      <h5 className='text-sm bg-white border border-primary/60 rounded-full shadow-md text-center font-medium inline-block px-3 py-0.5 pb-1'>
-                        Current
-                      </h5>
-                    ) : (
-                      <h5 className='text-sm border border-gray-500/50 rounded-full shadow-md text-center inline-block px-3 py-0.5'>
-                        {showPokedexNumber(evolution.id)}
-                      </h5>
-                    )}
-                  </div>
+                  <>
+                    <div
+                      key={evolution.name}
+                      className={`flex flex-col justify-between items-center border  rounded-lg shadow px-2 py-3 cursor-pointer ${
+                        evolution.id === selectedPokemon.id
+                          ? 'bg-primary/30 border-primary/60 scale-105'
+                          : 'bg-gray-300/30 border-gray-400/20 hover:bg-gray-400/30'
+                      }`}
+                      onClick={() => changeSelectedPokemon(evolution)}
+                    >
+                      <img
+                        src={
+                          evolution.pokemon_v2_pokemons[0]
+                            .pokemon_v2_pokemonsprites[0].sprites
+                        }
+                        alt={evolution.name}
+                        className='bg-white rounded-full'
+                      />
+                      <h4 className='capitalize text-center font-medium my-2'>
+                        {evolution.name}
+                      </h4>
+                      {evolution.id === selectedPokemon.id ? (
+                        <h5 className='text-sm bg-white border border-primary/60 rounded-full shadow-md text-center font-medium inline-block px-3 py-0.5 pb-1'>
+                          Current
+                        </h5>
+                      ) : (
+                        <h5 className='text-sm border border-gray-500/50 rounded-full shadow-md text-center inline-block px-3 py-0.5'>
+                          {showPokedexNumber(evolution.id)}
+                        </h5>
+                      )}
+                    </div>
+                    <ArrowRight className=' last-of-type:hidden' />
+                  </>
                 )
               )}
             </div>

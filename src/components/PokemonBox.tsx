@@ -61,6 +61,7 @@ const PokemonBox = ({ pokemonList }: Params) => {
           selectedPokemon.pokemon_v2_pokemonsprites[0].sprites != null && (
             <MyModal
               selectedPokemon={selectedPokemon}
+              setSelectedPokemon={setSelectedPokemon}
               onClose={() => {
                 setIsModalOpen(false);
                 setSelectedPokemon(null);
