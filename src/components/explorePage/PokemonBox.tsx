@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Pokemon } from '../types/pokemon';
+import type { Pokemon } from '../../types/APITypes';
 import PokemonCard from './PokemonCard';
 import MyModal from './MyModal';
 

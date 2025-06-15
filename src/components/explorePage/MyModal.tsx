@@ -1,8 +1,13 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from './../ui/dialog';
 
-import type { Pokemon, PokemonV2Pokemonspecy2 } from '../types/pokemon';
-import { showPokedexNumber } from '../utils/mainUtils';
-import { typeColors } from '../utils/typeColors';
+import type { Pokemon, PokemonV2Pokemonspecy2 } from '../../types/APITypes';
+import { showPokedexNumber } from '../../utils/mainUtils';
+import { typeColors } from '../../utils/typeColors';
 import {
   ArrowRight,
   AudioLines,
@@ -11,8 +16,8 @@ import {
   Weight,
   Zap,
 } from 'lucide-react';
-import { stats } from '../utils/stats';
-import { useAppSelector } from '../app/hooks';
+import { stats } from '../../utils/stats';
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
   selectedPokemon: Pokemon;

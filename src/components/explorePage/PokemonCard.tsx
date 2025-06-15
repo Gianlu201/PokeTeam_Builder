@@ -1,8 +1,11 @@
 import { Plus } from 'lucide-react';
-import type { Pokemon } from '../types/pokemon';
-import { showPokedexNumber } from '../utils/mainUtils';
-import { getTypeGradient } from '../utils/typeColors';
-import { Button } from './ui/button';
+import type { Pokemon } from '../../types/APITypes';
+import { showPokedexNumber } from '../../utils/mainUtils';
+import { getTypeGradient } from '../../utils/typeColors';
+import { Button } from '../ui/button';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { setCurrentTeam } from '../../features/teams/teamsSlice';
+import type { PokeTeam } from '../../types/myTypes';
 
 interface Props {
   pokemon: Pokemon;
@@ -13,6 +16,31 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
   const types = pokemon.pokemon_v2_pokemontypes.map(
     (type) => type.pokemon_v2_type.name
   );
+  const currentTeam = useAppSelector((state) => state.teams.currentTeam);
+
+  const dispatch = useAppDispatch();
+
+  const addPokemonToTeam = (pokemon: Pokemon) => {
+    let currentTeamFull = true;
+    let emptySlot = 0;
+
+    currentTeam.forEach((slot, index) => {
+      if (!slot && currentTeamFull) {
+        currentTeamFull = false;
+        emptySlot = index;
+      }
+    });
+
+    if (!currentTeamFull) {
+      const temporaryTeam: PokeTeam = [null, null, null, null, null, null];
+      currentTeam.forEach((slot, i) => {
+        temporaryTeam[i] = slot;
+      });
+
+      temporaryTeam[emptySlot] = pokemon;
+      dispatch(setCurrentTeam(temporaryTeam));
+    }
+  };
 
   return (
     <div
@@ -41,7 +69,13 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
           className='max-w-1/3 bg-white/30 rounded-full p-2'
         />
 
-        <Button variant={'outline'}>
+        <Button
+          variant={'outline'}
+          onClick={(e) => {
+            e.stopPropagation();
+            addPokemonToTeam(pokemon);
+          }}
+        >
           <Plus />
           Add
         </Button>

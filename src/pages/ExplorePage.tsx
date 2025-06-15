@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import type { Pokemon } from '../types/pokemon';
-import PokemonBox from '../components/PokemonBox';
+import type { Pokemon } from '../types/APITypes';
+import PokemonBox from '../components/explorePage/PokemonBox';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   setReduxPokemonList,

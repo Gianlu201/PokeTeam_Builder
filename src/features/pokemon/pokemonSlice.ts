@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { EvolutionChain, Pokemon } from '../../types/pokemon';
+import type { EvolutionChain, Pokemon } from '../../types/APITypes';
 
 interface PokemonState {
   list: Pokemon[];
