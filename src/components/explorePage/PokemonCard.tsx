@@ -1,6 +1,9 @@
 import { Plus } from 'lucide-react';
 import type { Pokemon } from '../../types/APITypes';
-import { showPokedexNumber } from '../../utils/mainUtils';
+import {
+  getTeamComponentsCount,
+  showPokedexNumber,
+} from '../../utils/mainUtils';
 import { getTypeGradient } from '../../utils/typeColors';
 import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -44,7 +47,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
 
   return (
     <div
-      className='text-white rounded-xl p-4 cursor-pointer hover:scale-110 duration-500 ease-in-out'
+      className='text-white rounded-xl p-4 cursor-pointer duration-300 hover:scale-105 hover:opacity-90'
       style={{ background: getTypeGradient(types) }}
       onClick={() => setSelectedPokemon(pokemon)}
     >
@@ -73,8 +76,15 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
           variant={'outline'}
           onClick={(e) => {
             e.stopPropagation();
-            addPokemonToTeam(pokemon);
+            if (getTeamComponentsCount(currentTeam) < 6) {
+              addPokemonToTeam(pokemon);
+            }
           }}
+          className={`${
+            getTeamComponentsCount(currentTeam) === 6
+              ? 'cursor-not-allowed border-gray-300/40 text-gray-300 bg-gray-700/10'
+              : ''
+          }`}
         >
           <Plus />
           Add

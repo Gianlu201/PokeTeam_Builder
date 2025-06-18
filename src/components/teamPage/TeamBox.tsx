@@ -25,7 +25,7 @@ const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
               <TeamPokemonSlot
                 pokemon={pokemon}
                 index={i}
-                key={pokemon.id}
+                key={i}
                 isMyTeam={isMyTeam}
               />
             );
