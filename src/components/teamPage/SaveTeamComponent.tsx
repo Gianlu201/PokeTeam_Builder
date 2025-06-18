@@ -2,8 +2,12 @@ import { Save, Trash2, Users } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { cleanCurrentTeam } from '../../features/teams/teamsSlice';
+import {
+  addTeamToSaved,
+  cleanCurrentTeam,
+} from '../../features/teams/teamsSlice';
 import { getTeamComponentsCount } from '../../utils/mainUtils';
+import type { SavedTeam } from '../../types/myTypes';
 
 const SaveTeamComponent = () => {
   const [teamName, setTeamName] = useState<string>('');
@@ -11,6 +15,23 @@ const SaveTeamComponent = () => {
   const pokeTeam = useAppSelector((state) => state.teams.currentTeam);
 
   const dispatch = useAppDispatch();
+
+  const saveTeam = () => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('it-IT', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+
+    const newSavedTeam: SavedTeam = {
+      teamName: teamName,
+      team: pokeTeam,
+      savedDate: formattedDate,
+    };
+
+    dispatch(addTeamToSaved(newSavedTeam));
+  };
 
   if (!(getTeamComponentsCount(pokeTeam) > 0)) {
     return (
@@ -33,7 +54,7 @@ const SaveTeamComponent = () => {
           onChange={(e) => setTeamName(e.target.value)}
         />
 
-        <Button variant={'sysOpt'}>
+        <Button variant={'sysOpt'} onClick={saveTeam}>
           <Save />
           Save team
         </Button>

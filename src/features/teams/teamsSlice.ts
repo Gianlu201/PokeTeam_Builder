@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { PokeTeam } from '../../types/myTypes';
+import type { PokeTeam, SavedTeam } from '../../types/myTypes';
 
 interface TeamsState {
   currentTeam: PokeTeam;
   enemyTeam: PokeTeam;
+  savedTeams: SavedTeam[];
 }
 
 const initialState: TeamsState = {
   currentTeam: [null, null, null, null, null, null],
   enemyTeam: [null, null, null, null, null, null],
+  savedTeams: [],
 };
 
 const teamsSlice = createSlice({
@@ -25,9 +27,38 @@ const teamsSlice = createSlice({
     setEnemyTeam(state, action: PayloadAction<PokeTeam>) {
       state.enemyTeam = action.payload;
     },
+    addTeamToSaved(state, action: PayloadAction<SavedTeam>) {
+      state.savedTeams.push(action.payload);
+    },
+    removeSavedTeam(state, action: PayloadAction<SavedTeam>) {
+      let index: number = -1;
+      const tempArr: SavedTeam[] = [];
+
+      state.savedTeams.forEach((team, i) => {
+        tempArr.push(team);
+
+        if (
+          team.teamName === action.payload.teamName &&
+          team.savedDate === action.payload.savedDate
+        ) {
+          index = i;
+        }
+      });
+
+      if (index >= 0) {
+        tempArr.splice(index, 1);
+      }
+
+      state.savedTeams = tempArr;
+    },
   },
 });
 
-export const { setCurrentTeam, cleanCurrentTeam, setEnemyTeam } =
-  teamsSlice.actions;
+export const {
+  setCurrentTeam,
+  cleanCurrentTeam,
+  setEnemyTeam,
+  addTeamToSaved,
+  removeSavedTeam,
+} = teamsSlice.actions;
 export default teamsSlice.reducer;
