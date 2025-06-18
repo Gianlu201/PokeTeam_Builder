@@ -1,22 +1,25 @@
 import { Save, Trash2, Users } from 'lucide-react';
-import type { PokeTeam } from '../../types/myTypes';
 import { Button } from '../ui/button';
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { cleanCurrentTeam } from '../../features/teams/teamsSlice';
+import { getTeamComponentsCount } from '../../utils/mainUtils';
 
-interface Props {
-  pokeTeam: PokeTeam;
-  isTeamEmpty: boolean;
-}
-
-const SaveTeamComponent = ({ pokeTeam, isTeamEmpty }: Props) => {
+const SaveTeamComponent = () => {
   const [teamName, setTeamName] = useState<string>('');
 
-  if (isTeamEmpty) {
+  const pokeTeam = useAppSelector((state) => state.teams.currentTeam);
+
+  const dispatch = useAppDispatch();
+
+  if (!(getTeamComponentsCount(pokeTeam) > 0)) {
     return (
-      <div className='flex flex-col justify-center items-center gap-4 my-5'>
-        <Users />
-        <h3>Empty Team</h3>
-        <p>Visit "Explore" section to add Pokémon to your team!</p>
+      <div className='flex flex-col justify-center items-center gap-2 my-2 mt-8'>
+        <Users className='text-gray-500 w-10 h-10 stroke-2' />
+        <h3 className='font-semibold text-lg text-gray-500'>Empty Team</h3>
+        <p className='text-gray-500 text-sm'>
+          Visit "Explore" section to add Pokémon to your team!
+        </p>
       </div>
     );
   } else {
@@ -29,11 +32,18 @@ const SaveTeamComponent = ({ pokeTeam, isTeamEmpty }: Props) => {
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
         />
+
         <Button variant={'sysOpt'}>
           <Save />
           Save team
         </Button>
-        <Button variant={'default'}>
+
+        <Button
+          variant={'default'}
+          onClick={() => {
+            dispatch(cleanCurrentTeam());
+          }}
+        >
           <Trash2 />
           Clean team
         </Button>

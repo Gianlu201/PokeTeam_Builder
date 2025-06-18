@@ -13,9 +13,7 @@ interface Props {
 const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
   return (
     <>
-      {getTeamComponentsCount(pokeTeam) > 0 && isMyTeam && (
-        <TeamStats pokeTeam={pokeTeam} />
-      )}
+      {getTeamComponentsCount(pokeTeam) > 0 && isMyTeam && <TeamStats />}
 
       <div className='max-w-2xl mx-auto grid grid-cols-3 gap-5'>
         {pokeTeam.map((pokemon, i) => {
@@ -37,12 +35,7 @@ const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
         })}
       </div>
 
-      {isMyTeam && (
-        <SaveTeamComponent
-          pokeTeam={pokeTeam}
-          isTeamEmpty={!(getTeamComponentsCount(pokeTeam) > 0)}
-        />
-      )}
+      {isMyTeam && <SaveTeamComponent />}
     </>
   );
 };

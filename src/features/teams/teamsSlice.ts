@@ -17,8 +17,11 @@ const teamsSlice = createSlice({
     setCurrentTeam(state, action: PayloadAction<PokeTeam>) {
       state.currentTeam = action.payload;
     },
+    cleanCurrentTeam(state) {
+      state.currentTeam = [null, null, null, null, null, null];
+    },
   },
 });
 
-export const { setCurrentTeam } = teamsSlice.actions;
+export const { setCurrentTeam, cleanCurrentTeam } = teamsSlice.actions;
 export default teamsSlice.reducer;

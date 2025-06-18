@@ -3,13 +3,12 @@ import type { PokeTeam } from '../../types/myTypes';
 import { getTeamComponentsCount } from '../../utils/mainUtils';
 import { useEffect, useState } from 'react';
 import { typeColors } from '../../utils/typeColors';
+import { useAppSelector } from '../../app/hooks';
 
-interface Props {
-  pokeTeam: PokeTeam;
-}
-
-const TeamStats = ({ pokeTeam }: Props) => {
+const TeamStats = () => {
   const [teamTypes, setTeamTypes] = useState<string[]>([]);
+
+  const pokeTeam = useAppSelector((state) => state.teams.currentTeam);
 
   const stats = [
     'Hp',
