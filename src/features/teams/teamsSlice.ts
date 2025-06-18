@@ -4,10 +4,12 @@ import type { PokeTeam } from '../../types/myTypes';
 
 interface TeamsState {
   currentTeam: PokeTeam;
+  enemyTeam: PokeTeam;
 }
 
 const initialState: TeamsState = {
   currentTeam: [null, null, null, null, null, null],
+  enemyTeam: [null, null, null, null, null, null],
 };
 
 const teamsSlice = createSlice({
@@ -20,8 +22,12 @@ const teamsSlice = createSlice({
     cleanCurrentTeam(state) {
       state.currentTeam = [null, null, null, null, null, null];
     },
+    setEnemyTeam(state, action: PayloadAction<PokeTeam>) {
+      state.enemyTeam = action.payload;
+    },
   },
 });
 
-export const { setCurrentTeam, cleanCurrentTeam } = teamsSlice.actions;
+export const { setCurrentTeam, cleanCurrentTeam, setEnemyTeam } =
+  teamsSlice.actions;
 export default teamsSlice.reducer;

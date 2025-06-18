@@ -4,6 +4,7 @@ import TeamPokemonSlot from './TeamPokemonSlot';
 import TeamStats from './TeamStats';
 import SaveTeamComponent from './SaveTeamComponent';
 import { getTeamComponentsCount } from '../../utils/mainUtils';
+import SelectEnemyComponent from './SelectEnemyComponent';
 
 interface Props {
   pokeTeam: PokeTeam;
@@ -14,6 +15,8 @@ const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
   return (
     <>
       {getTeamComponentsCount(pokeTeam) > 0 && isMyTeam && <TeamStats />}
+
+      {!isMyTeam && <SelectEnemyComponent />}
 
       <div className='max-w-2xl mx-auto grid grid-cols-3 gap-5'>
         {pokeTeam.map((pokemon, i) => {
