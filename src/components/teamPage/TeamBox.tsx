@@ -8,7 +8,7 @@ import SelectEnemyComponent from './SelectEnemyComponent';
 
 interface Props {
   pokeTeam: PokeTeam;
-  isMyTeam: boolean | null;
+  isMyTeam: boolean;
 }
 
 const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
@@ -22,7 +22,12 @@ const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
         {pokeTeam.map((pokemon, i) => {
           if (pokemon) {
             return (
-              <TeamPokemonSlot pokemon={pokemon} index={i} key={pokemon.id} />
+              <TeamPokemonSlot
+                pokemon={pokemon}
+                index={i}
+                key={pokemon.id}
+                isMyTeam={isMyTeam}
+              />
             );
           } else {
             return (

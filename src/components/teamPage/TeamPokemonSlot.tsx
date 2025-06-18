@@ -3,33 +3,45 @@ import type { Pokemon } from '../../types/APITypes';
 import { typeColors } from '../../utils/typeColors';
 import type { PokeTeam } from '../../types/myTypes';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setCurrentTeam } from '../../features/teams/teamsSlice';
+import { setCurrentTeam, setEnemyTeam } from '../../features/teams/teamsSlice';
 
 interface Props {
   pokemon: Pokemon;
   index: number;
+  isMyTeam: boolean;
 }
 
-const TeamPokemonSlot = ({ pokemon, index }: Props) => {
+const TeamPokemonSlot = ({ pokemon, index, isMyTeam }: Props) => {
   const currentTeam = useAppSelector((state) => state.teams.currentTeam);
+  const enemyTeam = useAppSelector((state) => state.teams.enemyTeam);
 
   const dispatch = useAppDispatch();
 
   const removePokemonFromTeam = () => {
-    const temporaryTeam: PokeTeam = [...currentTeam];
+    let temporaryTeam: PokeTeam;
+
+    if (isMyTeam) {
+      temporaryTeam = [...currentTeam];
+    } else {
+      temporaryTeam = [...enemyTeam];
+    }
 
     temporaryTeam[index] = null;
 
-    const newCurrentTeam: PokeTeam = [null, null, null, null, null, null];
+    const newTeam: PokeTeam = [null, null, null, null, null, null];
     let i = 0;
     temporaryTeam.forEach((slot) => {
       if (slot) {
-        newCurrentTeam[i] = slot;
+        newTeam[i] = slot;
         i += 1;
       }
     });
 
-    dispatch(setCurrentTeam(newCurrentTeam));
+    if (isMyTeam) {
+      dispatch(setCurrentTeam(newTeam));
+    } else {
+      dispatch(setEnemyTeam(newTeam));
+    }
   };
 
   return (
