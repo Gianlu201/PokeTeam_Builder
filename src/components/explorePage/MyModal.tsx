@@ -87,7 +87,7 @@ const MyModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {selectedPokemon != null && (
-        <DialogContent className='max-h-[80vh] sm:max-w-md xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'>
+        <DialogContent className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'>
           <DialogHeader>
             <DialogTitle className='text-2xl font-bold'>
               <span className='capitalize'>{selectedPokemon?.name}</span>{' '}
