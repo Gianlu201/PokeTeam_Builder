@@ -31,17 +31,17 @@ const ExplorePage = () => {
   }, [searchQuery]);
 
   return (
-    <div className='max-w-7xl mx-auto'>
-      <div className='flex justify-between items-center my-4'>
-        <div className='grow relative border border-gray-400/30 rounded-xl p-3'>
+    <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
+      <div className='flex justify-between items-center py-4'>
+        <div className='grow relative border border-gray-400/30 rounded-xl p-3 overflow-hidden'>
           <input
             type='text'
             placeholder='Search for Pokémon by name..'
-            className='w-full ms-10 focus:outline-0'
+            className='w-full ms-5 sm:ms-10 focus:outline-0 text-sm'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Search className='absolute top-1/2 start-4 -translate-y-1/2' />
+          <Search className='absolute top-1/2 start-2 sm:start-4 -translate-y-1/2 w-4 h-4 sm:w-6 sm:h-6' />
         </div>
         <div></div>
         <div></div>

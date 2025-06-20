@@ -33,14 +33,14 @@ const SelectEnemyComponent = () => {
   return (
     <div>
       <form
-        className='flex justify-center items-center gap-2 mb-4'
+        className='sm:flex justify-center items-center gap-2 mb-4'
         onSubmit={(e) => {
           e.preventDefault();
           addPokemonToEnemyTeam(currentEnemySelected);
         }}
       >
         <select
-          className='grow capitalize bg-white border border-gray-400/50 rounded-md py-1.5 px-3'
+          className='w-full grow capitalize bg-white border border-gray-400/50 rounded-md py-1.5 px-3 max-sm:mb-2'
           value={currentEnemySelected}
           onChange={(e) => {
             setCurrentEnemySelected(e.target.value);
@@ -57,6 +57,7 @@ const SelectEnemyComponent = () => {
         <Button
           variant={'sysOpt'}
           disabled={currentEnemySelected === '' ? true : false}
+          className='max-sm:relative max-sm:left-[100%] max-sm:-translate-x-[100%]'
         >
           <Search />
           Add

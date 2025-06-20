@@ -47,7 +47,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
 
   return (
     <div
-      className='text-white rounded-xl p-4 cursor-pointer duration-300 hover:scale-105 hover:opacity-90'
+      className='text-white rounded-xl p-4 cursor-pointer duration-300 hover:scale-105 hover:opacity-90 hover:animate-poke-jump'
       style={{ background: getTypeGradient(types) }}
       onClick={() => setSelectedPokemon(pokemon)}
     >
@@ -58,7 +58,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
         {pokemon.pokemon_v2_pokemontypes.map((type) => (
           <span
             key={type.pokemon_v2_type.id}
-            className='capitalize text-sm font-medium bg-white/20 rounded-full py-0.5 px-2'
+            className='capitalize text-sm font-medium bg-white/20 rounded-full py-0.5 px-2 hover:bg-white/30'
           >
             {type.pokemon_v2_type.name}
           </span>
@@ -66,11 +66,13 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
       </div>
 
       <div className='flex justify-between items-end'>
-        <img
-          src={pokemon.pokemon_v2_pokemonsprites[0].sprites ?? ''}
-          alt={pokemon.name}
-          className='max-w-1/3 bg-white/30 rounded-full p-2'
-        />
+        <div className='max-w-1/3 bg-white/30 rounded-full p-2'>
+          <img
+            src={pokemon.pokemon_v2_pokemonsprites[0].sprites ?? ''}
+            alt={pokemon.name}
+            className=''
+          />
+        </div>
 
         <Button
           variant={'outline'}

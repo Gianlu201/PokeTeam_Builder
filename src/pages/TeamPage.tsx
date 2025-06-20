@@ -9,11 +9,11 @@ const TeamPage = () => {
   const enemyTeam = useAppSelector((state) => state.teams.enemyTeam);
 
   return (
-    <div className='max-w-7xl mx-auto'>
+    <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
       {/* my team */}
       <div className='bg-indigo-50/80 border border-gray-300/40 rounded-xl mx-2 my-7 p-6 shadow-lg'>
         <div className='flex justify-between items-center mb-3'>
-          <h2 className='flex justify-start items-center gap-2 text-2xl font-bold'>
+          <h2 className='flex justify-start items-center gap-2 text-lg xs:text-2xl font-bold'>
             <Users className='text-blue-500 w-7 h-7' />
             Team Builder
           </h2>
@@ -29,7 +29,7 @@ const TeamPage = () => {
       {/* enemy team */}
       <div className='bg-red-100/80 border border-gray-300/40 rounded-xl mx-2 my-7 p-6 shadow-lg'>
         <div className='flex justify-between items-center mb-3'>
-          <h2 className='flex justify-start items-center gap-2 text-2xl font-bold'>
+          <h2 className='flex justify-start items-center gap-2 text-lg xs:text-2xl font-bold'>
             <Target className='text-red-500 w-7 h-7' />
             Enemy Team
           </h2>

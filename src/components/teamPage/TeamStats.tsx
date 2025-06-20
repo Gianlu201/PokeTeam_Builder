@@ -10,14 +10,7 @@ const TeamStats = () => {
 
   const pokeTeam = useAppSelector((state) => state.teams.currentTeam);
 
-  const stats = [
-    'Hp',
-    'Attack',
-    'Defense',
-    'Special-Attack',
-    'Special-Defense',
-    'Speed',
-  ];
+  const stats = ['Hp', 'Attack', 'Defense', 'Sp-Attack', 'Sp-Defense', 'Speed'];
 
   const updateTeamTypes = (team: PokeTeam) => {
     const tempArr: string[] = [];
@@ -74,7 +67,7 @@ const TeamStats = () => {
         Team Stats
       </h3>
 
-      <div className='flex justify-around items-center mb-3'>
+      <div className='grid grid-cols-2 xs:grid-cols-3 md:grid-cols-6 justify-around items-center gap-3 mb-3'>
         {stats.map((stat, i) => (
           <div key={i} className='text-center'>
             <p className='font-normal'>{stat}</p>
@@ -85,9 +78,9 @@ const TeamStats = () => {
         ))}
       </div>
 
-      <div className='grid grid-cols-3 gap-4'>
-        <div className='columns-1 text-center'>
-          <p className='flex justify-center items-center gap-1.5'>
+      <div className='md:grid grid-cols-3 gap-4'>
+        <div className='co-pan-1 text-center max-md:mb-3'>
+          <p className='flex justify-center items-center gap-1.5 font-medium'>
             <Star className='w-4 h-4 text-amber-500' />
             Total Power
           </p>
@@ -96,9 +89,9 @@ const TeamStats = () => {
           </p>
         </div>
 
-        <div className='columns-2 flex flex-col justify-center items-start gap-2'>
-          <p>Types distribution:</p>
-          <div className='flex justify-start items-center gap-2'>
+        <div className='col-span-2 flex flex-col justify-center items-start gap-2'>
+          <p className='font-medium'>Types distribution:</p>
+          <div className='flex justify-start items-center gap-2 flex-wrap'>
             {teamTypes.map((element, i) => (
               <span
                 key={i}

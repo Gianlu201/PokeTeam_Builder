@@ -17,8 +17,10 @@ const SavedTeamCompontnt = ({ team }: Props) => {
 
   return (
     <div className='bg-white border border-gray-300/40 rounded-lg shadow-md p-4 mb-5'>
-      <div className='flex justify-between items-center mb-1'>
-        <h3 className='text-xl font-semibold'>{team.teamName}</h3>
+      <div className='flex justify-between items-center mb-2'>
+        <h3 className='text-xl font-bold max-xs:max-w-[90px] overflow-auto'>
+          {team.teamName}
+        </h3>
         <div className='flex justify-between items-center gap-2'>
           <Button
             variant={'sysOpt'}
@@ -45,7 +47,7 @@ const SavedTeamCompontnt = ({ team }: Props) => {
         <span>{team.savedDate}</span>
       </div>
 
-      <div className='flex justify-start items-center gap-2'>
+      <div className='flex justify-start items-center gap-4 overflow-x-auto pb-2'>
         {team.team.map((pokemon) => {
           if (pokemon) {
             return (

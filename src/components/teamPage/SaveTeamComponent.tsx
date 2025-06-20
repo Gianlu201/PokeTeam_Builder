@@ -45,29 +45,31 @@ const SaveTeamComponent = () => {
     );
   } else {
     return (
-      <div className='flex justify-between items-center gap-2 my-5'>
+      <div className='md:flex justify-between items-center gap-3 my-5'>
         <input
           type='text'
           placeholder={`Put your team's name...`}
-          className='grow bg-white border border-gray-400/50 rounded-md py-1 px-3'
+          className='block max-md:w-full max-md:mb-3 grow bg-white border border-gray-400/50 rounded-md py-1.5 px-3'
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
         />
 
-        <Button variant={'sysOpt'} onClick={saveTeam}>
-          <Save />
-          Save team
-        </Button>
+        <div className='flex justify-around items-center md:gap-3'>
+          <Button variant={'sysOpt'} onClick={saveTeam}>
+            <Save className='hidden sm:block' />
+            Save team
+          </Button>
 
-        <Button
-          variant={'default'}
-          onClick={() => {
-            dispatch(cleanCurrentTeam());
-          }}
-        >
-          <Trash2 />
-          Clean team
-        </Button>
+          <Button
+            variant={'default'}
+            onClick={() => {
+              dispatch(cleanCurrentTeam());
+            }}
+          >
+            <Trash2 className='hidden sm:block' />
+            Clean team
+          </Button>
+        </div>
       </div>
     );
   }

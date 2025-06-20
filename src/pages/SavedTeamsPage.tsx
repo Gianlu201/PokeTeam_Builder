@@ -6,7 +6,7 @@ const SavedTeamsPage = () => {
   const savedTeams = useAppSelector((state) => state.teams.savedTeams);
 
   return (
-    <div className='max-w-7xl mx-auto mt-4'>
+    <div className='max-w-7xl mx-auto pt-4 bg-background max-xl:mx-10'>
       <h2 className='flex justify-start items-center gap-2 text-2xl font-bold mb-6'>
         <Users className='text-blue-500 w-7 h-7' />
         Saved Teams

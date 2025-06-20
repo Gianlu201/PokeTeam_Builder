@@ -84,9 +84,11 @@ const HeroComponent = () => {
         className='min-h-[200px] h-[50vh] bg-cover bg-no-repeat bg-center'
         style={{ backgroundImage: 'url(/images/wallpaper.jpg)' }}
       >
-        <div className='w-full h-full flex flex-col items-center justify-center bg-black/50'>
-          <h1 className='text-7xl font-black text-red-600'>PokeTeam Builder</h1>
-          <p className='text-white text-xl font-medium max-w-[500px]'>
+        <div className='w-full h-full flex flex-col items-center justify-center gap-4 bg-black/50 px-4'>
+          <h1 className='text-3xl sm:text-5xl md:text-7xl font-black text-red-600'>
+            PokeTeam Builder
+          </h1>
+          <p className='text-white sm:text-xl font-medium max-w-[500px]'>
             Explore the Pokémon world, discover new creatures and build the
             perfect team for your adventure!
           </p>

@@ -18,7 +18,7 @@ const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
 
       {!isMyTeam && <SelectEnemyComponent />}
 
-      <div className='max-w-2xl mx-auto grid grid-cols-3 gap-5'>
+      <div className='max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
         {pokeTeam.map((pokemon, i) => {
           if (pokemon) {
             return (
