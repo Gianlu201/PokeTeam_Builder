@@ -70,3 +70,26 @@ export const getAllEvolutionChainsQuery = `
     }
   }
 `;
+
+export const getSelectedPokemonsMoves = (idsArr: number[]) => `
+  query GetMovesForMultiplePokemon {
+    pokemon_v2_pokemon(where: {id: {_in: [${idsArr}]}}) {
+      id
+      name
+      pokemon_v2_pokemonmoves(
+        where: {pokemon_v2_move: {power: {_is_null: false}}}
+        order_by: {pokemon_v2_move: {power: desc_nulls_last}}
+        limit: 30
+      ) {
+        pokemon_v2_move {
+          id
+          name
+          power
+          accuracy
+          pp
+          priority
+        }
+      }
+    }
+  }
+`;

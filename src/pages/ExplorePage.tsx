@@ -4,10 +4,13 @@ import PokemonBox from '../components/explorePage/PokemonBox';
 import { useAppSelector } from '../app/hooks';
 import { Search } from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
+import { Button } from '../components/ui/button';
+import FightModal from '../components/explorePage/FightModal';
 
 const ExplorePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isFightModalOpen, setIsFightModalOpen] = useState<boolean>(false);
 
   const reduxPokemonList = useAppSelector((state) => state.pokemon.list);
   const isLoading = useAppSelector((state) => state.pokemon.loading);
@@ -32,6 +35,17 @@ const ExplorePage = () => {
 
   return (
     <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
+      <div>
+        <Button
+          onClick={() => {
+            setIsFightModalOpen(true);
+          }}
+        >
+          Fight
+        </Button>
+      </div>
+
+      {/* search bar */}
       <div className='flex justify-between items-center py-4'>
         <div className='grow relative border border-gray-400/30 rounded-xl p-3 overflow-hidden'>
           <input
@@ -43,8 +57,8 @@ const ExplorePage = () => {
           />
           <Search className='absolute top-1/2 start-2 sm:start-4 -translate-y-1/2 w-4 h-4 sm:w-6 sm:h-6' />
         </div>
-        <div></div>
-        <div></div>
+        <div>{/* filtri1 */}</div>
+        <div>{/* filtri2 */}</div>
       </div>
 
       {isLoading ? (
@@ -52,6 +66,14 @@ const ExplorePage = () => {
       ) : (
         pokemonList.length > 0 && <PokemonBox pokemonList={pokemonList} />
       )}
+
+      <FightModal
+        onClose={() => {
+          setIsFightModalOpen(false);
+        }}
+        fightModalOpen={isFightModalOpen}
+        setFightModalOpen={setIsFightModalOpen}
+      />
     </div>
   );
 };

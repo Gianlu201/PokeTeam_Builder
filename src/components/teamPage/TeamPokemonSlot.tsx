@@ -45,7 +45,7 @@ const TeamPokemonSlot = ({ pokemon, index, isMyTeam }: Props) => {
   };
 
   return (
-    <div className='w-full aspect-square border border-gray-400/30 bg-white rounded-lg shadow-md p-3 overflow-hidden'>
+    <div className='w-full aspect-square border border-gray-400/30 bg-white rounded-lg shadow-md p-3 overflow-hidden hover:animate-poke-jump'>
       <div className='flex justify-between items-center mb-2'>
         <h3 className='capitalize font-bold'>{pokemon.name}</h3>
         <Trash2
