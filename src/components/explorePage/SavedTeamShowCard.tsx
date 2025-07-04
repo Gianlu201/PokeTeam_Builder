@@ -1,17 +1,36 @@
-import type { SavedTeam } from '../../types/myTypes';
+import type { PokeTeam, SavedTeam } from '../../types/myTypes';
 import { getTeamComponentsCount } from '../../utils/mainUtils';
 import { Button } from '../ui/button';
 
 interface Props {
   savedTeam: SavedTeam;
+  mySelectedTeam: PokeTeam | undefined;
+  setMySelectedTeam: (team: PokeTeam) => void;
 }
 
-const SavedTeamShowCard = ({ savedTeam }: Props) => {
+const SavedTeamShowCard = ({
+  savedTeam,
+  mySelectedTeam,
+  setMySelectedTeam,
+}: Props) => {
   return (
-    <div className='border border-gray-500/40 rounded-xl w-full px-5 py-3 mb-3'>
+    <div
+      className={`border rounded-xl w-full px-5 py-3 mb-3 ${
+        mySelectedTeam === savedTeam.team
+          ? 'border-black/40 border-2'
+          : 'border-gray-500/40'
+      }`}
+    >
       <div className='flex justify-between items-center'>
         <h3>{savedTeam.teamName}</h3>
-        <Button variant={'sysOpt'}>Select</Button>
+        <Button
+          variant={'sysOpt'}
+          onClick={() => {
+            setMySelectedTeam(savedTeam.team);
+          }}
+        >
+          Select
+        </Button>
       </div>
       <p>{getTeamComponentsCount(savedTeam.team)} Pokèmon</p>
       <div className='flex justify-start items-center gap-2'>
