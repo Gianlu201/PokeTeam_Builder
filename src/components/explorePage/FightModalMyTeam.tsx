@@ -10,12 +10,14 @@ interface Props {
   fightModalOpen: boolean;
   mySelectedTeam: PokeTeam | undefined;
   setMySelectedTeam: (team: PokeTeam) => void;
+  setSelectionStep: (step: number) => void;
 }
 
 const FightModalMyTeam = ({
   fightModalOpen,
   mySelectedTeam,
   setMySelectedTeam,
+  setSelectionStep,
 }: Props) => {
   // se il valore di "myTeamOption" è true allora l'opzione selezionata sarà "Current Team"
   // altrimenti con falce l'opzione sarà "Saved Teams"
@@ -83,9 +85,9 @@ const FightModalMyTeam = ({
         <div className='flex flex-row justify-center items-center gap-2 w-full'>
           {getTeamComponentsCount(currentTeam) > 0 ? (
             <div
-              className={`border rounded-xl px-5 py-3 my-4 ${
+              className={`flex justify-center items-center gap-2 border rounded-xl px-5 py-3 my-4 ${
                 mySelectedTeam === currentTeam
-                  ? 'border-black/40 border-2'
+                  ? 'border-black border-2'
                   : 'border-gray-500/40'
               }`}
               onClick={() => {
@@ -133,7 +135,15 @@ const FightModalMyTeam = ({
       )}
 
       <div className='w-full flex justify-end'>
-        <Button variant={'sysOpt'} disabled={mySelectedTeam ? false : true}>
+        <Button
+          variant={'sysOpt'}
+          disabled={mySelectedTeam ? false : true}
+          onClick={() => {
+            if (mySelectedTeam) {
+              setSelectionStep(1);
+            }
+          }}
+        >
           Next
         </Button>
       </div>

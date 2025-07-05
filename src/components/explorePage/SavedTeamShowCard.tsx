@@ -17,7 +17,7 @@ const SavedTeamShowCard = ({
     <div
       className={`border rounded-xl w-full px-5 py-3 mb-3 ${
         mySelectedTeam === savedTeam.team
-          ? 'border-black/40 border-2'
+          ? 'border-black border-2'
           : 'border-gray-500/40'
       }`}
     >

@@ -12,6 +12,34 @@ interface Props {
 const FightModal = ({ fightModalOpen, setFightModalOpen }: Props) => {
   const [mySelectedTeam, setMySelectedTeam] = useState<PokeTeam>();
   const [enemySelectedTeam, setEnemySelectedTeam] = useState<PokeTeam>();
+  const [selectionStep, setSelectionStep] = useState<number>(0);
+  // 0 => select my pokemon team
+  // 1 => select enemy's pokemon team
+  // 2 => battle area
+
+  const getCurrentScena = (stage: number) => {
+    switch (stage) {
+      case 0:
+        return (
+          <FightModalMyTeam
+            fightModalOpen={fightModalOpen}
+            mySelectedTeam={mySelectedTeam}
+            setMySelectedTeam={setMySelectedTeam}
+            setSelectionStep={setSelectionStep}
+          />
+        );
+        break;
+
+      case 1:
+        break;
+
+      case 2:
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <Dialog open={fightModalOpen} onOpenChange={setFightModalOpen}>
@@ -22,13 +50,7 @@ const FightModal = ({ fightModalOpen, setFightModalOpen }: Props) => {
           </DialogTitle>
         </DialogHeader>
 
-        <div>
-          <FightModalMyTeam
-            fightModalOpen={fightModalOpen}
-            mySelectedTeam={mySelectedTeam}
-            setMySelectedTeam={setMySelectedTeam}
-          />
-        </div>
+        <div>{getCurrentScena(selectionStep)}</div>
       </DialogContent>
     </Dialog>
   );
