@@ -5,7 +5,7 @@ import { useAppSelector } from '../app/hooks';
 import { Search } from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
 import { Button } from '../components/ui/button';
-import FightModal from '../components/explorePage/FightModal';
+import FightModal from '../components/explorePage/battleFunction/FightModal';
 
 const ExplorePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -73,6 +73,7 @@ const ExplorePage = () => {
         }}
         fightModalOpen={isFightModalOpen}
         setFightModalOpen={setIsFightModalOpen}
+        startStep={0}
       />
     </div>
   );

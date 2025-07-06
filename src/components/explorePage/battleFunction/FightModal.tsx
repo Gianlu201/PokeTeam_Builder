@@ -1,18 +1,30 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import type { PokeTeam } from '../../types/myTypes';
+import { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '../../ui/dialog';
+import type { PokeTeam } from '../../../types/myTypes';
 import FightModalMyTeam from './FightModalMyTeam';
+import FightModalEnemyTeam from './FightModalEnemyTeam';
+import BattleScena from './BattleScena';
 
 interface Props {
   onClose: () => void;
   fightModalOpen: boolean;
   setFightModalOpen: (open: boolean) => void;
+  startStep: number;
 }
 
-const FightModal = ({ fightModalOpen, setFightModalOpen }: Props) => {
+const FightModal = ({
+  fightModalOpen,
+  setFightModalOpen,
+  startStep = 0,
+}: Props) => {
   const [mySelectedTeam, setMySelectedTeam] = useState<PokeTeam>();
   const [enemySelectedTeam, setEnemySelectedTeam] = useState<PokeTeam>();
-  const [selectionStep, setSelectionStep] = useState<number>(0);
+  const [selectionStep, setSelectionStep] = useState<number>(startStep);
   // 0 => select my pokemon team
   // 1 => select enemy's pokemon team
   // 2 => battle area
@@ -31,15 +43,36 @@ const FightModal = ({ fightModalOpen, setFightModalOpen }: Props) => {
         break;
 
       case 1:
+        return (
+          <FightModalEnemyTeam
+            enemySelectedTeam={enemySelectedTeam}
+            setEnemySelectedTeam={setEnemySelectedTeam}
+            setSelectionStep={setSelectionStep}
+          />
+        );
         break;
 
       case 2:
+        return (
+          <BattleScena
+            mySelectedTeam={mySelectedTeam}
+            enemySelectedTeam={enemySelectedTeam}
+          />
+        );
         break;
 
       default:
         break;
     }
   };
+
+  useEffect(() => {
+    if (fightModalOpen) {
+      setSelectionStep(0);
+      setMySelectedTeam(undefined);
+      setEnemySelectedTeam(undefined);
+    }
+  }, [fightModalOpen]);
 
   return (
     <Dialog open={fightModalOpen} onOpenChange={setFightModalOpen}>

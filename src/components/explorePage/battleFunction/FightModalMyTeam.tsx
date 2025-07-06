@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button } from '../ui/button';
-import { useAppSelector } from '../../app/hooks';
-import { getSelectedPokemonsMoves } from '../../utils/query';
-import { getTeamComponentsCount } from '../../utils/mainUtils';
-import SavedTeamShowCard from './SavedTeamShowCard';
-import type { PokeTeam } from '../../types/myTypes';
+import { Button } from '../../ui/button';
+import { useAppSelector } from '../../../app/hooks';
+import { getSelectedPokemonsMoves } from '../../../utils/query';
+import { getTeamComponentsCount } from '../../../utils/mainUtils';
+import SavedTeamShowCard from '../SavedTeamShowCard';
+import type { PokeTeam } from '../../../types/myTypes';
 
 interface Props {
   fightModalOpen: boolean;
@@ -50,6 +50,7 @@ const FightModalMyTeam = ({
     }
   };
 
+  // TODO! fix the function to run after the team choice
   useEffect(() => {
     if (fightModalOpen) {
       getMoves();
