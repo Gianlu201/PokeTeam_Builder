@@ -77,9 +77,11 @@ export const getSelectedPokemonsMoves = (idsArr: number[]) => `
       id
       name
       pokemon_v2_pokemonmoves(
-        where: {pokemon_v2_move: {power: {_is_null: false}}}
+        where: {
+          pokemon_v2_movelearnmethod: {name: {_eq: "level-up"}}
+          pokemon_v2_move: {power: {_is_null: false}}
+        }
         order_by: {pokemon_v2_move: {power: desc_nulls_last}}
-        limit: 30
       ) {
         pokemon_v2_move {
           id

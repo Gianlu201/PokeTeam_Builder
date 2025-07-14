@@ -10,7 +10,7 @@ export interface Pokemon {
   pokemon_v2_pokemonabilities: PokemonAbility[];
   pokemon_v2_pokemoncries: PokemonCry[];
   pokemon_v2_pokemonspecy: PokemonSpecy;
-  pokemon_v2_pokemonmoves: Pokemon_v2_move[] | null;
+  pokemon_v2_pokemonmoves: PokemonMoveEntry[] | null;
 }
 
 export interface PokemonType {
@@ -61,12 +61,17 @@ export interface PokemonColor {
   name: string;
 }
 
+export interface PokemonMoveEntry {
+  pokemon_v2_move: Pokemon_v2_move;
+}
+
 export interface Pokemon_v2_move {
   accuracy: number;
   id: number;
   name: string;
   pp: number;
   priority: number;
+  power: number;
 }
 
 // Evolution chain

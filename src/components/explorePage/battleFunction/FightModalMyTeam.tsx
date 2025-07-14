@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../ui/button';
 import { useAppSelector } from '../../../app/hooks';
-import { getSelectedPokemonsMoves } from '../../../utils/query';
 import { getTeamComponentsCount } from '../../../utils/mainUtils';
 import SavedTeamShowCard from '../SavedTeamShowCard';
 import type { PokeTeam } from '../../../types/myTypes';
@@ -25,37 +24,6 @@ const FightModalMyTeam = ({
 
   const currentTeam = useAppSelector((state) => state.teams.currentTeam);
   const savedTeams = useAppSelector((state) => state.teams.savedTeams);
-
-  const getMoves = async () => {
-    try {
-      const query = getSelectedPokemonsMoves([3, 6, 9]);
-      console.info(query);
-
-      const response = await fetch('https://beta.pokeapi.co/graphql/v1beta', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.info(data);
-      } else {
-        throw new Error('Error in fetching datas');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // TODO! fix the function to run after the team choice
-  useEffect(() => {
-    if (fightModalOpen) {
-      getMoves();
-    }
-  }, [fightModalOpen]);
 
   return (
     <div className='flex flex-col items-center justify-start'>
