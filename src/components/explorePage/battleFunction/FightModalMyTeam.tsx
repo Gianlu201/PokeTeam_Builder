@@ -13,13 +13,12 @@ interface Props {
 }
 
 const FightModalMyTeam = ({
-  fightModalOpen,
   mySelectedTeam,
   setMySelectedTeam,
   setSelectionStep,
 }: Props) => {
   // se il valore di "myTeamOption" è true allora l'opzione selezionata sarà "Current Team"
-  // altrimenti con falce l'opzione sarà "Saved Teams"
+  // altrimenti con false l'opzione sarà "Saved Teams"
   const [myTeamOption, setMyTeamOption] = useState<boolean>(true);
 
   const currentTeam = useAppSelector((state) => state.teams.currentTeam);

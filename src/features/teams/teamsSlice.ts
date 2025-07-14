@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { PokeTeam, SavedTeam } from '../../types/myTypes';
+import { saveToLocalStorage } from '../../utils/localStorage';
 
 interface TeamsState {
   currentTeam: PokeTeam;
@@ -29,6 +30,7 @@ const teamsSlice = createSlice({
     },
     addTeamToSaved(state, action: PayloadAction<SavedTeam>) {
       state.savedTeams.push(action.payload);
+      saveToLocalStorage('savedTeams', JSON.stringify(state.savedTeams));
     },
     removeSavedTeam(state, action: PayloadAction<SavedTeam>) {
       let index: number = -1;
@@ -50,6 +52,7 @@ const teamsSlice = createSlice({
       }
 
       state.savedTeams = tempArr;
+      saveToLocalStorage('savedTeams', JSON.stringify(state.savedTeams));
     },
   },
 });

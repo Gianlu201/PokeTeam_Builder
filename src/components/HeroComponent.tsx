@@ -11,6 +11,9 @@ import {
   setReduxPokemonList,
 } from '../features/pokemon/pokemonSlice';
 import { useEffect } from 'react';
+import { recoveryFromLocalStorage } from '../utils/localStorage';
+import type { SavedTeam } from '../types/myTypes';
+import { addTeamToSaved } from '../features/teams/teamsSlice';
 
 const HeroComponent = () => {
   const location = useLocation();
@@ -73,9 +76,21 @@ const HeroComponent = () => {
     }
   };
 
+  const recoveryDatasFromLocalStorage = () => {
+    const savedTeamsString = recoveryFromLocalStorage('savedTeams');
+
+    if (savedTeamsString) {
+      const savedTeamsDatas = JSON.parse(savedTeamsString) as SavedTeam[];
+
+      savedTeamsDatas.forEach((team) => dispatch(addTeamToSaved(team)));
+    }
+  };
+
   useEffect(() => {
     getAllPokemons();
     getAllEvolutionChains();
+
+    recoveryDatasFromLocalStorage();
   }, []);
 
   return (
