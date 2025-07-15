@@ -70,7 +70,7 @@ const TeamPokemonSlot = ({ pokemon, index, isMyTeam }: Props) => {
 
       <div>
         <img
-          src={pokemon.pokemon_v2_pokemonsprites[0].sprites ?? ''}
+          src={pokemon.pokemon_v2_pokemonsprites[0].front_sprite ?? ''}
           alt={pokemon.name}
           className='block mx-auto'
         />

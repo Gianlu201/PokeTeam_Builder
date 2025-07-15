@@ -20,7 +20,8 @@ export const getAllPokemonsQuery = `
               base_stat
             }
             pokemon_v2_pokemonsprites {
-              sprites(path: "front_default")
+              front_sprite: sprites(path: "front_default")
+              back_sprite: sprites(path: "back_default")
             }
             pokemon_v2_pokemonabilities {
               ability_id

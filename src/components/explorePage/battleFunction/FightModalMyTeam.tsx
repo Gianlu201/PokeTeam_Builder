@@ -68,7 +68,8 @@ const FightModalMyTeam = ({
                     <div key={pokemon?.id}>
                       <img
                         src={
-                          pokemon?.pokemon_v2_pokemonsprites[0].sprites ?? ''
+                          pokemon?.pokemon_v2_pokemonsprites[0].front_sprite ??
+                          ''
                         }
                         alt={pokemon?.name}
                       />

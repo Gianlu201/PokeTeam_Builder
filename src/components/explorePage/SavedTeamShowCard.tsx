@@ -39,7 +39,7 @@ const SavedTeamShowCard = ({
             return (
               <div key={pokemon.id}>
                 <img
-                  src={pokemon.pokemon_v2_pokemonsprites[0].sprites ?? ''}
+                  src={pokemon.pokemon_v2_pokemonsprites[0].front_sprite ?? ''}
                   alt={pokemon.name}
                   className='max-w-[60px]'
                 />

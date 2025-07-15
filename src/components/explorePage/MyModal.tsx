@@ -100,10 +100,11 @@ const MyModal = ({
           <div className='mt-4 text-center text-xl flex justify-center'>
             <img
               src={
-                selectedPokemon.pokemon_v2_pokemonsprites?.[0]?.sprites ?? ''
+                selectedPokemon.pokemon_v2_pokemonsprites?.[0]?.front_sprite ??
+                ''
               }
               alt={selectedPokemon.name}
-              className='w-1/3 bg-gray-400/20 rounded-full p-1'
+              className='w-1/4 bg-gray-400/20 rounded-full p-1'
             />
           </div>
 
@@ -169,7 +170,7 @@ const MyModal = ({
                         {evolution.name}
                       </h4>
                       {evolution.id === selectedPokemon.id ? (
-                        <h5 className='text-sm bg-white border border-primary/60 rounded-full shadow-md text-center font-medium inline-block px-3 py-0.5 pb-1'>
+                        <h5 className='text-sm bg-primary text-white border border-primary/60 rounded-full shadow-md text-center font-medium inline-block px-3 py-0.5 pb-1'>
                           Current
                         </h5>
                       ) : (

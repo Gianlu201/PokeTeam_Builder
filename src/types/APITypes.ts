@@ -31,7 +31,8 @@ export interface PokemonV2Stat {
 }
 
 export interface PokemonSprite {
-  sprites: string | null;
+  front_sprite: string | null;
+  back_sprite: string | null;
 }
 
 export interface PokemonAbility {

@@ -58,7 +58,7 @@ const PokemonBox = ({ pokemonList }: Params) => {
         ))}
 
         {selectedPokemon != null &&
-          selectedPokemon.pokemon_v2_pokemonsprites[0].sprites != null && (
+          selectedPokemon.pokemon_v2_pokemonsprites[0].front_sprite != null && (
             <MyModal
               selectedPokemon={selectedPokemon}
               setSelectedPokemon={setSelectedPokemon}

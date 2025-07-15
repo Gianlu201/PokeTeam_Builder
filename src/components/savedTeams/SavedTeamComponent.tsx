@@ -53,7 +53,7 @@ const SavedTeamCompontnt = ({ team }: Props) => {
             return (
               <div className='flex justify-between items-start gap-2 bg-background border border-gray-300/30 rounded-md shadow px-3 py-2'>
                 <img
-                  src={pokemon?.pokemon_v2_pokemonsprites[0].sprites ?? ''}
+                  src={pokemon?.pokemon_v2_pokemonsprites[0].front_sprite ?? ''}
                   alt={pokemon?.name}
                   className='max-w-[50px]'
                 />
