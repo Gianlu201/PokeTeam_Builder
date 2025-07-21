@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Pokemon } from '../../../types/APITypes';
 import { teamPreparation } from '../../../utils/mainUtils';
 import type { PokeTeam } from '../../../types/myTypes';
-import PokeScooter from './pokeScooter';
+import PokeScooter from './PokeScooter';
 
 interface Props {
   mySelectedTeam: PokeTeam | undefined;

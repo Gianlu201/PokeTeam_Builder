@@ -1,3 +1,5 @@
+import PokeBall from '../../PokeBall';
+
 interface Props {
   pokeName: string;
 }
@@ -16,8 +18,8 @@ const PokeScooter = ({ pokeName }: Props) => {
       </div>
 
       <div className='flex gap-2 justify-start items-center mt-1'>
-        <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
-        <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
+        <PokeBall alive={true} />
+        <PokeBall alive={false} />
         <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
         <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
         <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
