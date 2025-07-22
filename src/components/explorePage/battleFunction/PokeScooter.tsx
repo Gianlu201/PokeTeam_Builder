@@ -2,9 +2,13 @@ import PokeBall from '../../PokeBall';
 
 interface Props {
   pokeName: string;
+  teamCount: number;
+  pokemonDeadCounter: number;
 }
 
-const PokeScooter = ({ pokeName }: Props) => {
+const positions = [1, 2, 3, 4, 5, 6];
+
+const PokeScooter = ({ pokeName, teamCount, pokemonDeadCounter }: Props) => {
   return (
     <>
       <div className='grid grid-cols-4 gap-2 bg-gray-300 mt-10 px-3 py-1'>
@@ -18,12 +22,17 @@ const PokeScooter = ({ pokeName }: Props) => {
       </div>
 
       <div className='flex gap-2 justify-start items-center mt-1'>
-        <PokeBall alive={true} />
-        <PokeBall alive={false} />
-        <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
-        <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
-        <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
-        <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
+        {positions.map((i) => {
+          if (pokemonDeadCounter >= i) {
+            return <PokeBall alive={false} />;
+          } else if (teamCount >= i) {
+            return <PokeBall alive={true} />;
+          } else {
+            return (
+              <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
+            );
+          }
+        })}
       </div>
     </>
   );

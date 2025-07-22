@@ -76,14 +76,16 @@ const FightModal = ({
 
   return (
     <Dialog open={fightModalOpen} onOpenChange={setFightModalOpen}>
-      <DialogContent className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'>
+      <DialogContent className='min-h-[500px] max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto flex flex-col items-start'>
         <DialogHeader>
           <DialogTitle className='text-2xl font-bold'>
             Pokémon Battle Arena
           </DialogTitle>
         </DialogHeader>
 
-        <div>{getCurrentScena(selectionStep)}</div>
+        <div className='w-full border border-red-500 h-[100vh]'>
+          {getCurrentScena(selectionStep)}
+        </div>
       </DialogContent>
     </Dialog>
   );

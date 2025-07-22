@@ -25,7 +25,7 @@ const FightModalMyTeam = ({
   const savedTeams = useAppSelector((state) => state.teams.savedTeams);
 
   return (
-    <div className='flex flex-col items-center justify-start'>
+    <div className='flex flex-col items-center justify-start h-[100%] relative'>
       <h2>Select your team</h2>
       <p>Choose between your saved teams or your current team</p>
       <div className='bg-gray-400/20 rounded-lg p-0.5'>
@@ -103,19 +103,18 @@ const FightModalMyTeam = ({
         </div>
       )}
 
-      <div className='w-full flex justify-end'>
-        <Button
-          variant={'sysOpt'}
-          disabled={mySelectedTeam ? false : true}
-          onClick={() => {
-            if (mySelectedTeam) {
-              setSelectionStep(1);
-            }
-          }}
-        >
-          Next
-        </Button>
-      </div>
+      <Button
+        className='fixed bottom-6 right-6'
+        variant={'sysOpt'}
+        disabled={mySelectedTeam ? false : true}
+        onClick={() => {
+          if (mySelectedTeam) {
+            setSelectionStep(1);
+          }
+        }}
+      >
+        Next
+      </Button>
     </div>
   );
 };
