@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Pokemon } from '../../../types/APITypes';
+import { Pokemon_v2_move, type Pokemon } from '../../../types/APITypes';
 import { teamPreparation } from '../../../utils/mainUtils';
 import type { PokeTeam } from '../../../types/myTypes';
 import PokeScooter from './PokeScooter';
@@ -20,20 +20,57 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
   const [enemyCurrentPokemonIndex, setEnemyCurrentPokemonIndex] =
     useState<number>(0);
 
-  // se currentTurn è vero sarà il mio turno, altrimenti sarà il turno dell'avversario
+  // se currentTurn è vero sarà il turno di scegliere la mossa, altrimenti le mosse vengono nascoste
   const [currentTurn, setCurrentTurn] = useState<boolean>(true);
+
+  const [currentPokemonLife, setCurrentPokemonLife] = useState<number>(1);
+  const [currentEnemyLife, setCurrentEnemyLife] = useState<number>(1);
+
+  const [chosenMove, setChosenMove] = useState<Pokemon_v2_move | null>(null);
 
   const handleTeam = async (team: Pokemon[], teamOption: number) => {
     const squad = await teamPreparation(team);
-    console.log('CI ENTRO');
+
     if (teamOption === 1) {
-      console.log('MY TEAM');
-      console.info(squad);
       setMyTeam(squad);
     } else if (teamOption === 2) {
-      console.log('ENEMY TEAM');
-      console.info(squad);
       setEnemyTeam(squad);
+    }
+  };
+
+  const battleTime = () => {
+    setCurrentTurn(false);
+
+    const enemy =
+      currentEnemyLife -
+      (chosenMove!.power *
+        myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[1].base_stat) /
+        100;
+
+    // if (currentPokemonLife <= 0) {
+    //       setMyDiedPokemon((state) => state + 1);
+    //       setMyCurrentPokemonIndex((state) => state + 1);
+    //     }
+    if (enemy <= 0) {
+      setEnemyDiedPokemon((state) => state + 1);
+      setEnemyCurrentPokemonIndex((state) => state + 1);
+      setCurrentEnemyLife(
+        enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+          .base_stat * 10
+      );
+    } else {
+      setCurrentEnemyLife(enemy);
+    }
+    setTimeout(() => {
+      setChosenMove(null);
+      setCurrentTurn(true);
+    }, 1000);
+  };
+
+  const getRandomEnemyMove = () => {
+    if (enemyTeam.length > 0 && enemyCurrentPokemonIndex >= 0) {
+      return enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonmoves[0]
+        .pokemon_v2_move;
     }
   };
 
@@ -45,6 +82,7 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
         }
       }) as Pokemon[];
       handleTeam(team1 as Pokemon[], 1);
+      setCurrentPokemonLife(team1[0].pokemon_v2_pokemonstats[0].base_stat * 10);
     }
     if (enemySelectedTeam && enemySelectedTeam.length > 0) {
       const team2 = enemySelectedTeam.map((slot) => {
@@ -53,8 +91,15 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
         }
       }) as Pokemon[];
       handleTeam(team2 as Pokemon[], 2);
+      setCurrentEnemyLife(team2[0].pokemon_v2_pokemonstats[0].base_stat * 10);
     }
   }, []);
+
+  useEffect(() => {
+    if (chosenMove) {
+      battleTime();
+    }
+  }, [chosenMove]);
 
   useEffect(() => {
     if (myTeam.length > 0 && enemyTeam.length > 0) {
@@ -78,6 +123,11 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
               <div className='col-span-5'>
                 <PokeScooter
                   pokeName={enemyTeam[enemyCurrentPokemonIndex].name}
+                  maxPokeHp={
+                    enemyTeam[enemyCurrentPokemonIndex]
+                      .pokemon_v2_pokemonstats[0].base_stat * 10
+                  }
+                  pokeHp={currentEnemyLife}
                   teamCount={enemyTeam.length}
                   pokemonDeadCounter={enemyDiedPokemon}
                 />
@@ -109,6 +159,11 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
               <div className='col-span-5'>
                 <PokeScooter
                   pokeName={myTeam[myCurrentPokemonIndex].name}
+                  maxPokeHp={
+                    myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[0]
+                      .base_stat * 10
+                  }
+                  pokeHp={currentPokemonLife}
                   teamCount={myTeam.length}
                   pokemonDeadCounter={myDiedPokemon}
                 />
@@ -122,6 +177,7 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
                     moves={
                       myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves
                     }
+                    setChosenMove={setChosenMove}
                   />
                 )}
               <p className='bg-gray-100 rounded-md px-1 text-sm font-medium'>

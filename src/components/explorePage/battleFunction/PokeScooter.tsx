@@ -1,20 +1,49 @@
+import { useEffect, useState } from 'react';
 import PokeBall from '../../PokeBall';
 
 interface Props {
   pokeName: string;
+  pokeHp: number;
+  maxPokeHp: number;
   teamCount: number;
   pokemonDeadCounter: number;
 }
 
 const positions = [1, 2, 3, 4, 5, 6];
 
-const PokeScooter = ({ pokeName, teamCount, pokemonDeadCounter }: Props) => {
+const PokeScooter = ({
+  pokeName,
+  maxPokeHp,
+  pokeHp,
+  teamCount,
+  pokemonDeadCounter,
+}: Props) => {
+  const [currentPokeHp, setCurrentPokeHp] = useState<number>();
+
+  const getLifeBarPercentual = () => {
+    return (currentPokeHp * 100) / maxPokeHp;
+  };
+
+  useEffect(() => {
+    setCurrentPokeHp(pokeHp);
+  }, [pokeHp]);
+
   return (
     <>
       <div className='grid grid-cols-4 gap-2 bg-gray-300 mt-10 px-3 py-1'>
         <div className='col-span-3 flex flex-col gap-2'>
           <h4 className='font-bold capitalize'>{pokeName}</h4>
-          <div className='w-full h-[8px] bg-green-500 border border-gray-800/60 rounded-full mb-2'></div>
+          <div className='flex justify-start items-center gap-2'>
+            <div className='w-full h-[8px] bg-gray-500 border border-gray-800/60 rounded-full mb-2'>
+              <div
+                className='h-full bg-green-500'
+                style={{ width: `${getLifeBarPercentual()}%` }}
+              ></div>
+            </div>
+            <p>
+              {pokeHp.toFixed(2)}/{maxPokeHp}
+            </p>
+          </div>
         </div>
         <div className='col-span-1'>
           <span className='font-bold text-xs'>Lv. 50</span>
