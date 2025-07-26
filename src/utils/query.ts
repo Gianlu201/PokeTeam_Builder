@@ -91,6 +91,10 @@ export const getSelectedPokemonsMoves = (idsArr: number[]) => `
           accuracy
           pp
           priority
+          pokemon_v2_type {
+            id
+            name
+          }
         }
       }
     }

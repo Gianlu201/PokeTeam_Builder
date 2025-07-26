@@ -83,9 +83,7 @@ const FightModal = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className='w-full border border-red-500 h-[100vh]'>
-          {getCurrentScena(selectionStep)}
-        </div>
+        <div className='w-full h-[100vh]'>{getCurrentScena(selectionStep)}</div>
       </DialogContent>
     </Dialog>
   );

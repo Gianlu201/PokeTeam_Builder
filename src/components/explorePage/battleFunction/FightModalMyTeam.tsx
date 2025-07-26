@@ -88,7 +88,7 @@ const FightModalMyTeam = ({
       ) : (
         <div className='w-full'>
           {savedTeams.length > 0 ? (
-            <div>
+            <div className='mt-4'>
               {savedTeams.map((team) => (
                 <SavedTeamShowCard
                   savedTeam={team}

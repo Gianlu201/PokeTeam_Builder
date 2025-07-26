@@ -73,6 +73,12 @@ export interface Pokemon_v2_move {
   pp: number;
   priority: number;
   power: number;
+  pokemon_v2_type: Pokemon_v2_type;
+}
+
+export interface Pokemon_v2_type {
+  id: number;
+  name: string;
 }
 
 // Evolution chain

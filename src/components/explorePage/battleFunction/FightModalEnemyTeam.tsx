@@ -52,7 +52,7 @@ const FightModalEnemyTeam = ({
         {teamOption ? (
           <EnemyTeamFormation />
         ) : (
-          <div className='flex flex-row justify-center items-center gap-2 w-full'>
+          <div className='flex flex-row justify-center items-center gap-2 w-full mt-4'>
             <div className='w-full'>
               {savedTeams.length > 0 ? (
                 <div>

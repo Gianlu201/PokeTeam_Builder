@@ -28,7 +28,7 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
 
   const [chosenMove, setChosenMove] = useState<Pokemon_v2_move | null>(null);
 
-  const [battleLogs, setBattleLogs] = useState<string[]>([]);
+  const [battleLogs, setBattleLogs] = useState<string[]>(['Battle started!']);
 
   const [battleEnded, setBattleEnded] = useState<boolean>(false);
 
@@ -102,6 +102,11 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
             setBattleEnded(true);
             setBattleResult(true);
           } else {
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${enemyTeam[enemyCurrentPokemonIndex].name} enemy is exhausted and can no longer fight!`
+              )
+            );
             setEnemyDiedPokemon((state) => state + 1);
             setEnemyCurrentPokemonIndex((state) => state + 1);
             setCurrentEnemyLife(
@@ -144,6 +149,11 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
             setBattleEnded(true);
             setBattleResult(false);
           } else {
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${myTeam[myCurrentPokemonIndex].name} is exhausted and can no longer fight!`
+              )
+            );
             setMyDiedPokemon((state) => state + 1);
             setMyCurrentPokemonIndex((state) => state + 1);
             setCurrentPokemonLife(
@@ -183,12 +193,29 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
         );
 
         if (myPokemonLife <= 0) {
-          setMyDiedPokemon((state) => state + 1);
-          setMyCurrentPokemonIndex((state) => state + 1);
-          setCurrentPokemonLife(
-            myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-              .base_stat * 10
-          );
+          if (myDiedPokemon + 1 === myTeam.length) {
+            setBattleEnded(true);
+            setBattleResult(false);
+          } else {
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${myTeam[myCurrentPokemonIndex].name} is exhausted and can no longer fight!`
+              )
+            );
+            setMyDiedPokemon((state) => state + 1);
+            setMyCurrentPokemonIndex((state) => state + 1);
+            setCurrentPokemonLife(
+              myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+                .base_stat * 10
+            );
+
+            setTimeout(() => {
+              setChosenMove(null);
+              setCurrentTurn(true);
+            }, 1000);
+          }
+
+          return;
         } else {
           setCurrentPokemonLife(myPokemonLife);
         }
@@ -213,12 +240,29 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
         );
 
         if (enemyLife <= 0) {
-          setEnemyDiedPokemon((state) => state + 1);
-          setEnemyCurrentPokemonIndex((state) => state + 1);
-          setCurrentEnemyLife(
-            enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-              .base_stat * 10
-          );
+          if (enemyDiedPokemon + 1 === enemyTeam.length) {
+            setBattleEnded(true);
+            setBattleResult(true);
+          } else {
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${enemyTeam[enemyCurrentPokemonIndex].name} enemy is exhausted and can no longer fight!`
+              )
+            );
+            setEnemyDiedPokemon((state) => state + 1);
+            setEnemyCurrentPokemonIndex((state) => state + 1);
+            setCurrentEnemyLife(
+              enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+                .base_stat * 10
+            );
+
+            setTimeout(() => {
+              setChosenMove(null);
+              setCurrentTurn(true);
+            }, 1000);
+          }
+
+          return;
         } else {
           setCurrentEnemyLife(enemyLife);
         }
@@ -342,15 +386,15 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
               </div>
 
               <div className='absolute left-0 bottom-2 w-full px-2'>
-                {currentTurn &&
-                  myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves && (
-                    <PokemonMovesOptions
-                      moves={
-                        myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves
-                      }
-                      setChosenMove={setChosenMove}
-                    />
-                  )}
+                {myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves && (
+                  <PokemonMovesOptions
+                    moves={
+                      myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves
+                    }
+                    setChosenMove={setChosenMove}
+                    currentTurn={currentTurn}
+                  />
+                )}
                 <p className='bg-gray-100 rounded-md px-1 text-sm font-medium'>
                   {currentTurn ? 'Choose your move..' : 'Fighting..'}
                 </p>

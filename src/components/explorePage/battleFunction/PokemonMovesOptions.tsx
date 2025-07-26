@@ -7,11 +7,16 @@ import PokemonMove from './PokemonMove';
 interface Props {
   moves: PokemonMoveEntry[];
   setChosenMove: (move: Pokemon_v2_move) => void;
+  currentTurn: boolean;
 }
 
-const PokemonMovesOptions = ({ moves, setChosenMove }: Props) => {
+const PokemonMovesOptions = ({ moves, setChosenMove, currentTurn }: Props) => {
   return (
-    <div className='w-1/2 p-1 bg-gray-200/60 rounded'>
+    <div
+      className={`w-1/2 p-1 bg-gray-200/60 rounded ${
+        currentTurn ? '' : 'hidden'
+      }`}
+    >
       <div className='grid grid-cols-2 gap-1 mb-1'>
         <PokemonMove
           move={moves[0].pokemon_v2_move}

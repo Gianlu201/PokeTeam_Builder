@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Pokemon_v2_move } from '../../../types/APITypes';
 
 interface Props {
@@ -8,6 +8,10 @@ interface Props {
 
 const PokemonMove = ({ move, setChosenMove }: Props) => {
   const [currentPP, setCurrentPP] = useState<number>(move.pp);
+
+  useEffect(() => {
+    setCurrentPP(move.pp);
+  }, [move]);
 
   return (
     <div
