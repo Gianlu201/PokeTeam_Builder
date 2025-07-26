@@ -21,7 +21,9 @@ const PokeScooter = ({
   const [currentPokeHp, setCurrentPokeHp] = useState<number>();
 
   const getLifeBarPercentual = () => {
-    return (currentPokeHp * 100) / maxPokeHp;
+    if (currentPokeHp) {
+      return (currentPokeHp * 100) / maxPokeHp;
+    }
   };
 
   useEffect(() => {
@@ -40,8 +42,8 @@ const PokeScooter = ({
                 style={{ width: `${getLifeBarPercentual()}%` }}
               ></div>
             </div>
-            <p>
-              {pokeHp.toFixed(2)}/{maxPokeHp}
+            <p className='text-xs font-semibold'>
+              {pokeHp.toFixed(0)}/{maxPokeHp}
             </p>
           </div>
         </div>

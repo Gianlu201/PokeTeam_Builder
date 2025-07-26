@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pokemon_v2_move, type Pokemon } from '../../../types/APITypes';
+import { type Pokemon_v2_move, type Pokemon } from '../../../types/APITypes';
 import { teamPreparation } from '../../../utils/mainUtils';
 import type { PokeTeam } from '../../../types/myTypes';
 import PokeScooter from './PokeScooter';
@@ -28,6 +28,13 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
 
   const [chosenMove, setChosenMove] = useState<Pokemon_v2_move | null>(null);
 
+  const [battleLogs, setBattleLogs] = useState<string[]>([]);
+
+  const [battleEnded, setBattleEnded] = useState<boolean>(false);
+
+  // se battleResult è true hai vinto, altrimenti hai perso
+  const [battleResult, setBattleResult] = useState<boolean>();
+
   const handleTeam = async (team: Pokemon[], teamOption: number) => {
     const squad = await teamPreparation(team);
 
@@ -41,26 +48,183 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
   const battleTime = () => {
     setCurrentTurn(false);
 
-    const enemy =
-      currentEnemyLife -
-      (chosenMove!.power *
-        myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[1].base_stat) /
-        100;
+    // se firstToAttack è true allora colpirà per primo il mio pokemon
+    // se firstToAttack è false allora colpirà per primo il pokemon nemico
+    let firstToAttack = true;
 
-    // if (currentPokemonLife <= 0) {
-    //       setMyDiedPokemon((state) => state + 1);
-    //       setMyCurrentPokemonIndex((state) => state + 1);
-    //     }
-    if (enemy <= 0) {
-      setEnemyDiedPokemon((state) => state + 1);
-      setEnemyCurrentPokemonIndex((state) => state + 1);
-      setCurrentEnemyLife(
-        enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-          .base_stat * 10
-      );
-    } else {
-      setCurrentEnemyLife(enemy);
+    const enemyMove = getRandomEnemyMove();
+
+    if (enemyMove && chosenMove) {
+      switch (true) {
+        case enemyMove?.priority > chosenMove?.priority:
+          firstToAttack = false;
+          break;
+
+        case enemyMove?.priority === chosenMove?.priority:
+          // se le priorità delle mosse sono uguali si confronta la velocità dei pokemon
+          if (
+            myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[5] <
+            enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonstats[5]
+          ) {
+            // colpisce per primo il pokemon nemico
+            firstToAttack = false;
+          }
+          break;
+
+        default:
+          break;
+      }
+
+      if (firstToAttack) {
+        // il primo ad attaccare è il mio pokemon
+
+        const enemyLife =
+          currentEnemyLife -
+          (chosenMove!.power *
+            myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+              .base_stat) /
+            100;
+        setBattleLogs((logs) =>
+          logs.concat(
+            `${myTeam[myCurrentPokemonIndex].name} uses ${
+              chosenMove.name
+            } and makes ${
+              (chosenMove.power *
+                myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+                  .base_stat) /
+              100
+            } damages!`
+          )
+        );
+
+        if (enemyLife <= 0) {
+          if (enemyDiedPokemon + 1 === enemyTeam.length) {
+            setBattleEnded(true);
+            setBattleResult(true);
+          } else {
+            setEnemyDiedPokemon((state) => state + 1);
+            setEnemyCurrentPokemonIndex((state) => state + 1);
+            setCurrentEnemyLife(
+              enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+                .base_stat * 10
+            );
+
+            setTimeout(() => {
+              setChosenMove(null);
+              setCurrentTurn(true);
+            }, 1000);
+          }
+
+          return;
+        } else {
+          setCurrentEnemyLife(enemyLife);
+        }
+
+        const myPokemonLife =
+          currentPokemonLife -
+          (enemyMove!.power *
+            enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+              .base_stat) /
+            100;
+        setBattleLogs((logs) =>
+          logs.concat(
+            `${enemyTeam[enemyCurrentPokemonIndex].name} enemy uses ${
+              enemyMove.name
+            } and makes ${
+              (enemyMove.power *
+                enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+                  .base_stat) /
+              100
+            } damages!`
+          )
+        );
+
+        if (myPokemonLife <= 0) {
+          if (myDiedPokemon + 1 === myTeam.length) {
+            setBattleEnded(true);
+            setBattleResult(false);
+          } else {
+            setMyDiedPokemon((state) => state + 1);
+            setMyCurrentPokemonIndex((state) => state + 1);
+            setCurrentPokemonLife(
+              myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+                .base_stat * 10
+            );
+
+            setTimeout(() => {
+              setChosenMove(null);
+              setCurrentTurn(true);
+            }, 1000);
+          }
+
+          return;
+        } else {
+          setCurrentPokemonLife(myPokemonLife);
+        }
+      } else {
+        // il primo ad attaccare è il pokemon nemico
+        const myPokemonLife =
+          currentPokemonLife -
+          (enemyMove!.power *
+            enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+              .base_stat) /
+            100;
+        setBattleLogs((logs) =>
+          logs.concat(
+            `${enemyTeam[enemyCurrentPokemonIndex].name} enemy uses ${
+              enemyMove.name
+            } and makes ${
+              (enemyMove.power *
+                enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+                  .base_stat) /
+              100
+            } damages!`
+          )
+        );
+
+        if (myPokemonLife <= 0) {
+          setMyDiedPokemon((state) => state + 1);
+          setMyCurrentPokemonIndex((state) => state + 1);
+          setCurrentPokemonLife(
+            myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+              .base_stat * 10
+          );
+        } else {
+          setCurrentPokemonLife(myPokemonLife);
+        }
+
+        const enemyLife =
+          currentEnemyLife -
+          (chosenMove!.power *
+            myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+              .base_stat) /
+            100;
+        setBattleLogs((logs) =>
+          logs.concat(
+            `${myTeam[myCurrentPokemonIndex].name} uses ${
+              chosenMove.name
+            } and makes ${
+              (chosenMove.power *
+                myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[1]
+                  .base_stat) /
+              100
+            } damages!`
+          )
+        );
+
+        if (enemyLife <= 0) {
+          setEnemyDiedPokemon((state) => state + 1);
+          setEnemyCurrentPokemonIndex((state) => state + 1);
+          setCurrentEnemyLife(
+            enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+              .base_stat * 10
+          );
+        } else {
+          setCurrentEnemyLife(enemyLife);
+        }
+      }
     }
+
     setTimeout(() => {
       setChosenMove(null);
       setCurrentTurn(true);
@@ -68,9 +232,15 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
   };
 
   const getRandomEnemyMove = () => {
-    if (enemyTeam.length > 0 && enemyCurrentPokemonIndex >= 0) {
-      return enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonmoves[0]
-        .pokemon_v2_move;
+    const moveIndex = Math.floor(Math.random() * 4);
+    if (
+      enemyTeam.length > 0 &&
+      enemyCurrentPokemonIndex >= 0 &&
+      enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonmoves
+    ) {
+      return enemyTeam[enemyCurrentPokemonIndex].pokemon_v2_pokemonmoves[
+        moveIndex
+      ].pokemon_v2_move;
     }
   };
 
@@ -112,81 +282,93 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
     <>
       {myTeam.length > 0 && enemyTeam.length > 0 && (
         <div>
-          <div
-            className='max-w-[600px] max-h-[310px] mx-auto px-6 py-2 bg-no-repeat bg-contain relative'
-            style={{
-              backgroundImage: `url('public/images/battleBackground.jpg')`,
-            }}
-          >
-            {/* enemy team */}
-            <div className='grid grid-cols-12 items-start'>
-              <div className='col-span-5'>
-                <PokeScooter
-                  pokeName={enemyTeam[enemyCurrentPokemonIndex].name}
-                  maxPokeHp={
-                    enemyTeam[enemyCurrentPokemonIndex]
-                      .pokemon_v2_pokemonstats[0].base_stat * 10
-                  }
-                  pokeHp={currentEnemyLife}
-                  teamCount={enemyTeam.length}
-                  pokemonDeadCounter={enemyDiedPokemon}
-                />
-              </div>
-              <div className='col-span-7 flex justify-center items-center'>
-                <img
-                  className='w-[150px] h-[150px] relative top-14'
-                  src={
-                    enemyTeam[enemyCurrentPokemonIndex]
-                      .pokemon_v2_pokemonsprites[0].front_sprite ?? ''
-                  }
-                  alt={enemyTeam[enemyCurrentPokemonIndex].name}
-                />
-              </div>
-            </div>
-
-            {/* my team */}
-            <div className='grid grid-cols-12 items-start'>
-              <div className='col-span-7 flex justify-center items-center'>
-                <img
-                  className='w-[150px] h-[150px] relative bottom-6'
-                  src={
-                    myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonsprites[0]
-                      .back_sprite ?? ''
-                  }
-                  alt={myTeam[myCurrentPokemonIndex].name}
-                />
-              </div>
-              <div className='col-span-5'>
-                <PokeScooter
-                  pokeName={myTeam[myCurrentPokemonIndex].name}
-                  maxPokeHp={
-                    myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[0]
-                      .base_stat * 10
-                  }
-                  pokeHp={currentPokemonLife}
-                  teamCount={myTeam.length}
-                  pokemonDeadCounter={myDiedPokemon}
-                />
-              </div>
-            </div>
-
-            <div className='absolute left-0 bottom-2 w-full px-2'>
-              {currentTurn &&
-                myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves && (
-                  <PokemonMovesOptions
-                    moves={
-                      myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves
+          {!battleEnded && (
+            <div
+              className='max-w-[600px] max-h-[310px] mx-auto px-6 py-2 bg-no-repeat bg-contain relative'
+              style={{
+                backgroundImage: `url('/images/battleBackground.jpg')`,
+              }}
+            >
+              {/* enemy team */}
+              <div className='grid grid-cols-12 items-start'>
+                <div className='col-span-5'>
+                  <PokeScooter
+                    pokeName={enemyTeam[enemyCurrentPokemonIndex].name}
+                    maxPokeHp={
+                      enemyTeam[enemyCurrentPokemonIndex]
+                        .pokemon_v2_pokemonstats[0].base_stat * 10
                     }
-                    setChosenMove={setChosenMove}
+                    pokeHp={currentEnemyLife}
+                    teamCount={enemyTeam.length}
+                    pokemonDeadCounter={enemyDiedPokemon}
                   />
-                )}
-              <p className='bg-gray-100 rounded-md px-1 text-sm font-medium'>
-                {currentTurn ? 'Choose your move..' : 'Fighting..'}
-              </p>
-            </div>
-          </div>
+                </div>
+                <div className='col-span-7 flex justify-center items-center'>
+                  <img
+                    className='w-[150px] h-[150px] relative top-14'
+                    src={
+                      enemyTeam[enemyCurrentPokemonIndex]
+                        .pokemon_v2_pokemonsprites[0].front_sprite ?? ''
+                    }
+                    alt={enemyTeam[enemyCurrentPokemonIndex].name}
+                  />
+                </div>
+              </div>
 
-          <FightLogs />
+              {/* my team */}
+              <div className='grid grid-cols-12 items-start'>
+                <div className='col-span-7 flex justify-center items-center'>
+                  <img
+                    className='w-[150px] h-[150px] relative bottom-6'
+                    src={
+                      myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonsprites[0]
+                        .back_sprite ?? ''
+                    }
+                    alt={myTeam[myCurrentPokemonIndex].name}
+                  />
+                </div>
+                <div className='col-span-5'>
+                  <PokeScooter
+                    pokeName={myTeam[myCurrentPokemonIndex].name}
+                    maxPokeHp={
+                      myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonstats[0]
+                        .base_stat * 10
+                    }
+                    pokeHp={currentPokemonLife}
+                    teamCount={myTeam.length}
+                    pokemonDeadCounter={myDiedPokemon}
+                  />
+                </div>
+              </div>
+
+              <div className='absolute left-0 bottom-2 w-full px-2'>
+                {currentTurn &&
+                  myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves && (
+                    <PokemonMovesOptions
+                      moves={
+                        myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonmoves
+                      }
+                      setChosenMove={setChosenMove}
+                    />
+                  )}
+                <p className='bg-gray-100 rounded-md px-1 text-sm font-medium'>
+                  {currentTurn ? 'Choose your move..' : 'Fighting..'}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {battleEnded && (
+            <>
+              {battleResult ? (
+                <h3>Complimenti hai vinto</h3>
+              ) : (
+                <h3>Hai perso, sarà per la prossima</h3>
+              )}
+            </>
+          )}
+
+          <FightLogs logs={battleLogs} />
         </div>
       )}
     </>
