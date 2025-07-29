@@ -3,6 +3,7 @@ import TeamBox from '../components/teamPage/TeamBox';
 import { useAppSelector } from '../app/hooks';
 import { getTeamComponentsCount } from '../utils/mainUtils';
 import TeamAnalysis from '../components/teamPage/TeamAnalysis';
+import SuggestedTeam from '../components/teamPage/SuggestedTeam';
 
 const TeamPage = () => {
   const currentTeam = useAppSelector((state) => state.teams.currentTeam);
@@ -24,7 +25,9 @@ const TeamPage = () => {
 
         <TeamBox pokeTeam={currentTeam} isMyTeam={true} />
       </div>
-      {getTeamComponentsCount(currentTeam) > 0 && <TeamAnalysis />}
+      {getTeamComponentsCount(currentTeam) > 0 && (
+        <TeamAnalysis pokeTeam={currentTeam} />
+      )}
 
       {/* enemy team */}
       <div className='bg-red-100/80 border border-gray-300/40 rounded-xl mx-2 my-7 p-6 shadow-lg'>
@@ -40,6 +43,9 @@ const TeamPage = () => {
 
         <TeamBox pokeTeam={enemyTeam} isMyTeam={false} />
       </div>
+      {getTeamComponentsCount(enemyTeam) > 0 && (
+        <SuggestedTeam pokeTeam={enemyTeam} />
+      )}
     </div>
   );
 };

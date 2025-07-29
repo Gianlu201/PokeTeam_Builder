@@ -47,7 +47,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
 
   return (
     <div
-      className='text-white rounded-xl p-4 cursor-pointer duration-300 hover:scale-105 hover:opacity-90 hover:animate-poke-jump'
+      className='text-white rounded-xl p-4 cursor-pointer duration-300 hover:scale-105 hover:opacity-90 hover:animate-poke-jump shadow-md shadow-black/40'
       style={{ background: getTypeGradient(types) }}
       onClick={() => setSelectedPokemon(pokemon)}
     >

@@ -126,7 +126,7 @@ const MyModal = ({
             {infos.map((info) => (
               <div
                 key={info.title}
-                className='bg-gray-300/20 rounded-xl flex flex-col justify-center items-center gap-0.5 py-4'
+                className='bg-gray-300/20 rounded-xl flex flex-col justify-center items-center gap-0.5 py-4 shadow-md border border-gray-300/40'
               >
                 <span>{info.icon}</span>
                 <span className='text-sm'>{info.title}</span>
@@ -142,8 +142,8 @@ const MyModal = ({
             ))}
           </div>
 
-          <div className='bg-gray-300/20 rounded-xl p-4'>
-            <h2 className='font-bold text-2xl'>Evolution chain</h2>
+          <div className='bg-gray-300/20 rounded-xl p-4 shadow-md border border-gray-300/40'>
+            <h2 className='font-bold text-2xl mb-4'>Evolution chain</h2>
 
             <div className='flex justify-center items-center gap-4'>
               {evolutionChain?.pokemon_v2_pokemonspecies[0].pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies.map(
@@ -186,7 +186,7 @@ const MyModal = ({
             </div>
           </div>
 
-          <div className='bg-gray-300/20 rounded-xl p-4'>
+          <div className='bg-gray-300/20 rounded-xl p-4 shadow-md border border-gray-300/40'>
             <h2 className='font-bold text-2xl'>Basic stats</h2>
 
             <div className='flex justify-center items-center gap-4'>
@@ -227,7 +227,7 @@ const MyModal = ({
             </div>
           </div>
 
-          <div className='bg-gray-300/20 rounded-xl p-4'>
+          <div className='bg-gray-300/20 rounded-xl p-4 shadow-md border border-gray-300/40'>
             <h2 className='font-bold text-2xl mb-2'>
               {selectedPokemon?.pokemon_v2_pokemonabilities.length === 1
                 ? 'Ability'

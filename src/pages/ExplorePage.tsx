@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Pokemon } from '../types/APITypes';
 import PokemonBox from '../components/explorePage/PokemonBox';
 import { useAppSelector } from '../app/hooks';
-import { Search } from 'lucide-react';
+import { Search, Swords } from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
 import { Button } from '../components/ui/button';
 import FightModal from '../components/explorePage/battleFunction/FightModal';
@@ -35,13 +35,16 @@ const ExplorePage = () => {
 
   return (
     <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
-      <div>
+      <div className='mt-3'>
         <Button
+          variant={'action'}
           onClick={() => {
             setIsFightModalOpen(true);
           }}
         >
+          <Swords />
           Fight
+          <Swords />
         </Button>
       </div>
 
