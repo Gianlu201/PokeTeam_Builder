@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Pokemon } from '../types/APITypes';
 import PokemonBox from '../components/explorePage/PokemonBox';
 import { useAppSelector } from '../app/hooks';
-import { Search, Swords } from 'lucide-react';
+import { Scale, Search, Shuffle, Swords, Zap } from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
 import { Button } from '../components/ui/button';
 import FightModal from '../components/explorePage/battleFunction/FightModal';
@@ -35,7 +35,11 @@ const ExplorePage = () => {
 
   return (
     <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
-      <div className='mt-3'>
+      <div className='grid grid-cols-4 justify-start items-center gap-4 mt-5 mb-1'>
+        <Button variant={'default'} className='font-bold'>
+          <Shuffle />
+          Random Pokémon
+        </Button>
         <Button
           variant={'action'}
           onClick={() => {
@@ -46,11 +50,19 @@ const ExplorePage = () => {
           Fight
           <Swords />
         </Button>
+        <Button variant={'default'} className='font-bold'>
+          <Zap />
+          Pokè Quiz
+        </Button>
+        <Button variant={'default'} className='font-bold'>
+          <Scale />
+          Types Effectiveness
+        </Button>
       </div>
 
       {/* search bar */}
-      <div className='flex justify-between items-center py-4'>
-        <div className='grow relative border border-gray-400/30 rounded-xl p-3 overflow-hidden'>
+      <div className='flex justify-between items-center py-5'>
+        <div className='grow relative border border-gray-400/30 bg-white rounded-xl p-3 overflow-hidden shadow-sm'>
           <input
             type='text'
             placeholder='Search for Pokémon by name..'
