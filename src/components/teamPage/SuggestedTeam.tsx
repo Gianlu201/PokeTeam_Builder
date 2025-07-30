@@ -8,32 +8,22 @@ interface Props {
   pokeTeam: PokeTeam;
 }
 
-interface SimpleType {
-  type: { name: string };
-}
-
 const SuggestedTeam = ({ pokeTeam }: Props) => {
   const [weaknesses, setWeaknesses] = useState<Record<string, number>>();
 
   const teamComposition = (team: PokeTeam) => {
-    const members = [] as { types: Array<{ type: { name: string } }> }[];
+    const members = [] as string[][];
 
     team.forEach((slot) => {
       if (slot) {
-        const types = [] as SimpleType[];
+        const types = [] as string[];
 
         slot.pokemon_v2_pokemontypes.forEach((type) => {
-          const currentType = {
-            type: {
-              name: type.pokemon_v2_type.name,
-            },
-          };
+          const currentType = type.pokemon_v2_type.name;
           types.push(currentType);
         });
 
-        members.push({
-          types: types,
-        });
+        members.push(types);
       }
     });
 

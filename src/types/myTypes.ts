@@ -14,3 +14,10 @@ export interface SavedTeam {
   savedDate: string;
   teamName: string;
 }
+
+export interface TypeEffectiveness {
+  type: string;
+  strong: string[];
+  weak: string[];
+  immune: string[];
+}

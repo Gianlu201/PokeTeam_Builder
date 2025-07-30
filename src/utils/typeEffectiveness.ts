@@ -1,99 +1,116 @@
+import type { TypeEffectiveness } from '../types/myTypes';
+
 // Tabella di efficacia dei tipi Pokémon
-export const typeChart: Record<
-  string,
-  { strong: string[]; weak: string[]; immune: string[] }
-> = {
-  normal: {
+export const typeChart: TypeEffectiveness[] = [
+  {
+    type: 'normal',
     strong: [],
     weak: ['rock', 'steel'],
     immune: ['ghost'],
   },
-  fire: {
+  {
+    type: 'fire',
     strong: ['grass', 'ice', 'bug', 'steel'],
     weak: ['fire', 'water', 'rock', 'dragon'],
     immune: [],
   },
-  water: {
+  {
+    type: 'water',
     strong: ['fire', 'ground', 'rock'],
     weak: ['water', 'grass', 'dragon'],
     immune: [],
   },
-  electric: {
+  {
+    type: 'electric',
     strong: ['water', 'flying'],
     weak: ['electric', 'grass', 'dragon'],
     immune: ['ground'],
   },
-  grass: {
+  {
+    type: 'grass',
     strong: ['water', 'ground', 'rock'],
     weak: ['fire', 'grass', 'poison', 'flying', 'bug', 'dragon', 'steel'],
     immune: [],
   },
-  ice: {
+  {
+    type: 'ice',
     strong: ['grass', 'ground', 'flying', 'dragon'],
     weak: ['fire', 'water', 'ice', 'steel'],
     immune: [],
   },
-  fighting: {
+  {
+    type: 'fighting',
     strong: ['normal', 'ice', 'rock', 'dark', 'steel'],
     weak: ['poison', 'flying', 'psychic', 'bug', 'fairy'],
     immune: ['ghost'],
   },
-  poison: {
+  {
+    type: 'poison',
     strong: ['grass', 'fairy'],
     weak: ['poison', 'ground', 'rock', 'ghost'],
     immune: ['steel'],
   },
-  ground: {
+  {
+    type: 'ground',
     strong: ['fire', 'electric', 'poison', 'rock', 'steel'],
     weak: ['grass', 'bug'],
     immune: ['flying'],
   },
-  flying: {
+  {
+    type: 'flying',
     strong: ['electric', 'grass', 'fighting', 'bug'],
     weak: ['electric', 'rock', 'steel'],
     immune: [],
   },
-  psychic: {
+  {
+    type: 'psychic',
     strong: ['fighting', 'poison'],
     weak: ['psychic', 'steel'],
     immune: ['dark'],
   },
-  bug: {
+  {
+    type: 'bug',
     strong: ['grass', 'psychic', 'dark'],
     weak: ['fire', 'fighting', 'poison', 'flying', 'ghost', 'steel', 'fairy'],
     immune: [],
   },
-  rock: {
+  {
+    type: 'rock',
     strong: ['fire', 'ice', 'flying', 'bug'],
     weak: ['fighting', 'ground', 'steel'],
     immune: [],
   },
-  ghost: {
+  {
+    type: 'ghost',
     strong: ['psychic', 'ghost'],
     weak: ['dark'],
     immune: ['normal'],
   },
-  dragon: {
+  {
+    type: 'dragon',
     strong: ['dragon'],
     weak: ['steel'],
     immune: ['fairy'],
   },
-  dark: {
+  {
+    type: 'dark',
     strong: ['psychic', 'ghost'],
     weak: ['fighting', 'dark', 'fairy'],
     immune: [],
   },
-  steel: {
+  {
+    type: 'steel',
     strong: ['ice', 'rock', 'fairy'],
     weak: ['fire', 'water', 'electric', 'steel'],
     immune: [],
   },
-  fairy: {
+  {
+    type: 'fairy',
     strong: ['fighting', 'dragon', 'dark'],
     weak: ['fire', 'poison', 'steel'],
     immune: [],
   },
-};
+];
 
 export const getTypeEffectiveness = (
   attackingType: string,
@@ -102,11 +119,23 @@ export const getTypeEffectiveness = (
   let effectiveness = 1;
 
   defendingTypes.forEach((defType) => {
-    if (typeChart[attackingType]?.strong.includes(defType)) {
+    if (
+      typeChart
+        .find((type) => type.type === attackingType)
+        ?.strong.includes(defType)
+    ) {
       effectiveness *= 2;
-    } else if (typeChart[attackingType]?.weak.includes(defType)) {
+    } else if (
+      typeChart
+        .find((type) => type.type === attackingType)
+        ?.weak.includes(defType)
+    ) {
       effectiveness *= 0.5;
-    } else if (typeChart[attackingType]?.immune.includes(defType)) {
+    } else if (
+      typeChart
+        .find((type) => type.type === attackingType)
+        ?.immune.includes(defType)
+    ) {
       effectiveness *= 0;
     }
   });
@@ -114,27 +143,28 @@ export const getTypeEffectiveness = (
   return effectiveness;
 };
 
-export const analyzeTeam = (
-  team: { types: Array<{ type: { name: string } }> }[]
-) => {
+export const analyzeTeam = (team: string[][]) => {
   const weaknesses: Record<string, number> = {};
   const resistances: Record<string, number> = {};
 
-  Object.keys(typeChart).forEach((attackingType) => {
+  typeChart.forEach((attackingType) => {
     let totalEffectiveness = 0;
 
     team.forEach((pokemon) => {
-      const defendingTypes = pokemon.types.map((t) => t.type.name);
-      const effectiveness = getTypeEffectiveness(attackingType, defendingTypes);
+      const defendingTypes = pokemon;
+      const effectiveness = getTypeEffectiveness(
+        attackingType.type,
+        defendingTypes
+      );
       totalEffectiveness += effectiveness;
     });
 
     const avgEffectiveness = totalEffectiveness / team.length;
 
     if (avgEffectiveness > 1) {
-      weaknesses[attackingType] = avgEffectiveness;
+      weaknesses[attackingType.type] = avgEffectiveness;
     } else if (avgEffectiveness < 1) {
-      resistances[attackingType] = avgEffectiveness;
+      resistances[attackingType.type] = avgEffectiveness;
     }
   });
 
