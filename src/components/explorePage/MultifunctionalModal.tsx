@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from './../ui/dialog';
+import PokeQuiz from './PokeQuiz';
 import TypesEffectiveness from './TypesEffectiveness';
 
 interface Props {
@@ -16,7 +17,7 @@ const MultifunctionalModal = ({ title, open, setOpen }: Props) => {
   const getMainContent = () => {
     switch (title) {
       case 'Poké Quiz':
-        return <div></div>;
+        return <PokeQuiz />;
 
       case 'Types Effectiveness':
         return <TypesEffectiveness />;
