@@ -58,6 +58,7 @@ const FightModalEnemyTeam = ({
                 <div>
                   {savedTeams.map((team) => (
                     <SavedTeamShowCard
+                      key={team.teamName}
                       savedTeam={team}
                       mySelectedTeam={enemySelectedTeam}
                       setMySelectedTeam={setEnemySelectedTeam}

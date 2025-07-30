@@ -29,7 +29,10 @@ const MultifunctionalModal = ({ title, open, setOpen }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'>
+      <DialogContent
+        className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'
+        aria-describedby={undefined}
+      >
         <DialogHeader>
           <DialogTitle className='text-2xl font-bold'>{title}</DialogTitle>
         </DialogHeader>

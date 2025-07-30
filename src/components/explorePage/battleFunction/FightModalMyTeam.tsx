@@ -91,6 +91,7 @@ const FightModalMyTeam = ({
             <div className='mt-4'>
               {savedTeams.map((team) => (
                 <SavedTeamShowCard
+                  key={team.teamName}
                   savedTeam={team}
                   mySelectedTeam={mySelectedTeam}
                   setMySelectedTeam={setMySelectedTeam}

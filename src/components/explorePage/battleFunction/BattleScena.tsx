@@ -5,6 +5,7 @@ import type { PokeTeam } from '../../../types/myTypes';
 import PokeScooter from './PokeScooter';
 import PokemonMovesOptions from './PokemonMovesOptions';
 import FightLogs from './FightLogs';
+import { ShieldX, Trophy } from 'lucide-react';
 
 interface Props {
   mySelectedTeam: PokeTeam | undefined;
@@ -405,9 +406,17 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
           {battleEnded && (
             <>
               {battleResult ? (
-                <h3>Complimenti hai vinto</h3>
+                <div className='mb-4'>
+                  <Trophy className='w-16 h-16 text-amber-400 mx-auto mb-1' />
+                  <h3 className='text-3xl font-bold text-center'>
+                    Congratulations, you've won!
+                  </h3>
+                </div>
               ) : (
-                <h3>Hai perso, sarà per la prossima</h3>
+                <div className='mb-4'>
+                  <ShieldX className='w-16 h-16 text-red-600 mx-auto mb-1' />
+                  <h3>You lost, maybe next time</h3>
+                </div>
               )}
             </>
           )}

@@ -51,7 +51,10 @@ const SavedTeamCompontnt = ({ team }: Props) => {
         {team.team.map((pokemon) => {
           if (pokemon) {
             return (
-              <div className='flex justify-between items-start gap-2 bg-background border border-gray-300/30 rounded-md shadow px-3 py-2'>
+              <div
+                key={pokemon.id}
+                className='flex justify-between items-start gap-2 bg-background border border-gray-300/30 rounded-md shadow px-3 py-2'
+              >
                 <img
                   src={pokemon?.pokemon_v2_pokemonsprites[0].front_sprite ?? ''}
                   alt={pokemon?.name}
@@ -64,6 +67,7 @@ const SavedTeamCompontnt = ({ team }: Props) => {
                   <div className='flex justify-start items-start gap-1'>
                     {pokemon?.pokemon_v2_pokemontypes.map((type) => (
                       <span
+                        key={type.pokemon_v2_type.id}
                         className='inline-block rounded-full w-4 h-4'
                         style={{
                           backgroundColor:

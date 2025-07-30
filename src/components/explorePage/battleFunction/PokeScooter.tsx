@@ -55,12 +55,15 @@ const PokeScooter = ({
       <div className='flex gap-2 justify-start items-center mt-1'>
         {positions.map((i) => {
           if (pokemonDeadCounter >= i) {
-            return <PokeBall alive={false} />;
+            return <PokeBall key={i} alive={false} />;
           } else if (teamCount >= i) {
-            return <PokeBall alive={true} />;
+            return <PokeBall key={i} alive={true} />;
           } else {
             return (
-              <div className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'></div>
+              <div
+                key={i}
+                className='w-5 h-5 rounded-full border border-gray-800/70 bg-gray-500/70'
+              ></div>
             );
           }
         })}

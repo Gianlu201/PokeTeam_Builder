@@ -87,7 +87,10 @@ const MyModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {selectedPokemon != null && (
-        <DialogContent className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'>
+        <DialogContent
+          className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'
+          aria-describedby={undefined}
+        >
           <DialogHeader>
             <DialogTitle className='text-2xl font-bold'>
               <span className='capitalize'>{selectedPokemon?.name}</span>{' '}
@@ -148,9 +151,8 @@ const MyModal = ({
             <div className='flex justify-center items-center gap-4'>
               {evolutionChain?.pokemon_v2_pokemonspecies[0].pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies.map(
                 (evolution) => (
-                  <>
+                  <div key={evolution.name}>
                     <div
-                      key={evolution.name}
                       className={`flex flex-col justify-between items-center border  rounded-lg shadow px-2 py-3 cursor-pointer ${
                         evolution.id === selectedPokemon.id
                           ? 'bg-primary/30 border-primary/60 scale-105'
@@ -180,7 +182,7 @@ const MyModal = ({
                       )}
                     </div>
                     <ArrowRight className=' last-of-type:hidden' />
-                  </>
+                  </div>
                 )
               )}
             </div>

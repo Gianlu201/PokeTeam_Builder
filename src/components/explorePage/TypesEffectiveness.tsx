@@ -82,7 +82,9 @@ const TypesEffectiveness = () => {
           onChange={(e) => setSelectedType(e.target.value)}
         >
           {typeChart.map((type) => (
-            <option value={type.type}>{type.type}</option>
+            <option key={type.type} value={type.type}>
+              {type.type}
+            </option>
           ))}
         </select>
       </div>
