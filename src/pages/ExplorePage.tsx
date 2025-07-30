@@ -6,6 +6,8 @@ import { Scale, Search, Shuffle, Swords, Zap } from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
 import { Button } from '../components/ui/button';
 import FightModal from '../components/explorePage/battleFunction/FightModal';
+import MultifunctionalModal from '../components/explorePage/MultifunctionalModal';
+import MyModal from '../components/explorePage/MyModal';
 
 const ExplorePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -15,12 +17,26 @@ const ExplorePage = () => {
   const reduxPokemonList = useAppSelector((state) => state.pokemon.list);
   const isLoading = useAppSelector((state) => state.pokemon.loading);
 
+  const [modalTitle, setModalTitle] = useState<string>('');
+  const [pokeModal, setPokeModal] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const [randomPokemon, setRandomPokemon] = useState<Pokemon | null>();
+
   const updateFilteredList = () => {
     setPokemonList(
       reduxPokemonList.filter((pokemon) =>
         pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
+  };
+
+  const getRandomPokemon = () => {
+    if (pokemonList.length) {
+      setRandomPokemon(
+        pokemonList[Math.floor(Math.random() * pokemonList.length)]
+      );
+    }
   };
 
   useEffect(() => {
@@ -36,7 +52,14 @@ const ExplorePage = () => {
   return (
     <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
       <div className='grid grid-cols-4 justify-start items-center gap-4 mt-5 mb-1'>
-        <Button variant={'default'} className='font-bold'>
+        <Button
+          variant={'default'}
+          className='font-bold'
+          onClick={() => {
+            setPokeModal(true);
+            getRandomPokemon();
+          }}
+        >
           <Shuffle />
           Random Pokémon
         </Button>
@@ -50,15 +73,49 @@ const ExplorePage = () => {
           Fight
           <Swords />
         </Button>
-        <Button variant={'default'} className='font-bold'>
+        <Button
+          variant={'default'}
+          className='font-bold'
+          onClick={() => {
+            setModalTitle('Poké Quiz');
+            setModalOpen(true);
+          }}
+        >
           <Zap />
           Pokè Quiz
         </Button>
-        <Button variant={'default'} className='font-bold'>
+        <Button
+          variant={'default'}
+          className='font-bold'
+          onClick={() => {
+            setModalTitle('Types Effectiveness');
+            setModalOpen(true);
+          }}
+        >
           <Scale />
           Types Effectiveness
         </Button>
       </div>
+
+      {randomPokemon != null &&
+        randomPokemon.pokemon_v2_pokemonsprites[0].front_sprite != null && (
+          <MyModal
+            selectedPokemon={randomPokemon}
+            setSelectedPokemon={setRandomPokemon}
+            onClose={() => {
+              setPokeModal(false);
+              setRandomPokemon(null);
+            }}
+            open={pokeModal}
+            setOpen={setPokeModal}
+          />
+        )}
+
+      <MultifunctionalModal
+        title={modalTitle}
+        open={modalOpen}
+        setOpen={setModalOpen}
+      />
 
       {/* search bar */}
       <div className='flex justify-between items-center py-5'>
