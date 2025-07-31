@@ -5,18 +5,48 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   addTeamToSaved,
   cleanCurrentTeam,
+  updateSavedTeam,
 } from '../../features/teams/teamsSlice';
 import { getTeamComponentsCount } from '../../utils/mainUtils';
 import type { SavedTeam } from '../../types/myTypes';
+
+import { toast, Toaster } from 'sonner';
+import ActionToast from '../ui/ActionToast';
 
 const SaveTeamComponent = () => {
   const [teamName, setTeamName] = useState<string>('');
 
   const pokeTeam = useAppSelector((state) => state.teams.currentTeam);
+  const teams = useAppSelector((state) => state.teams.savedTeams);
 
   const dispatch = useAppDispatch();
 
   const saveTeam = () => {
+    if (
+      !teams.find((t) => t.teamName.toLowerCase() === teamName.toLowerCase())
+    ) {
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString('it-IT', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+
+      const newSavedTeam: SavedTeam = {
+        teamName: teamName,
+        team: pokeTeam,
+        savedDate: formattedDate,
+      };
+
+      dispatch(addTeamToSaved(newSavedTeam));
+    } else {
+      toast.custom((t) => (
+        <ActionToast t={t} actionMode='overwriteTeam' action={overwriteTeam} />
+      ));
+    }
+  };
+
+  const overwriteTeam = () => {
     const today = new Date();
     const formattedDate = today.toLocaleDateString('it-IT', {
       year: 'numeric',
@@ -24,13 +54,13 @@ const SaveTeamComponent = () => {
       day: '2-digit',
     });
 
-    const newSavedTeam: SavedTeam = {
+    const updatedTeam: SavedTeam = {
       teamName: teamName,
       team: pokeTeam,
       savedDate: formattedDate,
     };
 
-    dispatch(addTeamToSaved(newSavedTeam));
+    dispatch(updateSavedTeam(updatedTeam));
   };
 
   if (!(getTeamComponentsCount(pokeTeam) > 0)) {
@@ -70,6 +100,8 @@ const SaveTeamComponent = () => {
             Clean team
           </Button>
         </div>
+
+        <Toaster />
       </div>
     );
   }

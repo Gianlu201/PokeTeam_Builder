@@ -32,6 +32,14 @@ const teamsSlice = createSlice({
       state.savedTeams.push(action.payload);
       saveToLocalStorage('savedTeams', JSON.stringify(state.savedTeams));
     },
+    updateSavedTeam(state, action: PayloadAction<SavedTeam>) {
+      state.savedTeams.forEach((team) => {
+        if (team.teamName === action.payload.teamName) {
+          team.team = action.payload.team;
+          team.savedDate = action.payload.savedDate;
+        }
+      });
+    },
     removeSavedTeam(state, action: PayloadAction<SavedTeam>) {
       let index: number = -1;
       const tempArr: SavedTeam[] = [];
@@ -62,6 +70,7 @@ export const {
   cleanCurrentTeam,
   setEnemyTeam,
   addTeamToSaved,
+  updateSavedTeam,
   removeSavedTeam,
 } = teamsSlice.actions;
 export default teamsSlice.reducer;
