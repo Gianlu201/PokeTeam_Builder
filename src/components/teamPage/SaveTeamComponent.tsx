@@ -1,6 +1,6 @@
 import { Save, Trash2, Users } from 'lucide-react';
 import { Button } from '../ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   addTeamToSaved,
@@ -14,9 +14,10 @@ import { toast, Toaster } from 'sonner';
 import ActionToast from '../ui/ActionToast';
 
 const SaveTeamComponent = () => {
+  const currentTeam = useAppSelector((state) => state.teams.currentTeam);
+
   const [teamName, setTeamName] = useState<string>('');
 
-  const pokeTeam = useAppSelector((state) => state.teams.currentTeam);
   const teams = useAppSelector((state) => state.teams.savedTeams);
 
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ const SaveTeamComponent = () => {
 
       const newSavedTeam: SavedTeam = {
         teamName: teamName,
-        team: pokeTeam,
+        team: currentTeam.team,
         savedDate: formattedDate,
       };
 
@@ -56,14 +57,21 @@ const SaveTeamComponent = () => {
 
     const updatedTeam: SavedTeam = {
       teamName: teamName,
-      team: pokeTeam,
+      team: currentTeam.team,
       savedDate: formattedDate,
     };
 
     dispatch(updateSavedTeam(updatedTeam));
   };
 
-  if (!(getTeamComponentsCount(pokeTeam) > 0)) {
+  useEffect(() => {
+    console.log(currentTeam.teamName);
+    if (currentTeam.teamName) {
+      setTeamName(currentTeam.teamName);
+    }
+  }, [currentTeam]);
+
+  if (!(getTeamComponentsCount(currentTeam.team) > 0)) {
     return (
       <div className='flex flex-col justify-center items-center gap-2 my-2 mt-8'>
         <Users className='text-gray-500 w-10 h-10 stroke-2' />

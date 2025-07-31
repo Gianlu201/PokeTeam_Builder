@@ -25,7 +25,7 @@ const SavedTeamCompontnt = ({ team }: Props) => {
           <Button
             variant={'sysOpt'}
             onClick={() => {
-              dispatch(setCurrentTeam(team.team));
+              dispatch(setCurrentTeam(team));
             }}
           >
             <Download />

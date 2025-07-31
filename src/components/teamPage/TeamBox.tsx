@@ -1,5 +1,5 @@
 import { Users } from 'lucide-react';
-import type { PokeTeam } from '../../types/myTypes';
+import type { SavedTeam } from '../../types/myTypes';
 import TeamPokemonSlot from './TeamPokemonSlot';
 import TeamStats from './TeamStats';
 import SaveTeamComponent from './SaveTeamComponent';
@@ -7,19 +7,19 @@ import { getTeamComponentsCount } from '../../utils/mainUtils';
 import SelectEnemyComponent from './SelectEnemyComponent';
 
 interface Props {
-  pokeTeam: PokeTeam;
+  savedTeam: SavedTeam;
   isMyTeam: boolean;
 }
 
-const TeamBox = ({ pokeTeam, isMyTeam }: Props) => {
+const TeamBox = ({ savedTeam, isMyTeam }: Props) => {
   return (
     <>
-      {getTeamComponentsCount(pokeTeam) > 0 && isMyTeam && <TeamStats />}
+      {getTeamComponentsCount(savedTeam.team) > 0 && isMyTeam && <TeamStats />}
 
       {!isMyTeam && <SelectEnemyComponent />}
 
       <div className='max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
-        {pokeTeam.map((pokemon, i) => {
+        {savedTeam.team.map((pokemon, i) => {
           if (pokemon) {
             return (
               <TeamPokemonSlot

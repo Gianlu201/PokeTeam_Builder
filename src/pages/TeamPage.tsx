@@ -19,14 +19,17 @@ const TeamPage = () => {
             Team Builder
           </h2>
           <span className='text-xs font-medium'>
-            {getTeamComponentsCount(currentTeam)}/6
+            {getTeamComponentsCount(currentTeam.team)}/6
           </span>
         </div>
 
-        <TeamBox pokeTeam={currentTeam} isMyTeam={true} />
+        <TeamBox
+          savedTeam={{ teamName: '', team: currentTeam.team, savedDate: '' }}
+          isMyTeam={true}
+        />
       </div>
-      {getTeamComponentsCount(currentTeam) > 0 && (
-        <TeamAnalysis pokeTeam={currentTeam} />
+      {getTeamComponentsCount(currentTeam.team) > 0 && (
+        <TeamAnalysis pokeTeam={currentTeam.team} />
       )}
 
       {/* enemy team */}
@@ -41,7 +44,10 @@ const TeamPage = () => {
           </span>
         </div>
 
-        <TeamBox pokeTeam={enemyTeam} isMyTeam={false} />
+        <TeamBox
+          savedTeam={{ teamName: '', team: enemyTeam, savedDate: '' }}
+          isMyTeam={false}
+        />
       </div>
       {getTeamComponentsCount(enemyTeam) > 0 && (
         <SuggestedTeam pokeTeam={enemyTeam} />

@@ -30,10 +30,10 @@ const TeamStats = () => {
   };
 
   const getStatAverage = (index: number) => {
-    const pokeCount = getTeamComponentsCount(pokeTeam);
+    const pokeCount = getTeamComponentsCount(pokeTeam.team);
     let statTotal = 0;
 
-    pokeTeam.forEach((slot) => {
+    pokeTeam.team.forEach((slot) => {
       if (slot) {
         statTotal += slot.pokemon_v2_pokemonstats[index].base_stat;
       }
@@ -45,7 +45,7 @@ const TeamStats = () => {
   const getTotalPower = () => {
     let total = 0;
 
-    pokeTeam.forEach((slot) => {
+    pokeTeam.team.forEach((slot) => {
       if (slot) {
         slot.pokemon_v2_pokemonstats.forEach(
           (stat) => (total += stat.base_stat)
@@ -57,7 +57,7 @@ const TeamStats = () => {
   };
 
   useEffect(() => {
-    updateTeamTypes(pokeTeam);
+    updateTeamTypes(pokeTeam.team);
   }, [pokeTeam]);
 
   return (

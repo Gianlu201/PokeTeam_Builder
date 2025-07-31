@@ -27,7 +27,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
     let currentTeamFull = true;
     let emptySlot = 0;
 
-    currentTeam.forEach((slot, index) => {
+    currentTeam.team.forEach((slot, index) => {
       if (!slot && currentTeamFull) {
         currentTeamFull = false;
         emptySlot = index;
@@ -36,12 +36,18 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
 
     if (!currentTeamFull) {
       const temporaryTeam: PokeTeam = [null, null, null, null, null, null];
-      currentTeam.forEach((slot, i) => {
+      currentTeam.team.forEach((slot, i) => {
         temporaryTeam[i] = slot;
       });
 
       temporaryTeam[emptySlot] = pokemon;
-      dispatch(setCurrentTeam(temporaryTeam));
+      dispatch(
+        setCurrentTeam({
+          teamName: currentTeam.teamName,
+          team: temporaryTeam,
+          savedDate: currentTeam.savedDate,
+        })
+      );
     }
   };
 
@@ -78,12 +84,12 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
           variant={'outline'}
           onClick={(e) => {
             e.stopPropagation();
-            if (getTeamComponentsCount(currentTeam) < 6) {
+            if (getTeamComponentsCount(currentTeam.team) < 6) {
               addPokemonToTeam(pokemon);
             }
           }}
           className={`${
-            getTeamComponentsCount(currentTeam) === 6
+            getTeamComponentsCount(currentTeam.team) === 6
               ? 'cursor-not-allowed border-gray-300/40 text-gray-300 bg-gray-700/10'
               : ''
           }`}
