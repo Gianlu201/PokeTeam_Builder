@@ -13,9 +13,14 @@ import type { PokeTeam } from '../../types/myTypes';
 interface Props {
   pokemon: Pokemon;
   setSelectedPokemon: (pokemon: Pokemon) => void;
+  showToastMessage: (message: string, pokemonName?: string) => void;
 }
 
-const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
+const PokemonCard = ({
+  pokemon,
+  setSelectedPokemon,
+  showToastMessage,
+}: Props) => {
   const types = pokemon.pokemon_v2_pokemontypes.map(
     (type) => type.pokemon_v2_type.name
   );
@@ -48,6 +53,7 @@ const PokemonCard = ({ pokemon, setSelectedPokemon }: Props) => {
           savedDate: currentTeam.savedDate,
         })
       );
+      showToastMessage('pokemonAdded', pokemon.name);
     }
   };
 

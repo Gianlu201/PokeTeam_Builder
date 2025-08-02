@@ -10,9 +10,10 @@ import {
 
 interface Props {
   team: SavedTeam;
+  showToastMessage: (actionMessage: string, teamName: string) => void;
 }
 
-const SavedTeamCompontnt = ({ team }: Props) => {
+const SavedTeamCompontnt = ({ team, showToastMessage }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -26,15 +27,17 @@ const SavedTeamCompontnt = ({ team }: Props) => {
             variant={'sysOpt'}
             onClick={() => {
               dispatch(setCurrentTeam(team));
+              showToastMessage('uploadTeam', team.teamName);
             }}
           >
             <Download />
-            Carica
+            Upload
           </Button>
           <Button
             variant={'outline'}
             onClick={() => {
               dispatch(removeSavedTeam(team));
+              showToastMessage('teamRemoved', team.teamName);
             }}
           >
             <Trash2 className='text-red-500' />

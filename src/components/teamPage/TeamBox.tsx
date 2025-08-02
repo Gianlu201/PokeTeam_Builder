@@ -5,6 +5,8 @@ import TeamStats from './TeamStats';
 import SaveTeamComponent from './SaveTeamComponent';
 import { getTeamComponentsCount } from '../../utils/mainUtils';
 import SelectEnemyComponent from './SelectEnemyComponent';
+import { toast, Toaster } from 'sonner';
+import StandardToast from '../ui/StandardToast';
 
 interface Props {
   savedTeam: SavedTeam;
@@ -12,6 +14,16 @@ interface Props {
 }
 
 const TeamBox = ({ savedTeam, isMyTeam }: Props) => {
+  const showToastMessage = (pokemonName: string) => {
+    toast.custom((t) => (
+      <StandardToast
+        t={t}
+        actionMessage='pokemonRemoved'
+        elementName={pokemonName}
+      />
+    ));
+  };
+
   return (
     <>
       {getTeamComponentsCount(savedTeam.team) > 0 && isMyTeam && <TeamStats />}
@@ -27,6 +39,9 @@ const TeamBox = ({ savedTeam, isMyTeam }: Props) => {
                 index={i}
                 key={i}
                 isMyTeam={isMyTeam}
+                showToastMessage={(pokemonName: string) => {
+                  showToastMessage(pokemonName);
+                }}
               />
             );
           } else {
@@ -44,6 +59,8 @@ const TeamBox = ({ savedTeam, isMyTeam }: Props) => {
       </div>
 
       {isMyTeam && <SaveTeamComponent />}
+
+      <Toaster />
     </>
   );
 };

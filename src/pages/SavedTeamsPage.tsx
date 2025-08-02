@@ -1,9 +1,38 @@
 import { Users } from 'lucide-react';
 import { useAppSelector } from '../app/hooks';
 import SavedTeamComponent from '../components/savedTeams/SavedTeamComponent';
+import { toast, Toaster } from 'sonner';
+import StandardToast from '../components/ui/StandardToast';
 
 const SavedTeamsPage = () => {
   const savedTeams = useAppSelector((state) => state.teams.savedTeams);
+
+  const showToastMessage = (actionMessage: string, teamName: string) => {
+    switch (actionMessage) {
+      case 'uploadTeam':
+        toast.custom((t) => (
+          <StandardToast
+            t={t}
+            actionMessage='teamUploaded'
+            elementName={teamName}
+          />
+        ));
+        break;
+
+      case 'teamRemoved':
+        toast.custom((t) => (
+          <StandardToast
+            t={t}
+            actionMessage='teamRemoved'
+            elementName={teamName}
+          />
+        ));
+        break;
+
+      default:
+        break;
+    }
+  };
 
   return (
     <div className='max-w-7xl mx-auto min-h-[50vh] pt-4 bg-background max-xl:mx-10'>
@@ -16,7 +45,13 @@ const SavedTeamsPage = () => {
       {savedTeams.length > 0 ? (
         <div>
           {savedTeams.map((team, i) => (
-            <SavedTeamComponent key={i} team={team} />
+            <SavedTeamComponent
+              key={i}
+              team={team}
+              showToastMessage={(actionMessage: string, teamName: string) => {
+                showToastMessage(actionMessage, teamName);
+              }}
+            />
           ))}
         </div>
       ) : (
@@ -28,6 +63,8 @@ const SavedTeamsPage = () => {
           </p>
         </div>
       )}
+
+      <Toaster />
     </div>
   );
 };

@@ -9,9 +9,15 @@ interface Props {
   pokemon: Pokemon;
   index: number;
   isMyTeam: boolean;
+  showToastMessage: (pokemonName: string) => void;
 }
 
-const TeamPokemonSlot = ({ pokemon, index, isMyTeam }: Props) => {
+const TeamPokemonSlot = ({
+  pokemon,
+  index,
+  isMyTeam,
+  showToastMessage,
+}: Props) => {
   const currentTeam = useAppSelector((state) => state.teams.currentTeam);
   const enemyTeam = useAppSelector((state) => state.teams.enemyTeam);
 
@@ -21,7 +27,7 @@ const TeamPokemonSlot = ({ pokemon, index, isMyTeam }: Props) => {
     let temporaryTeam: PokeTeam;
 
     if (isMyTeam) {
-      temporaryTeam = [...currentTeam];
+      temporaryTeam = [...currentTeam.team];
     } else {
       temporaryTeam = [...enemyTeam];
     }
@@ -38,10 +44,12 @@ const TeamPokemonSlot = ({ pokemon, index, isMyTeam }: Props) => {
     });
 
     if (isMyTeam) {
-      dispatch(setCurrentTeam(newTeam));
+      dispatch(setCurrentTeam({ teamName: '', team: newTeam, savedDate: '' }));
     } else {
       dispatch(setEnemyTeam(newTeam));
     }
+
+    showToastMessage(pokemon.name);
   };
 
   return (

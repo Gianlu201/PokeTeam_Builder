@@ -12,6 +12,7 @@ import type { SavedTeam } from '../../types/myTypes';
 
 import { toast, Toaster } from 'sonner';
 import ActionToast from '../ui/ActionToast';
+import StandardToast from '../ui/StandardToast';
 
 const SaveTeamComponent = () => {
   const currentTeam = useAppSelector((state) => state.teams.currentTeam);
@@ -40,6 +41,10 @@ const SaveTeamComponent = () => {
       };
 
       dispatch(addTeamToSaved(newSavedTeam));
+
+      toast.custom((t) => (
+        <StandardToast t={t} actionMessage='teamSaved' elementName={teamName} />
+      ));
     } else {
       toast.custom((t) => (
         <ActionToast t={t} actionMode='overwriteTeam' action={overwriteTeam} />
@@ -62,6 +67,13 @@ const SaveTeamComponent = () => {
     };
 
     dispatch(updateSavedTeam(updatedTeam));
+    toast.custom((t) => (
+      <StandardToast
+        t={t}
+        actionMessage='teamOverwritten'
+        elementName={teamName}
+      />
+    ));
   };
 
   useEffect(() => {

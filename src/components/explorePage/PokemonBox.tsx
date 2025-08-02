@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { Pokemon } from '../../types/APITypes';
 import PokemonCard from './PokemonCard';
 import MyModal from './MyModal';
+import { toast, Toaster } from 'sonner';
+import StandardToast from '../ui/StandardToast';
 
 interface Params {
   pokemonList: Pokemon[];
@@ -13,6 +15,23 @@ const PokemonBox = ({ pokemonList }: Params) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const showToastMessage = (message: string, pokemonName?: string) => {
+    switch (message) {
+      case 'pokemonAdded':
+        toast.custom((t) => (
+          <StandardToast
+            t={t}
+            actionMessage='pokemonAdded'
+            elementName={pokemonName}
+          />
+        ));
+        break;
+
+      default:
+        break;
+    }
+  };
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -54,6 +73,9 @@ const PokemonBox = ({ pokemonList }: Params) => {
               setSelectedPokemon(pokemon);
               setIsModalOpen(true);
             }}
+            showToastMessage={(message: string, pokemonName?: string) => {
+              showToastMessage(message, pokemonName);
+            }}
           />
         ))}
 
@@ -73,6 +95,8 @@ const PokemonBox = ({ pokemonList }: Params) => {
       </div>
 
       <div ref={sentinelRef} className='h-10 mt-10' />
+
+      <Toaster />
     </>
   );
 };
