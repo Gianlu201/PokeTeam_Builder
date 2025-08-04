@@ -1,4 +1,4 @@
-import { Calendar, Download, Trash2 } from 'lucide-react';
+import { Calendar, Upload, Trash2 } from 'lucide-react';
 import type { SavedTeam } from '../../types/myTypes';
 import { Button } from '../ui/button';
 import { typeColors } from '../../utils/typeColors';
@@ -30,7 +30,7 @@ const SavedTeamCompontnt = ({ team, showToastMessage }: Props) => {
               showToastMessage('uploadTeam', team.teamName);
             }}
           >
-            <Download />
+            <Upload />
             Upload
           </Button>
           <Button

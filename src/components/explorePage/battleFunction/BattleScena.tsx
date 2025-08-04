@@ -68,7 +68,7 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
       case 0:
         return 'not effective';
 
-      case 0.5:
+      case 0.25:
         return 'not very effective';
 
       case 2:

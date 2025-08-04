@@ -65,6 +65,7 @@ const ExplorePage = () => {
         </Button>
         <Button
           variant={'action'}
+          className='max-md:hidden'
           onClick={() => {
             setIsFightModalOpen(true);
           }}
