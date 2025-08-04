@@ -4,6 +4,7 @@ import PokemonCard from './PokemonCard';
 import MyModal from './MyModal';
 import { toast, Toaster } from 'sonner';
 import StandardToast from '../ui/StandardToast';
+import ScrollUpButton from '../ui/ScrollUpButton';
 
 interface Params {
   pokemonList: Pokemon[];
@@ -64,7 +65,7 @@ const PokemonBox = ({ pokemonList }: Params) => {
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 justify-between items-start mt-2'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 justify-between items-start mt-2 relative'>
         {pokemonList.slice(0, pokemonShowedNum).map((pokemon) => (
           <PokemonCard
             key={pokemon.id}
@@ -92,6 +93,8 @@ const PokemonBox = ({ pokemonList }: Params) => {
               setOpen={setIsModalOpen}
             />
           )}
+
+        <ScrollUpButton />
       </div>
 
       <div ref={sentinelRef} className='h-10 mt-10' />
