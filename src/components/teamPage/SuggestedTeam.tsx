@@ -49,7 +49,7 @@ const SuggestedTeam = ({ pokeTeam }: Props) => {
             These types are most effective against the analyzed opposing team:
           </p>
 
-          <div className='grid grid-cols-3 gap-4'>
+          <div className='grid sm:grid-cols-2 md:grid-cols-3 gap-4'>
             {weaknesses &&
               Object.entries(weaknesses)
                 .sort(([, a], [, b]) => b - a)

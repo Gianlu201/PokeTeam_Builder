@@ -94,7 +94,7 @@ const TypesEffectiveness = () => {
           Effectiveness of {selectedType} type moves
         </h3>
 
-        <div className='grid grid-cols-4 justify-start items-center gap-4'>
+        <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start items-center gap-4'>
           {typeChart.map((type) => (
             <div
               key={type.type}
@@ -123,7 +123,7 @@ const TypesEffectiveness = () => {
       <div className='border border-gray-400/40 shadow rounded-lg px-4 py-3'>
         <h4 className='font-semibold mb-2'>Caption:</h4>
 
-        <div className='flex justify-start items-center gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-start items-center gap-6'>
           {caption.map((option) => (
             <div
               key={option.description}

@@ -125,7 +125,7 @@ const MyModal = ({
             ))}
           </div>
 
-          <div className='grid grid-cols-4 gap-4'>
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
             {infos.map((info) => (
               <div
                 key={info.title}
@@ -145,10 +145,10 @@ const MyModal = ({
             ))}
           </div>
 
-          <div className='bg-gray-300/20 rounded-xl p-4 shadow-md border border-gray-300/40'>
+          <div className='min-h-[280px] bg-gray-300/20 rounded-xl p-4 shadow-md border border-gray-300/40 overflow-x-auto'>
             <h2 className='font-bold text-2xl mb-4'>Evolution chain</h2>
 
-            <div className='flex justify-center items-center gap-4'>
+            <div className='flex justify-start items-center gap-4 mx-auto w-fit'>
               {evolutionChain?.pokemon_v2_pokemonspecies[0].pokemon_v2_evolutionchain.pokemon_v2_pokemonspecies.map(
                 (evolution) => (
                   <div key={evolution.name}>
@@ -191,11 +191,11 @@ const MyModal = ({
           <div className='bg-gray-300/20 rounded-xl p-4 shadow-md border border-gray-300/40'>
             <h2 className='font-bold text-2xl'>Basic stats</h2>
 
-            <div className='flex justify-center items-center gap-4'>
+            <div className='max-sm:grid max-sm:grid-cols-4 sm:flex justify-center items-center gap-4'>
               {selectedPokemon?.pokemon_v2_pokemonstats.map((stat) => (
                 <div
                   key={stat.pokemon_v2_stat.id}
-                  className='flex flex-col items-center bg-white border-1 border-gray-400/20 shadow-xl rounded-full p-1.5 py-2'
+                  className='flex flex-col items-center justify-center bg-white border-1 border-gray-400/20 shadow-xl rounded-full p-1.5 py-2 w-fit max-sm:mx-auto'
                 >
                   <span
                     className='text-white text-xs rounded-full p-1.5 w-8 aspect-square flex justify-center items-center font-bold'
@@ -209,7 +209,7 @@ const MyModal = ({
                 </div>
               ))}
 
-              <div className='flex flex-col items-center bg-[#9598D1]/70 shadow-xl rounded-full p-1.5 py-2'>
+              <div className='w-fit flex flex-col items-center bg-[#9598D1]/70 shadow-xl rounded-full p-1.5 py-2'>
                 <span
                   className='text-white text-xs rounded-full p-1.5 w-8 aspect-square flex justify-center items-center font-bold'
                   style={{
@@ -236,7 +236,7 @@ const MyModal = ({
                 : 'Abilities'}
             </h2>
 
-            <div className='flex justify-start items-center gap-2'>
+            <div className='flex flex-wrap justify-start items-center gap-2'>
               {selectedPokemon?.pokemon_v2_pokemonabilities.map((ability) => (
                 <span
                   key={ability.id}

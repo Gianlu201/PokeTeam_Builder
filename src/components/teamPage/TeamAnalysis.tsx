@@ -51,7 +51,7 @@ const TeamAnalysis = ({ pokeTeam }: Props) => {
         Team's Analysis
       </h3>
 
-      <div className='grid grid-cols-2 gap-10'>
+      <div className='grid sm:grid-cols-2 gap-10'>
         <div>
           <h4 className='flex items-center gap-2 font-medium'>
             <TrendingDown className='w-5 h-5 text-red-600' />

@@ -51,7 +51,7 @@ const ExplorePage = () => {
 
   return (
     <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
-      <div className='grid grid-cols-4 justify-start items-center gap-4 mt-5 mb-1'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-start items-center gap-4 mt-5 mb-1'>
         <Button
           variant={'default'}
           className='font-bold'
