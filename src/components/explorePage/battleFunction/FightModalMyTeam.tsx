@@ -51,18 +51,18 @@ const FightModalMyTeam = ({
 
       {myTeamOption ? (
         <div className='flex flex-row justify-center items-center gap-2 w-full'>
-          {getTeamComponentsCount(currentTeam) > 0 ? (
+          {getTeamComponentsCount(currentTeam.team) > 0 ? (
             <div
               className={`flex justify-center items-center gap-2 border rounded-xl px-5 py-3 my-4 ${
-                mySelectedTeam === currentTeam
+                mySelectedTeam === currentTeam.team
                   ? 'border-black border-2'
                   : 'border-gray-500/40'
               }`}
               onClick={() => {
-                setMySelectedTeam(currentTeam);
+                setMySelectedTeam(currentTeam.team);
               }}
             >
-              {currentTeam.map((pokemon) => {
+              {currentTeam.team.map((pokemon) => {
                 if (pokemon) {
                   return (
                     <div key={pokemon?.id}>
