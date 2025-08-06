@@ -41,7 +41,7 @@ export const typeChart: TypeEffectiveness[] = [
   {
     type: 'fighting',
     strong: ['normal', 'ice', 'rock', 'dark', 'steel'],
-    weak: ['poison', 'flying', 'psychic', 'bug', 'fairy'],
+    weak: ['flying', 'psychic', 'fairy'],
     immune: ['ghost'],
   },
   {
@@ -58,7 +58,7 @@ export const typeChart: TypeEffectiveness[] = [
   },
   {
     type: 'flying',
-    strong: ['electric', 'grass', 'fighting', 'bug'],
+    strong: ['grass', 'fighting', 'bug'],
     weak: ['electric', 'rock', 'steel'],
     immune: [],
   },
@@ -124,19 +124,19 @@ export const getTypeEffectiveness = (
         .find((type) => type.type === attackingType)
         ?.strong.includes(defType)
     ) {
-      effectiveness *= 2;
+      effectiveness = 2;
     } else if (
       typeChart
         .find((type) => type.type === attackingType)
         ?.weak.includes(defType)
     ) {
-      effectiveness *= 0.5;
+      effectiveness = 0.5;
     } else if (
       typeChart
         .find((type) => type.type === attackingType)
         ?.immune.includes(defType)
     ) {
-      effectiveness *= 0;
+      effectiveness = 0;
     }
   });
 

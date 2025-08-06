@@ -2,16 +2,27 @@ import { useEffect, useState } from 'react';
 import type { Pokemon } from '../types/APITypes';
 import PokemonBox from '../components/explorePage/PokemonBox';
 import { useAppSelector } from '../app/hooks';
-import { Scale, Search, Shuffle, Swords, Zap } from 'lucide-react';
+import {
+  BrushCleaning,
+  Scale,
+  Search,
+  Shuffle,
+  Swords,
+  Zap,
+} from 'lucide-react';
 import PokeLoader from '../components/PokeLoader';
 import { Button } from '../components/ui/button';
 import FightModal from '../components/explorePage/battleFunction/FightModal';
 import MultifunctionalModal from '../components/explorePage/MultifunctionalModal';
 import MyModal from '../components/explorePage/MyModal';
+import { typeChart } from '../utils/typeEffectiveness';
+import CustomSelect from '../components/ui/CustomSelect';
 
 const ExplorePage = () => {
   const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchType, setSearchType] = useState<string>('All types');
+
   const [isFightModalOpen, setIsFightModalOpen] = useState<boolean>(false);
 
   const reduxPokemonList = useAppSelector((state) => state.pokemon.list);
@@ -24,11 +35,23 @@ const ExplorePage = () => {
   const [randomPokemon, setRandomPokemon] = useState<Pokemon | null>();
 
   const updateFilteredList = () => {
-    setPokemonList(
-      reduxPokemonList.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
+    if (searchType !== 'All types') {
+      setPokemonList(
+        reduxPokemonList.filter(
+          (pokemon) =>
+            pokemon.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            pokemon.pokemon_v2_pokemontypes.find(
+              (t) => t.pokemon_v2_type.name === searchType
+            )
+        )
+      );
+    } else {
+      setPokemonList(
+        reduxPokemonList.filter((pokemon) =>
+          pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
   };
 
   const getRandomPokemon = () => {
@@ -47,7 +70,7 @@ const ExplorePage = () => {
 
   useEffect(() => {
     updateFilteredList();
-  }, [searchQuery]);
+  }, [searchQuery, searchType]);
 
   return (
     <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
@@ -119,7 +142,7 @@ const ExplorePage = () => {
       />
 
       {/* search bar */}
-      <div className='flex justify-between items-center py-5'>
+      <div className='flex justify-between items-center gap-6 py-5'>
         <div className='grow relative border border-gray-400/30 bg-white rounded-xl p-3 overflow-hidden shadow-sm'>
           <input
             type='text'
@@ -130,8 +153,25 @@ const ExplorePage = () => {
           />
           <Search className='absolute top-1/2 start-2 sm:start-4 -translate-y-1/2 w-4 h-4 sm:w-6 sm:h-6' />
         </div>
-        <div>{/* filtri1 */}</div>
-        <div>{/* filtri2 */}</div>
+
+        <div>
+          <CustomSelect
+            options={['All types'].concat(typeChart.map((t) => t.type))}
+            value={searchType}
+            onChange={(e) => setSearchType(e)}
+          />
+        </div>
+
+        <Button
+          variant={'sysOpt'}
+          onClick={() => {
+            setSearchQuery('');
+            setSearchType('All types');
+          }}
+          disabled={!searchQuery && searchType === 'All types' ? true : false}
+        >
+          <BrushCleaning />
+        </Button>
       </div>
 
       {isLoading ? (

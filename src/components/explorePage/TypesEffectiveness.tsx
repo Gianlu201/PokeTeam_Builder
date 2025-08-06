@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { typeChart } from '../../utils/typeEffectiveness';
 import { Minus } from 'lucide-react';
 import type { TypeEffectiveness } from '../../types/myTypes';
+import CustomSelect from '../ui/CustomSelect';
 
 const TypesEffectiveness = () => {
   const [selectedType, setSelectedType] = useState<string>('normal');
@@ -31,11 +32,17 @@ const TypesEffectiveness = () => {
 
   const getBackgroundColor = (defenderType: TypeEffectiveness) => {
     switch (true) {
-      case defenderType.weak.includes(selectedType):
+      case typeChart
+        .find((t) => t.type === selectedType)
+        ?.strong.includes(defenderType.type):
         return 'bg-green-500';
-      case defenderType.strong.includes(selectedType):
+      case typeChart
+        .find((t) => t.type === selectedType)
+        ?.weak.includes(defenderType.type):
         return 'bg-red-500';
-      case defenderType.immune.includes(selectedType):
+      case typeChart
+        .find((t) => t.type === selectedType)
+        ?.immune.includes(defenderType.type):
         return 'bg-gray-500';
       default:
         return 'bg-blue-500';
@@ -46,13 +53,19 @@ const TypesEffectiveness = () => {
     let effectiveness = '1';
 
     switch (true) {
-      case defenderType.weak.includes(selectedType):
+      case typeChart
+        .find((t) => t.type === selectedType)
+        ?.strong.includes(defenderType.type):
         effectiveness = '2';
         break;
-      case defenderType.strong.includes(selectedType):
+      case typeChart
+        .find((t) => t.type === selectedType)
+        ?.weak.includes(defenderType.type):
         effectiveness = '½';
         break;
-      case defenderType.immune.includes(selectedType):
+      case typeChart
+        .find((t) => t.type === selectedType)
+        ?.immune.includes(defenderType.type):
         effectiveness = '0';
         break;
     }
@@ -77,16 +90,14 @@ const TypesEffectiveness = () => {
     <div>
       <div className='flex justify-start items-center gap-3 mb-3'>
         <span>Main type:</span>
-        <select
+
+        <CustomSelect
+          options={typeChart.map((t) => t.type)}
           value={selectedType}
-          onChange={(e) => setSelectedType(e.target.value)}
-        >
-          {typeChart.map((type) => (
-            <option key={type.type} value={type.type}>
-              {type.type}
-            </option>
-          ))}
-        </select>
+          onChange={(e) => {
+            setSelectedType(e);
+          }}
+        />
       </div>
 
       <div className='border border-gray-400/40 shadow rounded-lg px-4 py-3 mb-6'>
