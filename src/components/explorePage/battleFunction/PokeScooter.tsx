@@ -38,7 +38,7 @@ const PokeScooter = ({
           <div className='flex justify-start items-center gap-2'>
             <div className='w-full h-[8px] bg-gray-500 border border-gray-800/60 rounded-full mb-2'>
               <div
-                className='h-full bg-green-500'
+                className='h-full bg-green-500 transition-all duration-700 ease-out'
                 style={{ width: `${getLifeBarPercentual()}%` }}
               ></div>
             </div>
