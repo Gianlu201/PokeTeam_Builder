@@ -26,6 +26,9 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
   // se currentTurn è vero sarà il turno di scegliere la mossa, altrimenti le mosse vengono nascoste
   const [currentTurn, setCurrentTurn] = useState<boolean>(true);
 
+  const [iAmAttacking, setIAmAttacking] = useState<boolean>(false);
+  const [enemyIsAttacking, setEnemyIsAttacking] = useState<boolean>(false);
+
   const [currentPokemonLife, setCurrentPokemonLife] = useState<number>(1);
   const [currentEnemyLife, setCurrentEnemyLife] = useState<number>(1);
 
@@ -68,7 +71,7 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
       case 0:
         return 'not effective';
 
-      case 0.25:
+      case 0.5:
         return 'not very effective';
 
       case 2:
@@ -111,199 +114,225 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
 
       if (firstToAttack) {
         // il primo ad attaccare è il mio pokemon
-        const enemyDemage = calculateDamage(
-          myTeam[myCurrentPokemonIndex],
-          enemyTeam[enemyCurrentPokemonIndex],
-          chosenMove
-        );
+        setIAmAttacking(true);
 
-        const enemyLife = currentEnemyLife - enemyDemage;
+        setTimeout(() => {
+          const enemyDemage = calculateDamage(
+            myTeam[myCurrentPokemonIndex],
+            enemyTeam[enemyCurrentPokemonIndex],
+            chosenMove
+          );
 
-        setBattleLogs((logs) =>
-          logs.concat(
-            `${myTeam[myCurrentPokemonIndex].name} uses ${
-              chosenMove.name
-            } and was ${getEffectivenessDescription(
-              chosenMove.pokemon_v2_type.name,
-              enemyTeam[enemyCurrentPokemonIndex]
-            )}!`
-          )
-        );
+          const enemyLife = currentEnemyLife - enemyDemage;
 
-        if (enemyLife <= 0) {
           setBattleLogs((logs) =>
             logs.concat(
-              `${enemyTeam[enemyCurrentPokemonIndex].name} enemy is exhausted and can no longer fight!`
+              `${myTeam[myCurrentPokemonIndex].name} uses ${
+                chosenMove.name
+              } and was ${getEffectivenessDescription(
+                chosenMove.pokemon_v2_type.name,
+                enemyTeam[enemyCurrentPokemonIndex]
+              )}!`
             )
           );
-          if (enemyDiedPokemon + 1 === enemyTeam.length) {
-            setBattleEnded(true);
-            setBattleResult(true);
-          } else {
-            setEnemyDiedPokemon((state) => state + 1);
-            setEnemyCurrentPokemonIndex((state) => state + 1);
-            setCurrentEnemyLife(
-              enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-                .base_stat * 10
-            );
 
-            setTimeout(() => {
-              setChosenMove(null);
-              setCurrentTurn(true);
-            }, 1000);
+          if (enemyLife <= 0) {
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${enemyTeam[enemyCurrentPokemonIndex].name} enemy is exhausted and can no longer fight!`
+              )
+            );
+            if (enemyDiedPokemon + 1 === enemyTeam.length) {
+              setBattleEnded(true);
+              setBattleResult(true);
+            } else {
+              setEnemyDiedPokemon((state) => state + 1);
+              setEnemyCurrentPokemonIndex((state) => state + 1);
+              setCurrentEnemyLife(
+                enemyTeam[enemyCurrentPokemonIndex + 1]
+                  .pokemon_v2_pokemonstats[0].base_stat * 10
+              );
+              setIAmAttacking(false);
+
+              setTimeout(() => {
+                setChosenMove(null);
+                setCurrentTurn(true);
+              }, 1000);
+            }
+
+            return;
+          } else {
+            setCurrentEnemyLife(enemyLife);
           }
 
-          return;
-        } else {
-          setCurrentEnemyLife(enemyLife);
-        }
+          setIAmAttacking(false);
+          setTimeout(() => {
+            setEnemyIsAttacking(true);
+          }, 500);
 
-        const myDemage = calculateDamage(
-          enemyTeam[enemyCurrentPokemonIndex],
-          myTeam[myCurrentPokemonIndex],
-          enemyMove
-        );
-
-        const myPokemonLife = currentPokemonLife - myDemage;
-        setBattleLogs((logs) =>
-          logs.concat(
-            `${enemyTeam[enemyCurrentPokemonIndex].name} enemy uses ${
-              enemyMove.name
-            } and was ${getEffectivenessDescription(
-              enemyMove.pokemon_v2_type.name,
-              myTeam[myCurrentPokemonIndex]
-            )}!`
-          )
-        );
-
-        if (myPokemonLife <= 0) {
-          setBattleLogs((logs) =>
-            logs.concat(
-              `${myTeam[myCurrentPokemonIndex].name} is exhausted and can no longer fight!`
-            )
-          );
-          if (myDiedPokemon + 1 === myTeam.length) {
-            setBattleEnded(true);
-            setBattleResult(false);
-          } else {
-            setMyDiedPokemon((state) => state + 1);
-            setMyCurrentPokemonIndex((state) => state + 1);
-            setCurrentPokemonLife(
-              myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-                .base_stat * 10
+          setTimeout(() => {
+            const myDemage = calculateDamage(
+              enemyTeam[enemyCurrentPokemonIndex],
+              myTeam[myCurrentPokemonIndex],
+              enemyMove
             );
 
-            setTimeout(() => {
-              setChosenMove(null);
-              setCurrentTurn(true);
-            }, 1000);
-          }
+            const myPokemonLife = currentPokemonLife - myDemage;
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${enemyTeam[enemyCurrentPokemonIndex].name} enemy uses ${
+                  enemyMove.name
+                } and was ${getEffectivenessDescription(
+                  enemyMove.pokemon_v2_type.name,
+                  myTeam[myCurrentPokemonIndex]
+                )}!`
+              )
+            );
 
-          return;
-        } else {
-          setCurrentPokemonLife(myPokemonLife);
-        }
+            if (myPokemonLife <= 0) {
+              setBattleLogs((logs) =>
+                logs.concat(
+                  `${myTeam[myCurrentPokemonIndex].name} is exhausted and can no longer fight!`
+                )
+              );
+              if (myDiedPokemon + 1 === myTeam.length) {
+                setBattleEnded(true);
+                setBattleResult(false);
+              } else {
+                setMyDiedPokemon((state) => state + 1);
+                setMyCurrentPokemonIndex((state) => state + 1);
+                setCurrentPokemonLife(
+                  myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+                    .base_stat * 10
+                );
+
+                setTimeout(() => {
+                  setChosenMove(null);
+                  setCurrentTurn(true);
+                }, 2000);
+              }
+
+              return;
+            } else {
+              setCurrentPokemonLife(myPokemonLife);
+            }
+
+            setEnemyIsAttacking(false);
+          }, 1200);
+        }, 700);
       } else {
         // il primo ad attaccare è il pokemon nemico
-        const myDemage = calculateDamage(
-          enemyTeam[enemyCurrentPokemonIndex],
-          myTeam[myCurrentPokemonIndex],
-          enemyMove
-        );
+        setEnemyIsAttacking(true);
 
-        const myPokemonLife = currentPokemonLife - myDemage;
+        setTimeout(() => {
+          const myDemage = calculateDamage(
+            enemyTeam[enemyCurrentPokemonIndex],
+            myTeam[myCurrentPokemonIndex],
+            enemyMove
+          );
 
-        setBattleLogs((logs) =>
-          logs.concat(
-            `${enemyTeam[enemyCurrentPokemonIndex].name} enemy uses ${
-              enemyMove.name
-            } and was ${getEffectivenessDescription(
-              enemyMove.pokemon_v2_type.name,
-              myTeam[myCurrentPokemonIndex]
-            )}!`
-          )
-        );
+          const myPokemonLife = currentPokemonLife - myDemage;
 
-        if (myPokemonLife <= 0) {
           setBattleLogs((logs) =>
             logs.concat(
-              `${myTeam[myCurrentPokemonIndex].name} is exhausted and can no longer fight!`
+              `${enemyTeam[enemyCurrentPokemonIndex].name} enemy uses ${
+                enemyMove.name
+              } and was ${getEffectivenessDescription(
+                enemyMove.pokemon_v2_type.name,
+                myTeam[myCurrentPokemonIndex]
+              )}!`
             )
           );
-          if (myDiedPokemon + 1 === myTeam.length) {
-            setBattleEnded(true);
-            setBattleResult(false);
-          } else {
-            setMyDiedPokemon((state) => state + 1);
-            setMyCurrentPokemonIndex((state) => state + 1);
-            setCurrentPokemonLife(
-              myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-                .base_stat * 10
-            );
 
-            setTimeout(() => {
-              setChosenMove(null);
-              setCurrentTurn(true);
-            }, 1000);
+          if (myPokemonLife <= 0) {
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${myTeam[myCurrentPokemonIndex].name} is exhausted and can no longer fight!`
+              )
+            );
+            if (myDiedPokemon + 1 === myTeam.length) {
+              setBattleEnded(true);
+              setBattleResult(false);
+            } else {
+              setMyDiedPokemon((state) => state + 1);
+              setMyCurrentPokemonIndex((state) => state + 1);
+              setCurrentPokemonLife(
+                myTeam[myCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
+                  .base_stat * 10
+              );
+              setEnemyIsAttacking(false);
+
+              setTimeout(() => {
+                setChosenMove(null);
+                setCurrentTurn(true);
+              }, 1000);
+            }
+
+            return;
+          } else {
+            setCurrentPokemonLife(myPokemonLife);
           }
 
-          return;
-        } else {
-          setCurrentPokemonLife(myPokemonLife);
-        }
+          setEnemyIsAttacking(false);
+          setTimeout(() => {
+            setIAmAttacking(true);
+          }, 500);
 
-        const enemyDemage = calculateDamage(
-          myTeam[myCurrentPokemonIndex],
-          enemyTeam[enemyCurrentPokemonIndex],
-          chosenMove
-        );
-
-        const enemyLife = currentEnemyLife - enemyDemage;
-        setBattleLogs((logs) =>
-          logs.concat(
-            `${myTeam[myCurrentPokemonIndex].name} uses ${
-              chosenMove.name
-            } and was ${getEffectivenessDescription(
-              chosenMove.pokemon_v2_type.name,
-              enemyTeam[enemyCurrentPokemonIndex]
-            )}!`
-          )
-        );
-
-        if (enemyLife <= 0) {
-          setBattleLogs((logs) =>
-            logs.concat(
-              `${enemyTeam[enemyCurrentPokemonIndex].name} enemy is exhausted and can no longer fight!`
-            )
-          );
-          if (enemyDiedPokemon + 1 === enemyTeam.length) {
-            setBattleEnded(true);
-            setBattleResult(true);
-          } else {
-            setEnemyDiedPokemon((state) => state + 1);
-            setEnemyCurrentPokemonIndex((state) => state + 1);
-            setCurrentEnemyLife(
-              enemyTeam[enemyCurrentPokemonIndex + 1].pokemon_v2_pokemonstats[0]
-                .base_stat * 10
+          setTimeout(() => {
+            const enemyDemage = calculateDamage(
+              myTeam[myCurrentPokemonIndex],
+              enemyTeam[enemyCurrentPokemonIndex],
+              chosenMove
             );
 
-            setTimeout(() => {
-              setChosenMove(null);
-              setCurrentTurn(true);
-            }, 1000);
-          }
+            const enemyLife = currentEnemyLife - enemyDemage;
+            setBattleLogs((logs) =>
+              logs.concat(
+                `${myTeam[myCurrentPokemonIndex].name} uses ${
+                  chosenMove.name
+                } and was ${getEffectivenessDescription(
+                  chosenMove.pokemon_v2_type.name,
+                  enemyTeam[enemyCurrentPokemonIndex]
+                )}!`
+              )
+            );
 
-          return;
-        } else {
-          setCurrentEnemyLife(enemyLife);
-        }
+            if (enemyLife <= 0) {
+              setBattleLogs((logs) =>
+                logs.concat(
+                  `${enemyTeam[enemyCurrentPokemonIndex].name} enemy is exhausted and can no longer fight!`
+                )
+              );
+              if (enemyDiedPokemon + 1 === enemyTeam.length) {
+                setBattleEnded(true);
+                setBattleResult(true);
+              } else {
+                setEnemyDiedPokemon((state) => state + 1);
+                setEnemyCurrentPokemonIndex((state) => state + 1);
+                setCurrentEnemyLife(
+                  enemyTeam[enemyCurrentPokemonIndex + 1]
+                    .pokemon_v2_pokemonstats[0].base_stat * 10
+                );
+
+                setTimeout(() => {
+                  setChosenMove(null);
+                  setCurrentTurn(true);
+                }, 1000);
+              }
+
+              return;
+            } else {
+              setCurrentEnemyLife(enemyLife);
+            }
+          }, 1200);
+        }, 700);
       }
     }
 
     setTimeout(() => {
       setChosenMove(null);
       setCurrentTurn(true);
-    }, 1000);
+    }, 3000);
   };
 
   const getRandomEnemyMove = () => {
@@ -380,7 +409,9 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
                 </div>
                 <div className='col-span-7 flex justify-center items-center'>
                   <img
-                    className='w-[150px] h-[150px] relative top-14'
+                    className={`w-[150px] h-[150px] relative top-14 duration-300 ${
+                      enemyIsAttacking && 'animate-poke-jump'
+                    }`}
                     src={
                       enemyTeam[enemyCurrentPokemonIndex]
                         .pokemon_v2_pokemonsprites[0].front_sprite ?? ''
@@ -394,7 +425,9 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
               <div className='grid grid-cols-12 items-start'>
                 <div className='col-span-7 flex justify-center items-center'>
                   <img
-                    className='w-[150px] h-[150px] relative bottom-6'
+                    className={`w-[150px] h-[150px] relative bottom-6 duration-300 ${
+                      iAmAttacking && 'animate-poke-jump'
+                    }`}
                     src={
                       myTeam[myCurrentPokemonIndex].pokemon_v2_pokemonsprites[0]
                         .back_sprite ?? ''

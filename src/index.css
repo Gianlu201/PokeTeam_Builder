@@ -52,4 +52,8 @@
   .hover\:animate-poke-jump:hover img {
     animation: poke-jump 0.6s ease-in-out;
   }
+
+  .animate-poke-jump {
+    animation: poke-jump 0.6s ease-in-out;
+  }
 }
