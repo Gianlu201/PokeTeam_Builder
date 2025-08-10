@@ -112,6 +112,7 @@ const HeroComponent = () => {
               variant={location.pathname === '/' ? 'default' : 'ghost'}
               className='my-0.5 ms-0.5'
               onClick={() => navigate('/')}
+              data-testid='explore-button'
             >
               Explore
             </Button>
@@ -119,6 +120,7 @@ const HeroComponent = () => {
               variant={location.pathname === '/team' ? 'default' : 'ghost'}
               className='my-0.5'
               onClick={() => navigate('/team')}
+              data-testid='team-button'
             >
               Team
             </Button>
@@ -128,6 +130,7 @@ const HeroComponent = () => {
               }
               className='my-0.5 me-0.5'
               onClick={() => navigate('/saved-teams')}
+              data-testid='saved-button'
             >
               Saved
             </Button>

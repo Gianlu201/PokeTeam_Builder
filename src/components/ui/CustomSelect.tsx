@@ -5,6 +5,7 @@ interface CustomSelectProps {
   value: string;
   onChange: (value: string) => void;
   className?: string;
+  testid?: string;
 }
 
 export default function CustomSelect({
@@ -12,6 +13,7 @@ export default function CustomSelect({
   value,
   onChange,
   className,
+  testid,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(
@@ -57,7 +59,11 @@ export default function CustomSelect({
   };
 
   return (
-    <div ref={selectRef} className={`relative w-44 ${className}`}>
+    <div
+      ref={selectRef}
+      className={`relative w-44 ${className}`}
+      data-testid={testid}
+    >
       {/* Bottone */}
       <button
         type='button'

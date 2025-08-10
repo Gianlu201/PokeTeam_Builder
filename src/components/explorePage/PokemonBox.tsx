@@ -65,7 +65,10 @@ const PokemonBox = ({ pokemonList }: Params) => {
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 justify-between items-start mt-2 relative'>
+      <div
+        className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 justify-between items-start mt-2 relative'
+        data-testid='pokemonBox'
+      >
         {pokemonList.slice(0, pokemonShowedNum).map((pokemon) => (
           <PokemonCard
             key={pokemon.id}

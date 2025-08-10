@@ -82,6 +82,7 @@ const ExplorePage = () => {
             setPokeModal(true);
             getRandomPokemon();
           }}
+          data-testid='menu-button'
         >
           <Shuffle />
           Random Pokémon
@@ -92,6 +93,7 @@ const ExplorePage = () => {
           onClick={() => {
             setIsFightModalOpen(true);
           }}
+          data-testid='menu-button'
         >
           <Swords />
           Fight
@@ -104,6 +106,7 @@ const ExplorePage = () => {
             setModalTitle('Poké Quiz');
             setModalOpen(true);
           }}
+          data-testid='menu-button'
         >
           <Zap />
           Pokè Quiz
@@ -115,6 +118,7 @@ const ExplorePage = () => {
             setModalTitle('Types Effectiveness');
             setModalOpen(true);
           }}
+          data-testid='menu-button'
         >
           <Scale />
           Types Effectiveness
@@ -150,6 +154,7 @@ const ExplorePage = () => {
             className='w-full ms-5 sm:ms-10 focus:outline-0 text-sm'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            data-testid='poke-searchbar'
           />
           <Search className='absolute top-1/2 start-2 sm:start-4 -translate-y-1/2 w-4 h-4 sm:w-6 sm:h-6' />
         </div>
@@ -159,6 +164,7 @@ const ExplorePage = () => {
             options={['All types'].concat(typeChart.map((t) => t.type))}
             value={searchType}
             onChange={(e) => setSearchType(e)}
+            testid='pokeType-filter'
           />
         </div>
 
@@ -169,6 +175,7 @@ const ExplorePage = () => {
             setSearchType('All types');
           }}
           disabled={!searchQuery && searchType === 'All types' ? true : false}
+          data-testid='cleanSearch-button'
         >
           <BrushCleaning />
         </Button>

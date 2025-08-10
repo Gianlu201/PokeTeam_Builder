@@ -1,6 +1,6 @@
 const PokeLoader = () => {
   return (
-    <div>
+    <div data-testid='poke-loader'>
       <div className='w-38 h-38 relative animate-spin-3x rounded-full overflow-hidden border-[6px] border-black mx-auto my-10'>
         <div className='absolute top-0 left-0 w-full h-1/2 bg-red-600'></div>
         <div className='absolute bottom-0 left-0 w-full h-1/2 bg-white'></div>

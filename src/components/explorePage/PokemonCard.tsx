@@ -62,6 +62,7 @@ const PokemonCard = ({
       className='text-white rounded-xl p-4 cursor-pointer duration-300 hover:scale-105 hover:opacity-90 hover:animate-poke-jump shadow-md shadow-black/40'
       style={{ background: getTypeGradient(types) }}
       onClick={() => setSelectedPokemon(pokemon)}
+      data-testid='pokemon-card'
     >
       <h3 className='capitalize text-lg font-bold'>{pokemon.name}</h3>
       <p className='mb-2'>{showPokedexNumber(pokemon.id)}</p>

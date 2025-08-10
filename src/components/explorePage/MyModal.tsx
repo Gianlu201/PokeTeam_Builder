@@ -91,7 +91,7 @@ const MyModal = ({
           className='max-h-[80vh] sm:max-w-2xl xl:max-w-4xl bg-white border-0 shadow-2xl overflow-y-auto'
           aria-describedby={undefined}
         >
-          <DialogHeader>
+          <DialogHeader data-testid='pokemonInfo-modal'>
             <DialogTitle className='text-2xl font-bold'>
               <span className='capitalize'>{selectedPokemon?.name}</span>{' '}
               <span className='inline-block text-xs ms-1 py-0.5 px-2 border border-gray-600/30 rounded-full'>
