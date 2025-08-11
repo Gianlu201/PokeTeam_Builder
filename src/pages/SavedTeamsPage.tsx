@@ -36,7 +36,10 @@ const SavedTeamsPage = () => {
 
   return (
     <div className='max-w-7xl mx-auto min-h-[50vh] pt-4 bg-background max-xl:mx-10'>
-      <h2 className='flex justify-start items-center gap-2 text-2xl font-bold mb-6'>
+      <h2
+        className='flex justify-start items-center gap-2 text-2xl font-bold mb-6'
+        data-testid='savedTeams-title'
+      >
         <Users className='text-blue-500 w-7 h-7' />
         Saved Teams
         <span className='text-sm font-normal'>({savedTeams.length})</span>

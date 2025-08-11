@@ -17,7 +17,10 @@ const SavedTeamCompontnt = ({ team, showToastMessage }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className='bg-white border border-gray-300/40 rounded-lg shadow-md p-4 mb-5'>
+    <div
+      className='bg-white border border-gray-300/40 rounded-lg shadow-md p-4 mb-5'
+      data-testid='saved-team-component'
+    >
       <div className='flex justify-between items-center mb-2'>
         <h3 className='text-xl font-bold max-xs:max-w-[90px] overflow-auto'>
           {team.teamName}
@@ -39,6 +42,7 @@ const SavedTeamCompontnt = ({ team, showToastMessage }: Props) => {
               dispatch(removeSavedTeam(team));
               showToastMessage('teamRemoved', team.teamName);
             }}
+            data-testid='removeTeam'
           >
             <Trash2 className='text-red-500' />
           </Button>
