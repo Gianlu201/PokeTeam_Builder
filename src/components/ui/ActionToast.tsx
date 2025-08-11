@@ -30,7 +30,10 @@ const ActionToast = ({ t, actionMode, action }: Props) => {
   };
 
   return (
-    <div className='min-w-[300px] bg-white border border-gray-400/60 shadow-md rounded-lg mb-2 p-3 pb-4'>
+    <div
+      className='min-w-[300px] bg-white border border-gray-400/60 shadow-md rounded-lg mb-2 p-3 pb-4'
+      data-testid={actionMode}
+    >
       <div className='flex justify-between items-center mb-1'>
         <h3 className='font-semibold'>{getActionTitle()}</h3>
         <button className='cursor-pointer' onClick={() => toast.dismiss(t)}>
@@ -47,6 +50,7 @@ const ActionToast = ({ t, actionMode, action }: Props) => {
             action();
             toast.dismiss(t);
           }}
+          data-testid='action-confirm'
         >
           Do
         </Button>

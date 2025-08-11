@@ -53,12 +53,16 @@ const TeamPokemonSlot = ({
   };
 
   return (
-    <div className='w-full aspect-square border border-gray-400/30 bg-white rounded-lg shadow-md p-3 overflow-hidden hover:animate-poke-jump'>
+    <div
+      className='w-full aspect-square border border-gray-400/30 bg-white rounded-lg shadow-md p-3 overflow-hidden hover:animate-poke-jump'
+      data-testid='pokemon-slot'
+    >
       <div className='flex justify-between items-center mb-2'>
         <h3 className='capitalize font-bold'>{pokemon.name}</h3>
         <Trash2
           className='text-red-500 w-4 h-4 cursor-pointer'
           onClick={removePokemonFromTeam}
+          data-testid='pokemon-remove'
         />
       </div>
 

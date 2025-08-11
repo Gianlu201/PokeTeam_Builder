@@ -37,7 +37,10 @@ const SuggestedTeam = ({ pokeTeam }: Props) => {
   }, [pokeTeam]);
 
   return (
-    <div className='bg-green-50/80 border border-green-200/40 rounded-xl mx-2 mb-10 p-6 shadow-lg'>
+    <div
+      className='bg-green-50/80 border border-green-200/40 rounded-xl mx-2 mb-10 p-6 shadow-lg'
+      data-testid='suggested-team'
+    >
       <h3 className='flex items-center gap-2 text-xl font-bold mb-2'>
         <Lightbulb className='w-6 h-6 text-green-600' />
         Suggested Types

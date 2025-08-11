@@ -61,7 +61,7 @@ const TeamStats = () => {
   }, [pokeTeam]);
 
   return (
-    <div className='bg-white rounded-xl p-4 my-4 mb-6'>
+    <div className='bg-white rounded-xl p-4 my-4 mb-6' data-testid='team-stats'>
       <h3 className='flex items-center gap-2 font-medium mb-2'>
         <ChartSpline className='w-4 h-4' />
         Team Stats

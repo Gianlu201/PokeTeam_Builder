@@ -33,7 +33,7 @@ const SelectEnemyComponent = () => {
   };
 
   return (
-    <div>
+    <div data-testid='select-enemy'>
       <form
         className='sm:flex justify-center items-center gap-2 mb-4'
         onSubmit={(e) => {
@@ -48,12 +48,14 @@ const SelectEnemyComponent = () => {
           onChange={(e) => {
             setCurrentEnemySelected(e);
           }}
+          testid='enemy-selector'
         />
 
         <Button
           variant={'sysOpt'}
           disabled={currentEnemySelected === 'Select a Pokémon' ? true : false}
           className='max-sm:relative max-sm:left-[100%] max-sm:-translate-x-[100%]'
+          data-testid='addEnemy-button'
         >
           <Search />
           Add

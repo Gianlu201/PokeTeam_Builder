@@ -45,7 +45,10 @@ const TeamAnalysis = ({ pokeTeam }: Props) => {
   }, [pokeTeam]);
 
   return (
-    <div className='bg-indigo-50/80 border border-gray-300/40 rounded-xl mx-2 my-4 p-6 shadow-lg'>
+    <div
+      className='bg-indigo-50/80 border border-gray-300/40 rounded-xl mx-2 my-4 p-6 shadow-lg'
+      data-testid='team-analysis'
+    >
       <h3 className='flex items-center gap-2 text-xl font-bold mb-2'>
         <Shield className='w-6 h-6 text-purple-600' />
         Team's Analysis

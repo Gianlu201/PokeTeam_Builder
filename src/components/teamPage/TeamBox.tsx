@@ -30,7 +30,10 @@ const TeamBox = ({ savedTeam, isMyTeam }: Props) => {
 
       {!isMyTeam && <SelectEnemyComponent />}
 
-      <div className='max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
+      <div
+        className='max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'
+        data-testid={isMyTeam ? 'team-box-current' : 'team-box-enemy'}
+      >
         {savedTeam.team.map((pokemon, i) => {
           if (pokemon) {
             return (
@@ -49,6 +52,7 @@ const TeamBox = ({ savedTeam, isMyTeam }: Props) => {
               <div
                 key={-i}
                 className='flex flex-col justify-center items-center gap-2 w-full aspect-square border-2 border-dashed border-gray-400 text-gray-500 bg-background rounded-lg hover:border-gray-600'
+                data-testid='pokemon-emptySlot'
               >
                 <Users />
                 <p>Slot {i + 1}</p>

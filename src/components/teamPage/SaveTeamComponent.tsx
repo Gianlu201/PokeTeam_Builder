@@ -85,7 +85,10 @@ const SaveTeamComponent = () => {
 
   if (!(getTeamComponentsCount(currentTeam.team) > 0)) {
     return (
-      <div className='flex flex-col justify-center items-center gap-2 my-2 mt-8'>
+      <div
+        className='flex flex-col justify-center items-center gap-2 my-2 mt-8'
+        data-testid='team-empty'
+      >
         <Users className='text-gray-500 w-10 h-10 stroke-2' />
         <h3 className='font-semibold text-lg text-gray-500'>Empty Team</h3>
         <p className='text-gray-500 text-sm'>
@@ -95,17 +98,26 @@ const SaveTeamComponent = () => {
     );
   } else {
     return (
-      <div className='md:flex justify-between items-center gap-3 my-5'>
+      <div
+        className='md:flex justify-between items-center gap-3 my-5'
+        data-testid='save-team'
+      >
         <input
           type='text'
           placeholder={`Put your team's name...`}
           className='block max-md:w-full max-md:mb-3 grow bg-white border border-gray-400/50 rounded-md py-1.5 px-3'
           value={teamName}
           onChange={(e) => setTeamName(e.target.value)}
+          data-testid='teamName-field'
         />
 
         <div className='flex justify-around items-center md:gap-3'>
-          <Button variant={'sysOpt'} onClick={saveTeam}>
+          <Button
+            variant={'sysOpt'}
+            onClick={saveTeam}
+            data-testid='saveTeam-button'
+            disabled={teamName.trim() === '' || teamName.length < 3}
+          >
             <Save className='hidden sm:block' />
             Save team
           </Button>
@@ -115,6 +127,7 @@ const SaveTeamComponent = () => {
             onClick={() => {
               dispatch(cleanCurrentTeam());
             }}
+            data-testid='cleanTeam-button'
           >
             <Trash2 className='hidden sm:block' />
             Clean team

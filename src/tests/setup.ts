@@ -1,6 +1,8 @@
 import { beforeAll, afterEach, afterAll, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { server } from './server';
+import { cleanup } from '@testing-library/react';
+import { toast } from 'sonner';
 
 class MockIntersectionObserver {
   callback: IntersectionObserverCallback;
@@ -19,6 +21,24 @@ Object.defineProperty(window, 'IntersectionObserver', {
   value: MockIntersectionObserver as unknown as typeof IntersectionObserver,
 });
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
+// Mock per setPointerCapture in JSDOM
+if (!Element.prototype.setPointerCapture) {
+  Element.prototype.setPointerCapture = () => {};
+}
+
+if (!Element.prototype.releasePointerCapture) {
+  Element.prototype.releasePointerCapture = () => {};
+}
+
+beforeAll(() => {
+  server.listen();
+  document
+    .querySelectorAll('[data-sonner-toaster], [data-sonner-toast]')
+    .forEach((el) => el.remove());
+});
+afterEach(() => {
+  server.resetHandlers();
+  cleanup();
+  toast.dismiss();
+});
 afterAll(() => server.close());
