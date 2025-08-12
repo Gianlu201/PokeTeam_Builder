@@ -26,8 +26,10 @@ const FightModalMyTeam = ({
 
   return (
     <div className='flex flex-col items-center justify-start h-[100%] relative'>
-      <h2>Select your team</h2>
-      <p>Choose between your saved teams or your current team</p>
+      <h2 className='font-bold text-3xl mb-1'>Select your team</h2>
+      <p className='mb-3 text-gray-700'>
+        Choose between your saved teams or your current team
+      </p>
       <div className='bg-gray-400/20 rounded-lg p-0.5'>
         <Button
           variant={myTeamOption ? 'default' : 'ghost'}
@@ -88,7 +90,7 @@ const FightModalMyTeam = ({
       ) : (
         <div className='w-full'>
           {savedTeams.length > 0 ? (
-            <div className='mt-4'>
+            <div className='my-5'>
               {savedTeams.map((team) => (
                 <SavedTeamShowCard
                   key={team.teamName}
@@ -104,18 +106,19 @@ const FightModalMyTeam = ({
         </div>
       )}
 
-      <Button
-        className='fixed bottom-6 right-6'
-        variant={'sysOpt'}
-        disabled={mySelectedTeam ? false : true}
-        onClick={() => {
-          if (mySelectedTeam) {
-            setSelectionStep(1);
-          }
-        }}
-      >
-        Next
-      </Button>
+      <div className='sticky bottom-0 flex justify-end p-4'>
+        <Button
+          variant={'sysOpt'}
+          disabled={mySelectedTeam ? false : true}
+          onClick={() => {
+            if (mySelectedTeam) {
+              setSelectionStep(1);
+            }
+          }}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

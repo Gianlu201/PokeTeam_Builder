@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppSelector } from '../../../app/hooks';
-import EnemyTeamFormation from './EnemyTeamFormation';
+// import EnemyTeamFormation from './EnemyTeamFormation';
 import type { PokeTeam } from '../../../types/myTypes';
 import SavedTeamShowCard from '../SavedTeamShowCard';
 import { Button } from '../../ui/button';
@@ -25,8 +25,10 @@ const FightModalEnemyTeam = ({
 
   return (
     <div className='flex flex-col items-center justify-start h-full relative'>
-      <h2>Select your enemy's team</h2>
-      <p>Choose between your saved teams or create a new one now</p>
+      <h2 className='font-bold text-3xl mb-1'>Select your enemy's team</h2>
+      <p className='mb-3 text-gray-700'>
+        Choose between your saved teams or create a new one now
+      </p>
       <div className='bg-gray-400/20 rounded-lg p-0.5'>
         <Button
           variant={teamOption ? 'default' : 'ghost'}
@@ -48,14 +50,18 @@ const FightModalEnemyTeam = ({
         </Button>
       </div>
 
-      <div className='w-full'>
+      <div className='w-full h-full'>
         {teamOption ? (
-          <EnemyTeamFormation />
+          // <EnemyTeamFormation />
+          <div className='text-center mt-14 text-gray-700 border border-gray-300 rounded-lg w-fit shadow-md mx-auto px-10 py-6'>
+            <h3 className='font-bold text-2xl mb-2'>Work in progress</h3>
+            <p className='text-black'>This option will be enabled soon</p>
+          </div>
         ) : (
-          <div className='flex flex-row justify-center items-center gap-2 w-full mt-4'>
+          <div className='flex flex-row justify-center items-center gap-2 w-full'>
             <div className='w-full'>
               {savedTeams.length > 0 ? (
-                <div>
+                <div className='my-5'>
                   {savedTeams.map((team) => (
                     <SavedTeamShowCard
                       key={team.teamName}
@@ -73,18 +79,19 @@ const FightModalEnemyTeam = ({
         )}
       </div>
 
-      <Button
-        className='fixed bottom-6 right-6'
-        variant={'sysOpt'}
-        disabled={enemySelectedTeam ? false : true}
-        onClick={() => {
-          if (enemySelectedTeam) {
-            setSelectionStep(2);
-          }
-        }}
-      >
-        Next
-      </Button>
+      <div className='sticky bottom-0 flex justify-end p-4'>
+        <Button
+          variant={'sysOpt'}
+          disabled={enemySelectedTeam ? false : true}
+          onClick={() => {
+            if (enemySelectedTeam) {
+              setSelectionStep(2);
+            }
+          }}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

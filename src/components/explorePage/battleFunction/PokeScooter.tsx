@@ -26,6 +26,16 @@ const PokeScooter = ({
     }
   };
 
+  const getLifeBarColor = () => {
+    const percentual = getLifeBarPercentual();
+    if (percentual) {
+      if (percentual > 50) return 'bg-green-500';
+      else if (percentual > 20) return 'bg-yellow-500';
+      else return 'bg-red-500';
+    }
+    return 'bg-gray-500';
+  };
+
   useEffect(() => {
     setCurrentPokeHp(pokeHp);
   }, [pokeHp]);
@@ -38,7 +48,7 @@ const PokeScooter = ({
           <div className='flex justify-start items-center gap-2'>
             <div className='w-full h-[8px] bg-gray-500 border border-gray-800/60 rounded-full mb-2'>
               <div
-                className='h-full bg-green-500 transition-all duration-700 ease-out'
+                className={`h-full ${getLifeBarColor()} transition-all duration-700 ease-out`}
                 style={{ width: `${getLifeBarPercentual()}%` }}
               ></div>
             </div>

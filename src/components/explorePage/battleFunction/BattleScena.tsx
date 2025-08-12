@@ -469,16 +469,18 @@ const BattleScena = ({ mySelectedTeam, enemySelectedTeam }: Props) => {
           {battleEnded && (
             <>
               {battleResult ? (
-                <div className='mb-4'>
-                  <Trophy className='w-16 h-16 text-amber-400 mx-auto mb-1' />
+                <div className='my-10'>
+                  <Trophy className='w-16 h-16 text-amber-400 mx-auto mb-2' />
                   <h3 className='text-3xl font-bold text-center'>
                     Congratulations, you've won!
                   </h3>
                 </div>
               ) : (
-                <div className='mb-4'>
-                  <ShieldX className='w-16 h-16 text-red-600 mx-auto mb-1' />
-                  <h3>You lost, maybe next time</h3>
+                <div className='my-10'>
+                  <ShieldX className='w-16 h-16 text-red-600 mx-auto mb-2' />
+                  <h3 className='text-3xl font-bold text-center'>
+                    You lost, maybe next time
+                  </h3>
                 </div>
               )}
             </>
