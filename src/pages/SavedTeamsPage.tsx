@@ -35,7 +35,7 @@ const SavedTeamsPage = () => {
   };
 
   return (
-    <div className='max-w-7xl mx-auto min-h-[50vh] pt-4 bg-background max-xl:mx-10'>
+    <div className='max-w-7xl mx-auto min-h-[50vh] pt-4 pb-10 bg-background max-xl:mx-10'>
       <h2
         className='flex justify-start items-center gap-2 text-2xl font-bold mb-6'
         data-testid='savedTeams-title'

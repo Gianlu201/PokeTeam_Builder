@@ -10,7 +10,7 @@ const TeamPage = () => {
   const enemyTeam = useAppSelector((state) => state.teams.enemyTeam);
 
   return (
-    <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
+    <div className='max-w-7xl mx-auto min-h-[50vh] bg-background max-xl:mx-10 pb-16'>
       {/* my team */}
       <div className='bg-indigo-50/80 border border-gray-300/40 rounded-xl mx-2 my-7 p-6 shadow-lg'>
         <div className='flex justify-between items-center mb-3'>

@@ -73,7 +73,7 @@ const ExplorePage = () => {
   }, [searchQuery, searchType]);
 
   return (
-    <div className='max-w-7xl mx-auto bg-background max-xl:mx-10'>
+    <div className='max-w-7xl mx-auto min-h-[50vh] bg-background max-xl:mx-10'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-start items-center gap-4 mt-5 mb-1'>
         <Button
           variant={'default'}
@@ -176,6 +176,7 @@ const ExplorePage = () => {
           }}
           disabled={!searchQuery && searchType === 'All types' ? true : false}
           data-testid='cleanSearch-button'
+          className='p-5.5 aspect-square'
         >
           <BrushCleaning />
         </Button>

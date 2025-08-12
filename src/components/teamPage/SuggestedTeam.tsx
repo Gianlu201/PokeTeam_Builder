@@ -38,7 +38,7 @@ const SuggestedTeam = ({ pokeTeam }: Props) => {
 
   return (
     <div
-      className='bg-green-50/80 border border-green-200/40 rounded-xl mx-2 mb-10 p-6 shadow-lg'
+      className='bg-green-50/80 border border-green-200/40 rounded-xl mx-2 p-6 shadow-lg'
       data-testid='suggested-team'
     >
       <h3 className='flex items-center gap-2 text-xl font-bold mb-2'>
