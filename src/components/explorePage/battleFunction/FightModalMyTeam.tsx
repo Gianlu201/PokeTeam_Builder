@@ -52,7 +52,7 @@ const FightModalMyTeam = ({
       </div>
 
       {myTeamOption ? (
-        <div className='flex flex-row justify-center items-center gap-2 w-full'>
+        <div className='flex flex-row justify-center items-start gap-2 w-full h-full'>
           {getTeamComponentsCount(currentTeam.team) > 0 ? (
             <div
               className={`flex justify-center items-center gap-2 border rounded-xl px-5 py-3 my-4 ${
@@ -88,9 +88,9 @@ const FightModalMyTeam = ({
           )}
         </div>
       ) : (
-        <div className='w-full'>
+        <div className='w-full h-[100%] flex flex-col justify-center items-center'>
           {savedTeams.length > 0 ? (
-            <div className='my-5'>
+            <div className='w-full my-5'>
               {savedTeams.map((team) => (
                 <SavedTeamShowCard
                   key={team.teamName}
@@ -101,12 +101,16 @@ const FightModalMyTeam = ({
               ))}
             </div>
           ) : (
-            <h4 className='text-center'>No saved teams found!</h4>
+            <div className='flex justify-center items-center h-[100%]'>
+              <h4 className='text-center text-xl font-semibold text-gray-700'>
+                No saved teams found!
+              </h4>
+            </div>
           )}
         </div>
       )}
 
-      <div className='sticky bottom-0 flex justify-end p-4'>
+      <div className='sticky bottom-0 flex justify-end p-2'>
         <Button
           variant={'sysOpt'}
           disabled={mySelectedTeam ? false : true}

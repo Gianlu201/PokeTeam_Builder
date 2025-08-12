@@ -50,10 +50,10 @@ const FightModalEnemyTeam = ({
         </Button>
       </div>
 
-      <div className='w-full h-full'>
+      <div className='w-full h-[100%] flex flex-col justify-center items-center'>
         {teamOption ? (
           // <EnemyTeamFormation />
-          <div className='text-center mt-14 text-gray-700 border border-gray-300 rounded-lg w-fit shadow-md mx-auto px-10 py-6'>
+          <div className='justify-self-start text-center mt-14 text-gray-700 border border-gray-300 rounded-lg w-fit shadow-md mx-auto px-10 py-6'>
             <h3 className='font-bold text-2xl mb-2'>Work in progress</h3>
             <p className='text-black'>This option will be enabled soon</p>
           </div>
@@ -72,14 +72,18 @@ const FightModalEnemyTeam = ({
                   ))}
                 </div>
               ) : (
-                <h4 className='text-center'>No saved teams found!</h4>
+                <div className='flex justify-center items-center h-[100%]'>
+                  <h4 className='text-center text-xl font-semibold text-gray-700'>
+                    No saved teams found!
+                  </h4>
+                </div>
               )}
             </div>
           </div>
         )}
       </div>
 
-      <div className='sticky bottom-0 flex justify-end p-4'>
+      <div className='sticky bottom-0 flex justify-end p-2'>
         <Button
           variant={'sysOpt'}
           disabled={enemySelectedTeam ? false : true}
