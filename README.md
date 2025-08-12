@@ -27,7 +27,7 @@ Il salvataggio delle squadre avviene tramite nome, quindi non è possibile salva
   - [Prerequisiti](#-prerequisiti)
   - [Clonazione del Repository](#-clonazione-del-repository)
   - [Avvio](#%EF%B8%8F-avvio-app)
-  - [Testing](#%EF%B8%8F-testing-app)
+  - [Testing](#-testing-app)
 - [Note](#-note)
 - [Anteprima](#-anteprima)
 - [Contatti](#-contatti)
