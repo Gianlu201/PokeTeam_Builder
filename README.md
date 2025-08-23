@@ -1,6 +1,6 @@
 # Poké Team Builder
 
-[![Made With](https://img.shields.io/badge/Made%20with-React-blue)](https://github.com/Gianlu201/Klicko)
+[![Made With](https://img.shields.io/badge/Made%20with-React-blue)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Styled%20with-Tailwind%20CSS-38B2AC)](https://tailwindcss.com/)
 [![Demo](https://img.shields.io/badge/Demo-Click_Me-ff0000)](https://poke-team-builder-eight.vercel.app/)
 
